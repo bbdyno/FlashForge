@@ -30,6 +30,13 @@
 "more.common.open_settings" = "설정 열기";
 "more.footer" = "리마인더가 오지 않으면 iOS 설정 > 알림 > FlashForge를 확인하세요.";
 
+"more.privacy.title" = "개인정보 및 진단";
+"more.privacy.description" = "선택적 진단 정보에는 카드 내용, 정답, 메모, 덱 이름, 계정 정보가 포함되지 않습니다.";
+"more.privacy.analytics.title" = "익명 사용 분석 공유";
+"more.privacy.analytics.description" = "온보딩, 학습 흐름, 분석, 동기화 안정성을 개선하는 데 사용됩니다.";
+"more.privacy.crash_reporting.title" = "충돌 보고서 공유";
+"more.privacy.crash_reporting.description" = "안정성 문제를 찾을 수 있도록 기술적인 충돌 정보를 전송합니다.";
+
 "more.data.title" = "데이터";
 "more.data.export" = "백업 내보내기";
 "more.data.import" = "백업 가져오기";

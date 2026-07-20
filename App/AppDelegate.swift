@@ -12,6 +12,7 @@ import FirebaseCore
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         configureFirebaseIfAvailable()
+        AppTelemetry.configure()
         CrashReporter.start()
         return true
     }

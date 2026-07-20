@@ -232,6 +232,7 @@ final class OnboardingViewController: UIViewController {
                     back: draft.back,
                     note: draft.note
                 )
+                AppTelemetry.log(.onboardingCompleted, parameters: ["entry_method": "created"])
                 self.onCompleted?()
                 self.dismiss(animated: true)
             } catch {
@@ -345,6 +346,8 @@ final class OnboardingViewController: UIViewController {
 
             do {
                 try await self.repository.importBackupData(data)
+                AppTelemetry.log(.onboardingCompleted, parameters: ["entry_method": "imported"])
+                AppTelemetry.log(.backupImported, parameters: ["result": "success"])
                 NotificationCenter.default.post(name: .deckDataDidChange, object: nil)
                 self.onCompleted?()
                 self.dismiss(animated: true)

@@ -78,6 +78,7 @@ final class DecksViewModel {
     private func createDeck(_ title: String) async {
         do {
             _ = try await repository.createDeck(title: title)
+            AppTelemetry.log(.deckCreated, parameters: ["creation_method": "manual"])
             notifyDeckDataChanged()
             await refreshDecks()
         } catch {
@@ -100,6 +101,7 @@ final class DecksViewModel {
     private func importDeckData(_ data: Data) async {
         do {
             _ = try await repository.importDeckData(data)
+            AppTelemetry.log(.deckCreated, parameters: ["creation_method": "import"])
             notifyDeckDataChanged()
             await refreshDecks()
         } catch {

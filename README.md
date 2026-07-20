@@ -11,9 +11,9 @@
 
 ## 📱 About the App
 
-**FlashForge** is a beautifully crafted, fully offline flashcard study app powered by a hybrid spaced repetition engine. Combining the proven **SM-2 (Anki)** algorithm with the cutting-edge **FSRS (Free Spaced Repetition Scheduler)**, FlashForge optimizes your review intervals to maximize long-term retention with minimal effort.
+**FlashForge** is an offline-first flashcard study app powered by a hybrid spaced repetition engine. Combining the proven **SM-2 (Anki)** algorithm with the cutting-edge **FSRS (Free Spaced Repetition Scheduler)**, FlashForge optimizes your review intervals to maximize long-term retention with minimal effort.
 
-**FlashForge**는 검증된 **SM-2(Anki)** 알고리즘과 최신 **FSRS** 알고리즘을 결합한 하이브리드 간격 반복 엔진을 탑재한 플래시카드 학습 앱입니다. 서버도, 회원가입도, 개인정보 수집도 없습니다. 모든 학습 데이터는 오직 당신의 기기에만 저장됩니다.
+**FlashForge**는 검증된 **SM-2(Anki)** 알고리즘과 최신 **FSRS** 알고리즘을 결합한 하이브리드 간격 반복 엔진을 탑재한 오프라인 우선 플래시카드 앱입니다. 회원가입 없이 학습할 수 있으며 카드 내용은 기기와 사용자가 활성화한 iCloud에만 저장됩니다.
 
 <br>
 
@@ -60,10 +60,12 @@
 ### 💾 Data Portability (데이터 이식성)
 - **Full Backup:** Export all decks, cards, and review history as `.ffbackup` files.
 - **Easy Restore:** Import backups with preview before applying.
-- **100% Offline:** All data stays on your device. No servers, no sign-ups.
+- **Offline-First:** Study content stays on your device and your private iCloud container. No sign-up is required.
+- **Optional Diagnostics:** Firebase Analytics and Crashlytics are disabled until you enable them in Settings.
 - **전체 백업:** 덱, 카드, 복습 기록을 `.ffbackup` 파일로 내보낼 수 있습니다.
 - **간편 복원:** 적용 전 미리보기와 함께 백업을 가져올 수 있습니다.
-- **100% 오프라인:** 모든 데이터는 기기에만 저장됩니다. 서버도, 회원가입도 없습니다.
+- **오프라인 우선:** 학습 내용은 기기와 사용자의 비공개 iCloud 컨테이너에 저장되며 회원가입이 필요 없습니다.
+- **선택적 진단:** Firebase Analytics와 Crashlytics는 설정에서 사용자가 켜기 전까지 비활성화됩니다.
 
 ### 🌍 Localization (다국어 지원)
 - **2 Languages:** English and Korean.

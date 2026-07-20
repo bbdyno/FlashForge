@@ -49,6 +49,8 @@ final class HomeViewModel {
     private var selectedDeckID: UUID?
     private var currentCardID: UUID?
     private var latestDeckSummaries: [DeckSummary] = []
+    private var studySessionStartedAt: Date?
+    private var studySessionReviewCount = 0
 
     init(
         repository: CardRepository,
@@ -71,6 +73,7 @@ final class HomeViewModel {
         case .didTapReload, .didReceiveExternalDataChange:
             await reloadDecksAndCurrentCard(resetDeckSelection: false)
         case let .didSelectDeck(deckID):
+            finishStudySession(completionState: "deck_changed")
             selectedDeckID = deckID
             await refreshCurrentDeckState()
         case let .didSelectGrade(grade):
@@ -149,10 +152,12 @@ final class HomeViewModel {
 
             if let nextCard {
                 currentCardID = nextCard.id
+                beginStudySessionIfNeeded(counts: counts)
                 output.didUpdateCard(nextCard)
             } else {
                 currentCardID = nil
                 output.didShowEmptyState(emptyMessage())
+                finishStudySession(completionState: "queue_completed")
             }
 
             studyStatusService.updateStudyProgress(
@@ -181,6 +186,8 @@ final class HomeViewModel {
 
         do {
             try await repository.review(deckID: selectedDeckID, cardID: currentCardID, grade: grade)
+            studySessionReviewCount += 1
+            AppTelemetry.logFirstStudyCompletedIfNeeded()
             await refreshCurrentDeckState()
         } catch {
             CrashReporter.record(error: error, context: "HomeViewModel.applyGrade")
@@ -194,6 +201,66 @@ final class HomeViewModel {
 
     private func selectedDeckTitle(for deckID: UUID) -> String? {
         latestDeckSummaries.first(where: { $0.id == deckID })?.title
+    }
+
+    private func beginStudySessionIfNeeded(counts: QueueDueCounts) {
+        guard studySessionStartedAt == nil else {
+            return
+        }
+        studySessionStartedAt = .now
+        studySessionReviewCount = 0
+
+        let queueType: String
+        if counts.learning > 0, counts.review > 0 {
+            queueType = "mixed"
+        } else if counts.learning > 0 {
+            queueType = "learning"
+        } else {
+            queueType = "review"
+        }
+
+        AppTelemetry.log(
+            .studySessionStarted,
+            parameters: [
+                "deck_scope": "single",
+                "queue_type": queueType
+            ]
+        )
+    }
+
+    private func finishStudySession(completionState: String) {
+        guard let studySessionStartedAt else {
+            return
+        }
+
+        AppTelemetry.log(
+            .studySessionCompleted,
+            parameters: [
+                "review_count_bucket": reviewCountBucket(studySessionReviewCount),
+                "duration_bucket": durationBucket(Date.now.timeIntervalSince(studySessionStartedAt)),
+                "completion_state": completionState
+            ]
+        )
+        self.studySessionStartedAt = nil
+        studySessionReviewCount = 0
+    }
+
+    private func reviewCountBucket(_ count: Int) -> String {
+        switch count {
+        case ...0: return "0"
+        case 1...4: return "1_4"
+        case 5...14: return "5_14"
+        default: return "15_plus"
+        }
+    }
+
+    private func durationBucket(_ duration: TimeInterval) -> String {
+        switch duration {
+        case ..<60: return "under_1m"
+        case ..<300: return "1_5m"
+        case ..<900: return "5_15m"
+        default: return "15m_plus"
+        }
     }
 
     private static func userFacingMessage(from error: Error) -> String {

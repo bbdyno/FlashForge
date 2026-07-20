@@ -12,6 +12,7 @@
 		0A5C88C991A027F7E15BBFB1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F49AB32BDE15486A130D8A7 /* GoogleService-Info.plist */; };
 		0BA521677B2D6A433E04FAAE /* ReviewHeatmapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBC97F9E67929393B532B2 /* ReviewHeatmapView.swift */; };
 		127F0EA7CFF5ECA019E22433 /* StudyStatusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174EE85526D9B3386325270E /* StudyStatusService.swift */; };
+		18F053DD0EC51C6E5D9D98AC /* AppTelemetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CA506AB9614B52192E28C9 /* AppTelemetry.swift */; };
 		1C3EB5D4819DBDDB02534C2B /* DeckDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6A1679DDC1AB1BE4D56A45 /* DeckDetailViewController.swift */; };
 		1CC9655C2C282ACBEF8D4F28 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D55A5C72908252429091416B /* SnapKit */; };
 		1E32D5F0F29301336C99ECCF /* SharedResources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0459A3B99EC7E2F11EE1821 /* SharedResources.framework */; };
@@ -197,6 +198,7 @@
 		DCF794A337CBD5B9733BFEE5 /* StudyStatusSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyStatusSnapshot.swift; sourceTree = "<group>"; };
 		E12AD161F2369835545014CA /* TuistAssets+FlashForge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistAssets+FlashForge.swift"; sourceTree = "<group>"; };
 		E2A34BEB8690A7E0022ADD56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E3CA506AB9614B52192E28C9 /* AppTelemetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTelemetry.swift; sourceTree = "<group>"; };
 		F34E594E97AF0B69E7790D09 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		F6F2218C1D27BFD8C0FA63EE /* FlashCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashCard.swift; sourceTree = "<group>"; };
 		F77538CCCA5E1FEC22D41C3D /* CardTextSanitizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTextSanitizer.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 		20B51723166122151970EC1C /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				E3CA506AB9614B52192E28C9 /* AppTelemetry.swift */,
 				D9AD08B6C3F0A200AEE26108 /* CardRepository.swift */,
 				50096BDBECC96DB3FB393852 /* CrashReporter.swift */,
 				75FE9F3EE624612B657115E5 /* FSRSScheduler.swift */,
@@ -698,6 +701,7 @@
 				3B5E45CCDC0D77F1E9445FAE /* PersistenceModels.swift in Sources */,
 				606266CFD934DE3628B3D8AB /* SchedulerMode.swift in Sources */,
 				751611C6D032D21CB655B467 /* StudyCard.swift in Sources */,
+				18F053DD0EC51C6E5D9D98AC /* AppTelemetry.swift in Sources */,
 				3FE4103C0B2CCE3DDD6857BE /* CardRepository.swift in Sources */,
 				365783B4BAE20304EBB0E725 /* CrashReporter.swift in Sources */,
 				E42AA0A1947A2DA8A862AE4E /* FSRSScheduler.swift in Sources */,

@@ -30,6 +30,13 @@
 "more.common.open_settings" = "Open Settings";
 "more.footer" = "If reminders do not arrive, check iOS Settings > Notifications > FlashForge.";
 
+"more.privacy.title" = "Privacy & Diagnostics";
+"more.privacy.description" = "Optional diagnostics never include card text, answers, notes, deck names, or account details.";
+"more.privacy.analytics.title" = "Share Anonymous Analytics";
+"more.privacy.analytics.description" = "Help improve onboarding, study flow, Insights, and sync reliability.";
+"more.privacy.crash_reporting.title" = "Share Crash Reports";
+"more.privacy.crash_reporting.description" = "Send technical crash details to help identify stability issues.";
+
 "more.data.title" = "Data";
 "more.data.export" = "Export Backup";
 "more.data.import" = "Import Backup";

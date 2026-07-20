@@ -11,8 +11,8 @@ enum CrashReporter {
         log("Crash reporter initialized")
         installUncaughtExceptionHandlerIfNeeded()
 
-        guard FirebaseApp.app() != nil else {
-            log("Firebase is not configured. Crashlytics reporting is disabled.")
+        guard TelemetryPreferences.isCrashReportingEnabled, FirebaseApp.app() != nil else {
+            log("Crashlytics reporting is disabled.")
             return
         }
 
@@ -31,7 +31,7 @@ enum CrashReporter {
         let formatted = "\(message) [\(file):\(line)]"
         print("\(prefix) \(formatted)")
 
-        guard FirebaseApp.app() != nil else {
+        guard TelemetryPreferences.isCrashReportingEnabled, FirebaseApp.app() != nil else {
             return
         }
 
@@ -48,7 +48,7 @@ enum CrashReporter {
         let summary = "Non-fatal issue in \(context): \(error.localizedDescription)"
         log(summary, file: file, line: line)
 
-        guard FirebaseApp.app() != nil else {
+        guard TelemetryPreferences.isCrashReportingEnabled, FirebaseApp.app() != nil else {
             return
         }
 
@@ -83,7 +83,7 @@ enum CrashReporter {
             CrashReporter.log(message)
             CrashReporter.log("Call stack:\n\(callStack)")
 
-            guard FirebaseApp.app() != nil else {
+            guard TelemetryPreferences.isCrashReportingEnabled, FirebaseApp.app() != nil else {
                 CrashReporter.previousExceptionHandler?(exception)
                 return
             }

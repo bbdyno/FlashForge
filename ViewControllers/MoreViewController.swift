@@ -29,6 +29,16 @@ final class MoreViewController: UIViewController {
     private let reminderTimePicker = UIDatePicker()
     private let reminderStatusLabel = UILabel()
 
+    private let privacyCard = UIView()
+    private let privacyTitleLabel = UILabel()
+    private let privacyDescriptionLabel = UILabel()
+    private let analyticsTitleLabel = UILabel()
+    private let analyticsDescriptionLabel = UILabel()
+    private let analyticsSwitch = UISwitch()
+    private let crashReportingTitleLabel = UILabel()
+    private let crashReportingDescriptionLabel = UILabel()
+    private let crashReportingSwitch = UISwitch()
+
     private let dataCard = UIView()
     private let dataTitleLabel = UILabel()
     private let backupButton = UIButton(type: .system)
@@ -118,6 +128,7 @@ final class MoreViewController: UIViewController {
         stackView.spacing = 14
 
         configureReminderCard()
+        configurePrivacyCard()
         configureDataCard()
 #if DEBUG
         configureDeveloperCard()
@@ -126,6 +137,7 @@ final class MoreViewController: UIViewController {
         configureSyncToast()
 
         stackView.addArrangedSubview(reminderCard)
+        stackView.addArrangedSubview(privacyCard)
         stackView.addArrangedSubview(dataCard)
 #if DEBUG
         stackView.addArrangedSubview(developerCard)
@@ -154,6 +166,7 @@ final class MoreViewController: UIViewController {
         }
 
         applyTheme()
+        applyPrivacySettings()
     }
 
     private func configureReminderCard() {
@@ -306,6 +319,100 @@ final class MoreViewController: UIViewController {
         }
     }
 
+    private func configurePrivacyCard() {
+        privacyCard.backgroundColor = AppTheme.cardBackground
+        privacyCard.layer.borderWidth = 1
+        privacyCard.layer.borderColor = AppTheme.cardBorder.cgColor
+        privacyCard.layer.cornerRadius = 16
+        privacyCard.layer.cornerCurve = .continuous
+
+        privacyTitleLabel.text = FlashForgeStrings.More.Privacy.title
+        privacyTitleLabel.font = .preferredFont(forTextStyle: .headline)
+        privacyTitleLabel.adjustsFontForContentSizeCategory = true
+
+        privacyDescriptionLabel.text = FlashForgeStrings.More.Privacy.description
+        privacyDescriptionLabel.font = .preferredFont(forTextStyle: .footnote)
+        privacyDescriptionLabel.adjustsFontForContentSizeCategory = true
+        privacyDescriptionLabel.numberOfLines = 0
+
+        configurePrivacyLabel(
+            analyticsTitleLabel,
+            text: FlashForgeStrings.More.Privacy.Analytics.title,
+            style: .body
+        )
+        configurePrivacyLabel(
+            analyticsDescriptionLabel,
+            text: FlashForgeStrings.More.Privacy.Analytics.description,
+            style: .footnote
+        )
+        configurePrivacyLabel(
+            crashReportingTitleLabel,
+            text: FlashForgeStrings.More.Privacy.CrashReporting.title,
+            style: .body
+        )
+        configurePrivacyLabel(
+            crashReportingDescriptionLabel,
+            text: FlashForgeStrings.More.Privacy.CrashReporting.description,
+            style: .footnote
+        )
+
+        analyticsSwitch.onTintColor = AppTheme.accent
+        analyticsSwitch.accessibilityIdentifier = "more.analyticsSwitch"
+        analyticsSwitch.addTarget(self, action: #selector(didChangeAnalyticsSwitch(_:)), for: .valueChanged)
+
+        crashReportingSwitch.onTintColor = AppTheme.accent
+        crashReportingSwitch.accessibilityIdentifier = "more.crashReportingSwitch"
+        crashReportingSwitch.addTarget(
+            self,
+            action: #selector(didChangeCrashReportingSwitch(_:)),
+            for: .valueChanged
+        )
+
+        let analyticsText = UIStackView(arrangedSubviews: [analyticsTitleLabel, analyticsDescriptionLabel])
+        analyticsText.axis = .vertical
+        analyticsText.spacing = 3
+        let analyticsRow = UIStackView(arrangedSubviews: [analyticsText, analyticsSwitch])
+        analyticsRow.axis = .horizontal
+        analyticsRow.alignment = .center
+        analyticsRow.spacing = 12
+
+        let crashText = UIStackView(arrangedSubviews: [crashReportingTitleLabel, crashReportingDescriptionLabel])
+        crashText.axis = .vertical
+        crashText.spacing = 3
+        let crashRow = UIStackView(arrangedSubviews: [crashText, crashReportingSwitch])
+        crashRow.axis = .horizontal
+        crashRow.alignment = .center
+        crashRow.spacing = 12
+
+        let stack = UIStackView(
+            arrangedSubviews: [
+                privacyTitleLabel,
+                privacyDescriptionLabel,
+                analyticsRow,
+                crashRow
+            ]
+        )
+        stack.axis = .vertical
+        stack.spacing = 12
+        stack.setCustomSpacing(6, after: privacyTitleLabel)
+
+        privacyCard.addSubview(stack)
+        stack.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(16)
+        }
+    }
+
+    private func configurePrivacyLabel(
+        _ label: UILabel,
+        text: String,
+        style: UIFont.TextStyle
+    ) {
+        label.text = text
+        label.font = .preferredFont(forTextStyle: style)
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
+    }
+
     private func configureSyncToast() {
         syncToastView.backgroundColor = AppTheme.infoBlue.withAlphaComponent(0.95)
         syncToastView.layer.cornerRadius = 12
@@ -452,6 +559,17 @@ final class MoreViewController: UIViewController {
         iCloudStatusLabel.textColor = AppTheme.textSecondary
         iCloudSyncSpinner.color = AppTheme.accentTeal
 
+        privacyCard.backgroundColor = AppTheme.cardBackground
+        privacyCard.layer.borderColor = cardBorderColor
+        privacyTitleLabel.textColor = AppTheme.textPrimary
+        privacyDescriptionLabel.textColor = AppTheme.textSecondary
+        analyticsTitleLabel.textColor = AppTheme.textPrimary
+        analyticsDescriptionLabel.textColor = AppTheme.textSecondary
+        crashReportingTitleLabel.textColor = AppTheme.textPrimary
+        crashReportingDescriptionLabel.textColor = AppTheme.textSecondary
+        analyticsSwitch.onTintColor = AppTheme.accent
+        crashReportingSwitch.onTintColor = AppTheme.accent
+
         developerCard.backgroundColor = AppTheme.cardBackground
         developerCard.layer.borderColor = cardBorderColor
         developerTitleLabel.textColor = AppTheme.textPrimary
@@ -503,6 +621,11 @@ final class MoreViewController: UIViewController {
         appInfoBodyLabel.text = FlashForgeStrings.More.Appinfo.body(version, build)
     }
 
+    private func applyPrivacySettings() {
+        analyticsSwitch.setOn(TelemetryPreferences.isAnalyticsEnabled, animated: false)
+        crashReportingSwitch.setOn(TelemetryPreferences.isCrashReportingEnabled, animated: false)
+    }
+
     @objc
     private func didChangeReminderSwitch(_ sender: UISwitch) {
         updateReminder(isEnabled: sender.isOn)
@@ -514,6 +637,16 @@ final class MoreViewController: UIViewController {
             return
         }
         updateReminder(isEnabled: true)
+    }
+
+    @objc
+    private func didChangeAnalyticsSwitch(_ sender: UISwitch) {
+        AppTelemetry.setAnalyticsEnabled(sender.isOn)
+    }
+
+    @objc
+    private func didChangeCrashReportingSwitch(_ sender: UISwitch) {
+        AppTelemetry.setCrashReportingEnabled(sender.isOn)
     }
 
     @objc
@@ -529,6 +662,7 @@ final class MoreViewController: UIViewController {
                 let fileURL = try self.writeBackupFile(data: backupData)
                 self.presentShareSheet(fileURL: fileURL, sourceView: self.backupButton)
                 self.dataStatusLabel.text = FlashForgeStrings.More.Data.Export.done
+                AppTelemetry.log(.backupExported, parameters: ["result": "success"])
             } catch {
                 CrashReporter.record(error: error, context: "MoreViewController.didTapBackup")
                 self.dataStatusLabel.text = Self.userFacingMessage(from: error)
@@ -900,6 +1034,7 @@ final class MoreViewController: UIViewController {
             do {
                 try await self.repository.importBackupData(data)
                 self.dataStatusLabel.text = FlashForgeStrings.More.Data.Import.done
+                AppTelemetry.log(.backupImported, parameters: ["result": "success"])
                 NotificationCenter.default.post(name: .deckDataDidChange, object: nil)
             } catch {
                 CrashReporter.record(error: error, context: "MoreViewController.importBackupData")

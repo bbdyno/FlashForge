@@ -43,6 +43,10 @@ let project = Project(
                 "CFBundleVersion": .string(buildNumber),
                 "CFBundleDisplayName": .string("FlashForge"),
                 "CFBundleDevelopmentRegion": .string("en"),
+                "FIREBASE_ANALYTICS_COLLECTION_ENABLED": .boolean(false),
+                "FirebaseCrashlyticsCollectionEnabled": .boolean(false),
+                "GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS": .boolean(false),
+                "GOOGLE_ANALYTICS_IDFV_COLLECTION_ENABLED": .boolean(false),
                 "UILaunchScreen": .dictionary([:]),
                 "NSSupportsLiveActivities": .boolean(true),
                 "UIApplicationSceneManifest": .dictionary([
