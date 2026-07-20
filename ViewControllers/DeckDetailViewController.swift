@@ -91,17 +91,8 @@ final class DeckDetailViewController: UIViewController {
         AppTheme.applyGradient(to: backgroundGradientLayer, traitCollection: traitCollection)
         view.backgroundColor = .clear
 
-        topGlowView.backgroundColor = AppTheme.accent.withAlphaComponent(0.22)
-        topGlowView.layer.shadowColor = AppTheme.accent.cgColor
-        topGlowView.layer.shadowOpacity = 0.28
-        topGlowView.layer.shadowRadius = 52
-        topGlowView.layer.shadowOffset = .zero
-
-        bottomGlowView.backgroundColor = AppTheme.accentTeal.withAlphaComponent(0.16)
-        bottomGlowView.layer.shadowColor = AppTheme.accentTeal.cgColor
-        bottomGlowView.layer.shadowOpacity = 0.28
-        bottomGlowView.layer.shadowRadius = 52
-        bottomGlowView.layer.shadowOffset = .zero
+        topGlowView.isHidden = true
+        bottomGlowView.isHidden = true
 
         view.addSubview(topGlowView)
         view.addSubview(bottomGlowView)
@@ -117,8 +108,8 @@ final class DeckDetailViewController: UIViewController {
         tableView.register(DeckCardCell.self, forCellReuseIdentifier: DeckCardCell.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = 104
-        tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 20, right: 0)
+        tableView.rowHeight = 96
+        tableView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 20, right: 0)
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
@@ -167,12 +158,6 @@ final class DeckDetailViewController: UIViewController {
 
     private func applyTheme() {
         AppTheme.applyGradient(to: backgroundGradientLayer, traitCollection: traitCollection)
-
-        topGlowView.backgroundColor = AppTheme.accent.withAlphaComponent(0.22)
-        topGlowView.layer.shadowColor = AppTheme.resolved(AppTheme.accent, for: traitCollection).cgColor
-
-        bottomGlowView.backgroundColor = AppTheme.accentTeal.withAlphaComponent(0.16)
-        bottomGlowView.layer.shadowColor = AppTheme.resolved(AppTheme.accentTeal, for: traitCollection).cgColor
 
         navigationItem.rightBarButtonItem?.tintColor = AppTheme.textPrimary
         emptyLabel.textColor = AppTheme.textSecondary
@@ -349,7 +334,7 @@ private final class DeckCardCell: UITableViewCell {
         selectionStyle = .none
 
         cardView.backgroundColor = AppTheme.cardBackground
-        cardView.layer.borderWidth = 1
+        cardView.layer.borderWidth = 0.5
         cardView.layer.borderColor = AppTheme.cardBorder.cgColor
         cardView.layer.cornerRadius = 14
         cardView.layer.cornerCurve = .continuous
@@ -367,7 +352,7 @@ private final class DeckCardCell: UITableViewCell {
         statePillLabel.backgroundColor = UIColor.white.withAlphaComponent(0.14)
         statePillLabel.layer.cornerRadius = 10
         statePillLabel.layer.cornerCurve = .continuous
-        statePillLabel.layer.borderWidth = 1
+        statePillLabel.layer.borderWidth = 0
         statePillLabel.layer.borderColor = AppTheme.cardBorder.cgColor
         statePillLabel.clipsToBounds = true
         statePillLabel.textAlignment = .center
@@ -404,8 +389,8 @@ private final class DeckCardCell: UITableViewCell {
 
     private func configureLayout() {
         cardView.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview().inset(6)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.bottom.equalToSuperview().inset(5)
+            make.leading.trailing.equalToSuperview().inset(20)
         }
 
         chevronImageView.snp.makeConstraints { make in

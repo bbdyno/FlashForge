@@ -37,7 +37,7 @@ final class GlassCardView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 24).cgPath
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 18).cgPath
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -146,23 +146,20 @@ final class GlassCardView: UIView {
 
     private func configureStyle() {
         layer.shadowColor = AppTheme.resolved(AppTheme.shadowColor, for: traitCollection).cgColor
-        layer.shadowOpacity = 0.11
-        layer.shadowRadius = 24
-        layer.shadowOffset = CGSize(width: 0, height: 14)
+        layer.shadowOpacity = 0.05
+        layer.shadowRadius = 14
+        layer.shadowOffset = CGSize(width: 0, height: 8)
 
-        glassContainer.layer.cornerRadius = 26
+        glassContainer.layer.cornerRadius = 18
         glassContainer.layer.cornerCurve = .continuous
-        glassContainer.layer.borderWidth = 1
+        glassContainer.layer.borderWidth = 0.5
         glassContainer.layer.borderColor = AppTheme.resolved(AppTheme.glassBorder, for: traitCollection).cgColor
         glassContainer.clipsToBounds = true
 
         blurView.contentView.backgroundColor = AppTheme.glassFill
 
         highlightView.gradientLayer.needsDisplayOnBoundsChange = true
-        highlightView.gradientLayer.colors = [
-            AppTheme.resolved(AppTheme.accentSoft, for: traitCollection).withAlphaComponent(0.34).cgColor,
-            UIColor.clear.cgColor
-        ]
+        highlightView.gradientLayer.colors = [UIColor.clear.cgColor, UIColor.clear.cgColor]
         highlightView.gradientLayer.locations = [0.0, 0.56]
         highlightView.gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         highlightView.gradientLayer.endPoint = CGPoint(x: 1, y: 1)
@@ -170,28 +167,27 @@ final class GlassCardView: UIView {
 
         iconImageView.tintColor = AppTheme.accent
         iconImageView.contentMode = .scaleAspectFit
-        iconImageView.backgroundColor = AppTheme.badgeBackground
-        iconImageView.layer.cornerRadius = 16
+        iconImageView.backgroundColor = AppTheme.inputBackground
+        iconImageView.layer.cornerRadius = 13
         iconImageView.layer.cornerCurve = .continuous
 
         stateBadgeLabel.font = AppTypography.font(size: 11, weight: .bold, textStyle: .caption1)
         stateBadgeLabel.textColor = AppTheme.accent
         stateBadgeLabel.backgroundColor = AppTheme.badgeBackground
-        stateBadgeLabel.layer.cornerRadius = 12
+        stateBadgeLabel.layer.cornerRadius = 10
         stateBadgeLabel.layer.cornerCurve = .continuous
-        stateBadgeLabel.layer.borderWidth = 1
-        stateBadgeLabel.layer.borderColor = AppTheme.resolved(AppTheme.badgeBorder, for: traitCollection).cgColor
+        stateBadgeLabel.layer.borderWidth = 0
         stateBadgeLabel.clipsToBounds = true
         stateBadgeLabel.textAlignment = .center
 
-        titleLabel.font = AppTypography.font(size: 30, weight: .bold, textStyle: .title1)
+        titleLabel.font = AppTypography.font(size: 29, weight: .bold, textStyle: .title1)
         titleLabel.textColor = AppTheme.textPrimary
         titleLabel.numberOfLines = 0
         titleLabel.lineBreakMode = .byWordWrapping
         titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
 
-        subtitleLabel.font = AppTypography.font(size: 14, weight: .semibold, textStyle: .subheadline)
+        subtitleLabel.font = AppTypography.font(size: 13, weight: .medium, textStyle: .subheadline)
         subtitleLabel.textColor = AppTheme.textSecondary.withAlphaComponent(0.95)
         subtitleLabel.numberOfLines = 1
         subtitleLabel.lineBreakMode = .byTruncatingTail
@@ -204,7 +200,7 @@ final class GlassCardView: UIView {
         detailLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         detailLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
 
-        helperLabel.font = AppTypography.font(size: 13, weight: .semibold, textStyle: .footnote)
+        helperLabel.font = AppTypography.font(size: 13, weight: .medium, textStyle: .footnote)
         helperLabel.textColor = AppTheme.textSecondary.withAlphaComponent(0.95)
         helperLabel.textAlignment = .left
         helperLabel.numberOfLines = 1
@@ -220,17 +216,13 @@ final class GlassCardView: UIView {
         glassContainer.layer.borderColor = AppTheme.resolved(AppTheme.glassBorder, for: traitCollection).cgColor
         blurView.contentView.backgroundColor = AppTheme.glassFill
 
-        highlightView.gradientLayer.colors = [
-            AppTheme.resolved(AppTheme.accentSoft, for: traitCollection).withAlphaComponent(0.34).cgColor,
-            UIColor.clear.cgColor
-        ]
+        highlightView.gradientLayer.colors = [UIColor.clear.cgColor, UIColor.clear.cgColor]
 
         iconImageView.tintColor = AppTheme.accent
-        iconImageView.backgroundColor = AppTheme.badgeBackground
+        iconImageView.backgroundColor = AppTheme.inputBackground
 
         stateBadgeLabel.textColor = AppTheme.accent
         stateBadgeLabel.backgroundColor = AppTheme.badgeBackground
-        stateBadgeLabel.layer.borderColor = AppTheme.resolved(AppTheme.badgeBorder, for: traitCollection).cgColor
 
         titleLabel.textColor = AppTheme.textPrimary
         subtitleLabel.textColor = AppTheme.textSecondary.withAlphaComponent(0.95)
@@ -252,37 +244,37 @@ final class GlassCardView: UIView {
         }
 
         iconImageView.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().inset(24)
-            make.size.equalTo(56)
+            make.top.leading.equalToSuperview().inset(22)
+            make.size.equalTo(48)
         }
 
         stateBadgeLabel.snp.makeConstraints { make in
             make.centerY.equalTo(iconImageView)
-            make.trailing.equalToSuperview().inset(24)
-            make.width.greaterThanOrEqualTo(96)
-            make.height.equalTo(24)
+            make.trailing.equalToSuperview().inset(22)
+            make.width.greaterThanOrEqualTo(88)
+            make.height.equalTo(22)
         }
 
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(iconImageView.snp.bottom).offset(24)
-            make.leading.trailing.equalToSuperview().inset(24)
+            make.top.equalTo(iconImageView.snp.bottom).offset(26)
+            make.leading.trailing.equalToSuperview().inset(22)
         }
 
         subtitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(8)
+            make.top.equalTo(titleLabel.snp.bottom).offset(10)
             make.leading.trailing.equalTo(titleLabel)
         }
 
         detailLabel.snp.makeConstraints { make in
-            make.top.equalTo(subtitleLabel.snp.bottom).offset(16)
+            make.top.equalTo(subtitleLabel.snp.bottom).offset(18)
             make.leading.trailing.equalTo(titleLabel)
-            make.bottom.lessThanOrEqualToSuperview().inset(28)
+            make.bottom.lessThanOrEqualToSuperview().inset(24)
         }
 
         helperLabel.snp.makeConstraints { make in
-            make.top.equalTo(subtitleLabel.snp.bottom).offset(16)
+            make.top.equalTo(subtitleLabel.snp.bottom).offset(18)
             make.leading.trailing.equalTo(titleLabel)
-            make.bottom.lessThanOrEqualToSuperview().inset(28)
+            make.bottom.lessThanOrEqualToSuperview().inset(24)
         }
     }
 

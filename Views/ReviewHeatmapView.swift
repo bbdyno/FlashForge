@@ -62,9 +62,9 @@ final class ReviewHeatmapView: UIView {
     }
 
     private func configureStyle() {
-        layer.cornerRadius = 22
+        layer.cornerRadius = 18
         layer.cornerCurve = .continuous
-        layer.borderWidth = 1
+        layer.borderWidth = 0.5
         layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
         backgroundColor = AppTheme.cardBackground
 

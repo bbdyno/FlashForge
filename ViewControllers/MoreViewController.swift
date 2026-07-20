@@ -28,6 +28,7 @@ final class MoreViewController: UIViewController {
     private let reminderSwitch = UISwitch()
     private let reminderTimePicker = UIDatePicker()
     private let reminderStatusLabel = UILabel()
+    private var reminderTimePickerHeightConstraint: Constraint?
 
     private let privacyCard = UIView()
     private let privacyTitleLabel = UILabel()
@@ -125,7 +126,7 @@ final class MoreViewController: UIViewController {
         scrollView.backgroundColor = .clear
         contentView.backgroundColor = .clear
         stackView.axis = .vertical
-        stackView.spacing = 14
+        stackView.spacing = 12
 
         configureReminderCard()
         configurePrivacyCard()
@@ -171,9 +172,9 @@ final class MoreViewController: UIViewController {
 
     private func configureReminderCard() {
         reminderCard.backgroundColor = AppTheme.cardBackground
-        reminderCard.layer.borderWidth = 1
+        reminderCard.layer.borderWidth = 0.5
         reminderCard.layer.borderColor = AppTheme.cardBorder.cgColor
-        reminderCard.layer.cornerRadius = 16
+        reminderCard.layer.cornerRadius = 18
         reminderCard.layer.cornerCurve = .continuous
 
         reminderTitleLabel.text = FlashForgeStrings.More.Reminder.title
@@ -189,11 +190,11 @@ final class MoreViewController: UIViewController {
         reminderSwitch.addTarget(self, action: #selector(didChangeReminderSwitch(_:)), for: .valueChanged)
 
         reminderTimePicker.datePickerMode = .time
-        reminderTimePicker.preferredDatePickerStyle = .wheels
+        reminderTimePicker.preferredDatePickerStyle = .compact
         reminderTimePicker.locale = Locale(identifier: "en_US_POSIX")
         reminderTimePicker.tintColor = AppTheme.accent
         reminderTimePicker.backgroundColor = AppTheme.inputBackground
-        reminderTimePicker.layer.cornerRadius = 12
+        reminderTimePicker.layer.cornerRadius = 10
         reminderTimePicker.layer.cornerCurve = .continuous
         reminderTimePicker.setValue(AppTheme.textPrimary, forKey: "textColor")
         reminderTimePicker.addTarget(self, action: #selector(didChangeReminderTime(_:)), for: .valueChanged)
@@ -227,7 +228,8 @@ final class MoreViewController: UIViewController {
 
         reminderTimePicker.snp.makeConstraints { make in
             make.top.equalTo(reminderDescriptionLabel.snp.bottom).offset(8)
-            make.leading.trailing.equalToSuperview().inset(8)
+            make.leading.trailing.equalToSuperview().inset(16)
+            reminderTimePickerHeightConstraint = make.height.equalTo(44).constraint
         }
 
         reminderStatusLabel.snp.makeConstraints { make in
@@ -239,9 +241,9 @@ final class MoreViewController: UIViewController {
 
     private func configureDataCard() {
         dataCard.backgroundColor = AppTheme.cardBackground
-        dataCard.layer.borderWidth = 1
+        dataCard.layer.borderWidth = 0.5
         dataCard.layer.borderColor = AppTheme.cardBorder.cgColor
-        dataCard.layer.cornerRadius = 16
+        dataCard.layer.cornerRadius = 18
         dataCard.layer.cornerCurve = .continuous
 
         dataTitleLabel.text = FlashForgeStrings.More.Data.title
@@ -278,7 +280,7 @@ final class MoreViewController: UIViewController {
         iCloudSyncSpinner.setContentHuggingPriority(.required, for: .horizontal)
         iCloudSyncSpinner.setContentCompressionResistancePriority(.required, for: .horizontal)
 
-        let buttonStack = UIStackView(arrangedSubviews: [backupButton, restoreButton, resetButton, syncNowButton])
+        let buttonStack = UIStackView(arrangedSubviews: [syncNowButton, backupButton, restoreButton, resetButton])
         buttonStack.axis = .vertical
         buttonStack.spacing = 10
 
@@ -321,9 +323,9 @@ final class MoreViewController: UIViewController {
 
     private func configurePrivacyCard() {
         privacyCard.backgroundColor = AppTheme.cardBackground
-        privacyCard.layer.borderWidth = 1
+        privacyCard.layer.borderWidth = 0.5
         privacyCard.layer.borderColor = AppTheme.cardBorder.cgColor
-        privacyCard.layer.cornerRadius = 16
+        privacyCard.layer.cornerRadius = 18
         privacyCard.layer.cornerCurve = .continuous
 
         privacyTitleLabel.text = FlashForgeStrings.More.Privacy.title
@@ -419,7 +421,7 @@ final class MoreViewController: UIViewController {
         syncToastView.backgroundColor = AppTheme.infoBlue.withAlphaComponent(0.95)
         syncToastView.layer.cornerRadius = 12
         syncToastView.layer.cornerCurve = .continuous
-        syncToastView.layer.borderWidth = 1
+        syncToastView.layer.borderWidth = 0.5
         syncToastView.layer.borderColor = AppTheme.cardBorder.cgColor
         syncToastView.alpha = 0
         syncToastView.isHidden = true
@@ -444,9 +446,9 @@ final class MoreViewController: UIViewController {
 
     private func configureAppInfoCard() {
         appInfoCard.backgroundColor = AppTheme.cardBackground
-        appInfoCard.layer.borderWidth = 1
+        appInfoCard.layer.borderWidth = 0.5
         appInfoCard.layer.borderColor = AppTheme.cardBorder.cgColor
-        appInfoCard.layer.cornerRadius = 16
+        appInfoCard.layer.cornerRadius = 18
         appInfoCard.layer.cornerCurve = .continuous
 
         appInfoTitleLabel.text = FlashForgeStrings.More.Appinfo.title
@@ -489,9 +491,9 @@ final class MoreViewController: UIViewController {
 
     private func configureDeveloperCard() {
         developerCard.backgroundColor = AppTheme.cardBackground
-        developerCard.layer.borderWidth = 1
+        developerCard.layer.borderWidth = 0.5
         developerCard.layer.borderColor = AppTheme.cardBorder.cgColor
-        developerCard.layer.cornerRadius = 16
+        developerCard.layer.cornerRadius = 18
         developerCard.layer.cornerCurve = .continuous
 
         developerTitleLabel.text = FlashForgeStrings.More.Developer.title
@@ -528,15 +530,26 @@ final class MoreViewController: UIViewController {
         }
     }
 
-    private func configureActionButton(_ button: UIButton, title: String, tint: UIColor) {
+    private func configureActionButton(_ button: UIButton, title: String, tint _: UIColor) {
         button.setTitle(title, for: .normal)
-        button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = AppTypography.font(size: 14, weight: .semibold, textStyle: .subheadline)
-        button.backgroundColor = AppTheme.buttonFill(from: tint, for: traitCollection)
-        button.layer.cornerRadius = 12
+        button.layer.cornerRadius = 11
         button.layer.cornerCurve = .continuous
-        button.layer.borderWidth = 1
-        button.layer.borderColor = AppTheme.cardBorder.cgColor
+        button.layer.borderWidth = 0.5
+
+        if button === syncNowButton {
+            button.setTitleColor(.white, for: .normal)
+            button.backgroundColor = AppTheme.buttonFill(from: AppTheme.accent, for: traitCollection)
+            button.layer.borderColor = UIColor.clear.cgColor
+        } else if button === resetButton {
+            button.setTitleColor(AppTheme.dangerRed, for: .normal)
+            button.backgroundColor = AppTheme.inputBackground
+            button.layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
+        } else {
+            button.setTitleColor(AppTheme.textPrimary, for: .normal)
+            button.backgroundColor = AppTheme.inputBackground
+            button.layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
+        }
     }
 
     private func applyTheme() {
@@ -605,6 +618,8 @@ final class MoreViewController: UIViewController {
         reminderSwitch.setOn(settings.isEnabled, animated: false)
         reminderTimePicker.date = makeDate(hour: settings.hour, minute: settings.minute)
         reminderTimePicker.isEnabled = settings.isEnabled
+        reminderTimePicker.isHidden = !settings.isEnabled
+        reminderTimePickerHeightConstraint?.update(offset: settings.isEnabled ? 44 : 0)
 
         if settings.isEnabled {
             reminderStatusLabel.text = FlashForgeStrings.More.Reminder.Status.on(

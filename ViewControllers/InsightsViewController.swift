@@ -53,6 +53,7 @@ final class InsightsViewController: UIViewController {
             return
         }
         AppTheme.applyGradient(to: backgroundGradientLayer, traitCollection: traitCollection)
+        metricRow.layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
     }
 
     deinit {
@@ -63,7 +64,7 @@ final class InsightsViewController: UIViewController {
         title = FlashForgeStrings.Insights.title
         navigationItem.largeTitleDisplayMode = .always
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "gearshape.fill"),
+            image: UIImage(systemName: "gearshape"),
             style: .plain,
             target: self,
             action: #selector(didTapSettings)
@@ -83,7 +84,7 @@ final class InsightsViewController: UIViewController {
         contentView.backgroundColor = .clear
 
         stackView.axis = .vertical
-        stackView.spacing = 16
+        stackView.spacing = 12
 
         configureMetricRow()
 
@@ -119,9 +120,9 @@ final class InsightsViewController: UIViewController {
             make.width.equalTo(scrollView.frameLayoutGuide)
         }
         stackView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(10)
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.bottom.equalToSuperview().inset(28)
+            make.top.equalToSuperview().inset(12)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(32)
         }
         loadingIndicator.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -144,14 +145,15 @@ final class InsightsViewController: UIViewController {
         retentionCard.configure(
             title: FlashForgeStrings.Insights.Metric.retention,
             symbolName: "brain.head.profile",
-            tint: AppTheme.accentTeal,
-            fill: AppTheme.tealSoft
+            tint: AppTheme.accent,
+            fill: AppTheme.accentSoft
         )
 
         metricRow.axis = .horizontal
         metricRow.distribution = .fillEqually
         metricRow.alignment = .fill
-        metricRow.spacing = 10
+        metricRow.spacing = 0
+        AppTheme.styleSurface(metricRow, radius: 18)
         [reviewedTodayCard, streakCard, retentionCard].forEach(metricRow.addArrangedSubview)
     }
 
@@ -171,8 +173,10 @@ final class InsightsViewController: UIViewController {
 
     @objc
     private func didTapSettings() {
+        let settings = MoreViewController(repository: repository)
+        settings.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(
-            MoreViewController(repository: repository),
+            settings,
             animated: true
         )
     }
@@ -249,42 +253,40 @@ private final class InsightsHeroView: UIView {
     }
 
     private func configureUI() {
-        backgroundColor = AppTheme.inkSurface
-        layer.cornerRadius = 26
+        backgroundColor = AppTheme.cardBackground
+        layer.cornerRadius = 18
         layer.cornerCurve = .continuous
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.16
-        layer.shadowRadius = 20
-        layer.shadowOffset = CGSize(width: 0, height: 12)
+        layer.borderWidth = 0.5
+        layer.borderColor = AppTheme.cardBorder.cgColor
         isAccessibilityElement = true
         accessibilityLabel = FlashForgeStrings.Insights.Metric.lastSevenDays
 
         eyebrowLabel.text = FlashForgeStrings.Insights.Metric.lastSevenDays.uppercased()
         eyebrowLabel.font = AppTypography.font(size: 11, weight: .bold, textStyle: .caption1)
-        eyebrowLabel.textColor = AppTheme.onInk.withAlphaComponent(0.66)
+        eyebrowLabel.textColor = AppTheme.textSecondary
         AppTypography.applyTracking(1.4, to: eyebrowLabel)
 
         valueLabel.text = "—"
         valueLabel.font = AppTypography.font(
-            size: 52,
+            size: 50,
             weight: .bold,
             textStyle: .largeTitle,
             maximumPointSize: 60
         )
-        valueLabel.textColor = AppTheme.onInk
+        valueLabel.textColor = AppTheme.textPrimary
 
         unitLabel.text = FlashForgeStrings.Insights.Hero.reviews
         unitLabel.font = AppTypography.font(size: 14, weight: .semibold, textStyle: .subheadline)
-        unitLabel.textColor = AppTheme.onInk.withAlphaComponent(0.72)
+        unitLabel.textColor = AppTheme.textSecondary
 
         summaryLabel.font = AppTypography.font(size: 13, weight: .medium, textStyle: .footnote)
-        summaryLabel.textColor = AppTheme.onInk.withAlphaComponent(0.68)
+        summaryLabel.textColor = AppTheme.textSecondary
         summaryLabel.numberOfLines = 2
 
-        markContainer.backgroundColor = AppTheme.accent
-        markContainer.layer.cornerRadius = 22
+        markContainer.backgroundColor = AppTheme.accentSoft
+        markContainer.layer.cornerRadius = 18
         markContainer.layer.cornerCurve = .continuous
-        markView.tintColor = .white
+        markView.tintColor = AppTheme.accent
         markView.contentMode = .scaleAspectFit
         markView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 21, weight: .bold)
 
@@ -296,16 +298,16 @@ private final class InsightsHeroView: UIView {
         markContainer.addSubview(markView)
 
         eyebrowLabel.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().inset(22)
+            make.top.leading.equalToSuperview().inset(20)
             make.trailing.lessThanOrEqualTo(markContainer.snp.leading).offset(-12)
         }
         markContainer.snp.makeConstraints { make in
-            make.top.trailing.equalToSuperview().inset(20)
-            make.size.equalTo(44)
+            make.top.trailing.equalToSuperview().inset(18)
+            make.size.equalTo(36)
         }
         markView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.size.equalTo(22)
+            make.size.equalTo(18)
         }
         valueLabel.snp.makeConstraints { make in
             make.top.equalTo(eyebrowLabel.snp.bottom).offset(8)
@@ -318,10 +320,10 @@ private final class InsightsHeroView: UIView {
         }
         summaryLabel.snp.makeConstraints { make in
             make.top.equalTo(valueLabel.snp.bottom).offset(6)
-            make.leading.trailing.bottom.equalToSuperview().inset(22)
+            make.leading.trailing.bottom.equalToSuperview().inset(20)
         }
         snp.makeConstraints { make in
-            make.height.greaterThanOrEqualTo(180)
+            make.height.greaterThanOrEqualTo(168)
         }
     }
 }
@@ -356,21 +358,21 @@ private final class InsightMetricCardView: UIView {
     }
 
     private func configureUI() {
-        AppTheme.styleSurface(self, radius: 20)
+        backgroundColor = .clear
         isAccessibilityElement = true
 
-        iconContainer.layer.cornerRadius = 13
+        iconContainer.layer.cornerRadius = 11
         iconContainer.layer.cornerCurve = .continuous
         iconView.contentMode = .scaleAspectFit
         iconView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 13, weight: .bold)
 
-        valueLabel.font = AppTypography.font(size: 21, weight: .bold, textStyle: .title2)
+        valueLabel.font = AppTypography.font(size: 22, weight: .bold, textStyle: .title2)
         valueLabel.textColor = AppTheme.textPrimary
         valueLabel.text = "—"
         valueLabel.adjustsFontSizeToFitWidth = true
         valueLabel.minimumScaleFactor = 0.72
 
-        titleLabel.font = AppTypography.font(size: 10.5, weight: .semibold, textStyle: .caption2)
+        titleLabel.font = AppTypography.font(size: 10.5, weight: .medium, textStyle: .caption2)
         titleLabel.textColor = AppTheme.textSecondary
         titleLabel.numberOfLines = 2
 
@@ -380,23 +382,23 @@ private final class InsightMetricCardView: UIView {
         addSubview(titleLabel)
 
         iconContainer.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().inset(13)
-            make.size.equalTo(28)
+            make.top.leading.equalToSuperview().inset(12)
+            make.size.equalTo(24)
         }
         iconView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.size.equalTo(14)
+            make.size.equalTo(12)
         }
         valueLabel.snp.makeConstraints { make in
-            make.top.equalTo(iconContainer.snp.bottom).offset(11)
-            make.leading.trailing.equalToSuperview().inset(13)
+            make.top.equalTo(iconContainer.snp.bottom).offset(12)
+            make.leading.trailing.equalToSuperview().inset(12)
         }
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(valueLabel.snp.bottom).offset(4)
-            make.leading.trailing.bottom.equalToSuperview().inset(13)
+            make.leading.trailing.bottom.equalToSuperview().inset(12)
         }
         snp.makeConstraints { make in
-            make.height.greaterThanOrEqualTo(126)
+            make.height.greaterThanOrEqualTo(116)
         }
     }
 }
@@ -442,7 +444,7 @@ private final class CardStateBreakdownView: UIView {
     }
 
     private func configureUI() {
-        AppTheme.styleSurface(self, radius: 22)
+        AppTheme.styleSurface(self, radius: 18)
 
         titleLabel.text = FlashForgeStrings.Insights.States.title
         titleLabel.font = AppTypography.font(size: 17, weight: .bold, textStyle: .headline)
@@ -560,7 +562,7 @@ private final class DueForecastView: UIView {
     }
 
     private func configureUI() {
-        AppTheme.styleSurface(self, radius: 22)
+        AppTheme.styleSurface(self, radius: 18)
 
         titleLabel.text = FlashForgeStrings.Insights.Forecast.title
         titleLabel.font = AppTypography.font(size: 17, weight: .bold, textStyle: .headline)

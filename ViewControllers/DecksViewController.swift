@@ -99,23 +99,14 @@ final class DecksViewController: UIViewController {
         AppTheme.applyGradient(to: backgroundGradientLayer, traitCollection: traitCollection)
         view.backgroundColor = .clear
 
-        topGlowView.backgroundColor = AppTheme.accent.withAlphaComponent(0.10)
-        topGlowView.layer.shadowColor = AppTheme.accent.cgColor
-        topGlowView.layer.shadowOpacity = 0.28
-        topGlowView.layer.shadowRadius = 52
-        topGlowView.layer.shadowOffset = .zero
-
-        bottomGlowView.backgroundColor = AppTheme.accentTeal.withAlphaComponent(0.08)
-        bottomGlowView.layer.shadowColor = AppTheme.accentTeal.cgColor
-        bottomGlowView.layer.shadowOpacity = 0.28
-        bottomGlowView.layer.shadowRadius = 52
-        bottomGlowView.layer.shadowOffset = .zero
+        topGlowView.isHidden = true
+        bottomGlowView.isHidden = true
 
         view.addSubview(topGlowView)
         view.addSubview(bottomGlowView)
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "plus.circle.fill"),
+            image: UIImage(systemName: "plus"),
             style: .plain,
             target: self,
             action: #selector(didTapAddDeck)
@@ -126,8 +117,8 @@ final class DecksViewController: UIViewController {
         tableView.register(DeckSummaryCell.self, forCellReuseIdentifier: DeckSummaryCell.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = 102
-        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 24, right: 0)
+        tableView.rowHeight = 92
+        tableView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 24, right: 0)
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
@@ -135,8 +126,7 @@ final class DecksViewController: UIViewController {
         view.addSubview(tableView)
 
         emptyLabel.text = FlashForgeStrings.Decks.empty
-        AppTheme.styleSurface(emptyContainer, radius: 24, shadow: true)
-        emptyContainer.layer.shadowOpacity = 0.08
+        AppTheme.styleSurface(emptyContainer, radius: 18)
         emptyContainer.isHidden = true
         view.addSubview(emptyContainer)
 
@@ -144,7 +134,7 @@ final class DecksViewController: UIViewController {
         emptyIconView.tintColor = AppTheme.accent
         emptyIconView.backgroundColor = AppTheme.accentSoft
         emptyIconView.contentMode = .center
-        emptyIconView.layer.cornerRadius = 23
+        emptyIconView.layer.cornerRadius = 20
         emptyIconView.layer.cornerCurve = .continuous
         emptyContainer.addSubview(emptyIconView)
 
@@ -200,16 +190,9 @@ final class DecksViewController: UIViewController {
     private func applyTheme() {
         AppTheme.applyGradient(to: backgroundGradientLayer, traitCollection: traitCollection)
 
-        topGlowView.backgroundColor = AppTheme.accent.withAlphaComponent(0.10)
-        topGlowView.layer.shadowColor = AppTheme.resolved(AppTheme.accent, for: traitCollection).cgColor
-
-        bottomGlowView.backgroundColor = AppTheme.accentTeal.withAlphaComponent(0.08)
-        bottomGlowView.layer.shadowColor = AppTheme.resolved(AppTheme.accentTeal, for: traitCollection).cgColor
-
         navigationItem.rightBarButtonItem?.tintColor = AppTheme.accent
         emptyContainer.backgroundColor = AppTheme.cardBackground
         emptyContainer.layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
-        emptyContainer.layer.shadowColor = AppTheme.resolved(AppTheme.shadowColor, for: traitCollection).cgColor
         emptyIconView.backgroundColor = AppTheme.accentSoft
         emptyIconView.tintColor = AppTheme.accent
         emptyLabel.textColor = AppTheme.textSecondary
@@ -439,28 +422,25 @@ private final class DeckSummaryCell: UITableViewCell {
         selectionStyle = .none
         contentView.backgroundColor = .clear
 
-        AppTheme.styleSurface(cardView, radius: 20, shadow: true)
-        cardView.layer.shadowOpacity = 0.07
-        cardView.layer.shadowRadius = 14
-        cardView.layer.shadowOffset = CGSize(width: 0, height: 7)
+        AppTheme.styleSurface(cardView, radius: 16)
 
-        iconContainer.backgroundColor = AppTheme.tealSoft
-        iconContainer.layer.cornerRadius = 16
+        iconContainer.backgroundColor = AppTheme.inputBackground
+        iconContainer.layer.cornerRadius = 12
         iconContainer.layer.cornerCurve = .continuous
-        iconImageView.tintColor = AppTheme.accentTeal
+        iconImageView.tintColor = AppTheme.accent
         iconImageView.contentMode = .scaleAspectFit
 
-        titleLabel.font = AppTypography.font(size: 17, weight: .bold, textStyle: .headline)
+        titleLabel.font = AppTypography.font(size: 16, weight: .semibold, textStyle: .headline)
         titleLabel.textColor = AppTheme.textPrimary
 
         subtitleLabel.font = AppTypography.font(size: 12, weight: .medium, textStyle: .caption1)
         subtitleLabel.textColor = AppTheme.textSecondary
         subtitleLabel.numberOfLines = 1
 
-        dueBadgeLabel.font = AppTypography.font(size: 11, weight: .bold, textStyle: .caption1)
+        dueBadgeLabel.font = AppTypography.font(size: 10.5, weight: .semibold, textStyle: .caption1)
         dueBadgeLabel.textColor = AppTheme.accent
         dueBadgeLabel.backgroundColor = AppTheme.accentSoft
-        dueBadgeLabel.layer.cornerRadius = 10
+        dueBadgeLabel.layer.cornerRadius = 9
         dueBadgeLabel.layer.cornerCurve = .continuous
         dueBadgeLabel.clipsToBounds = true
         dueBadgeLabel.textAlignment = .center
@@ -483,9 +463,8 @@ private final class DeckSummaryCell: UITableViewCell {
     private func applyTheme() {
         cardView.backgroundColor = AppTheme.cardBackground
         cardView.layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
-        cardView.layer.shadowColor = AppTheme.resolved(AppTheme.shadowColor, for: traitCollection).cgColor
-        iconContainer.backgroundColor = AppTheme.tealSoft
-        iconImageView.tintColor = AppTheme.accentTeal
+        iconContainer.backgroundColor = AppTheme.inputBackground
+        iconImageView.tintColor = AppTheme.accent
         titleLabel.textColor = AppTheme.textPrimary
         subtitleLabel.textColor = AppTheme.textSecondary
         dueBadgeLabel.textColor = AppTheme.accent
@@ -495,46 +474,46 @@ private final class DeckSummaryCell: UITableViewCell {
 
     private func configureLayout() {
         cardView.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview().inset(7)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.bottom.equalToSuperview().inset(5)
+            make.leading.trailing.equalToSuperview().inset(20)
         }
 
         iconContainer.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(14)
+            make.leading.equalToSuperview().inset(12)
             make.centerY.equalToSuperview()
-            make.size.equalTo(46)
+            make.size.equalTo(40)
         }
 
         iconImageView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.size.equalTo(21)
+            make.size.equalTo(18)
         }
 
         chevronImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().inset(14)
+            make.trailing.equalToSuperview().inset(12)
             make.width.equalTo(10)
             make.height.equalTo(16)
         }
 
         titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(15)
-            make.leading.equalTo(iconContainer.snp.trailing).offset(13)
+            make.top.equalToSuperview().inset(14)
+            make.leading.equalTo(iconContainer.snp.trailing).offset(12)
             make.trailing.lessThanOrEqualTo(dueBadgeLabel.snp.leading).offset(-8)
         }
 
         dueBadgeLabel.snp.makeConstraints { make in
             make.centerY.equalTo(titleLabel)
             make.trailing.equalTo(chevronImageView.snp.leading).offset(-10)
-            make.height.equalTo(20)
-            make.width.greaterThanOrEqualTo(52)
+            make.height.equalTo(18)
+            make.width.greaterThanOrEqualTo(48)
         }
 
         subtitleLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(6)
             make.leading.equalTo(titleLabel)
             make.trailing.lessThanOrEqualTo(chevronImageView.snp.leading).offset(-10)
-            make.bottom.lessThanOrEqualToSuperview().inset(15)
+            make.bottom.lessThanOrEqualToSuperview().inset(14)
         }
     }
 }

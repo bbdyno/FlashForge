@@ -77,17 +77,8 @@ final class CardEditorViewController: UIViewController {
         view.backgroundColor = .clear
         title = modeTitle
 
-        topGlowView.backgroundColor = AppTheme.accent.withAlphaComponent(0.22)
-        topGlowView.layer.shadowColor = AppTheme.accent.cgColor
-        topGlowView.layer.shadowOpacity = 0.28
-        topGlowView.layer.shadowRadius = 52
-        topGlowView.layer.shadowOffset = .zero
-
-        bottomGlowView.backgroundColor = AppTheme.accentTeal.withAlphaComponent(0.16)
-        bottomGlowView.layer.shadowColor = AppTheme.accentTeal.cgColor
-        bottomGlowView.layer.shadowOpacity = 0.28
-        bottomGlowView.layer.shadowRadius = 52
-        bottomGlowView.layer.shadowOffset = .zero
+        topGlowView.isHidden = true
+        bottomGlowView.isHidden = true
 
         view.addSubview(topGlowView)
         view.addSubview(bottomGlowView)
@@ -108,7 +99,7 @@ final class CardEditorViewController: UIViewController {
         scrollView.backgroundColor = .clear
         contentView.backgroundColor = .clear
         stackView.axis = .vertical
-        stackView.spacing = 14
+        stackView.spacing = 12
 
         configureCard(introCard)
         configureCard(frontCard)
@@ -124,11 +115,11 @@ final class CardEditorViewController: UIViewController {
         introDescriptionLabel.font = AppTypography.font(size: 14, weight: .medium, textStyle: .subheadline)
         introDescriptionLabel.textColor = AppTheme.textSecondary
 
-        backTextView.font = UIFont.systemFont(ofSize: 16)
+        backTextView.font = AppTypography.font(size: 16, weight: .medium, textStyle: .body)
         backTextView.textColor = AppTheme.textPrimary
         backTextView.backgroundColor = AppTheme.inputBackground
         backTextView.layer.borderColor = AppTheme.cardBorder.cgColor
-        backTextView.layer.borderWidth = 1
+        backTextView.layer.borderWidth = 0.5
         backTextView.layer.cornerRadius = 12
         backTextView.layer.cornerCurve = .continuous
         backTextView.textContainerInset = UIEdgeInsets(top: 12, left: 10, bottom: 12, right: 10)
@@ -136,7 +127,7 @@ final class CardEditorViewController: UIViewController {
 
         backPlaceholder.text = FlashForgeStrings.CardEditor.Back.placeholder
         backPlaceholder.textColor = AppTheme.textSecondary
-        backPlaceholder.font = UIFont.systemFont(ofSize: 15)
+        backPlaceholder.font = AppTypography.font(size: 15, weight: .regular, textStyle: .body)
 
         styleTextField(
             frontField,
@@ -284,9 +275,9 @@ final class CardEditorViewController: UIViewController {
 
     private func configureCard(_ view: UIView) {
         view.backgroundColor = AppTheme.cardBackground
-        view.layer.borderWidth = 1
+        view.layer.borderWidth = 0.5
         view.layer.borderColor = AppTheme.cardBorder.cgColor
-        view.layer.cornerRadius = 16
+        view.layer.cornerRadius = 18
         view.layer.cornerCurve = .continuous
     }
 
@@ -302,10 +293,10 @@ final class CardEditorViewController: UIViewController {
         field.placeholder = placeholder
         field.keyboardType = keyboardType
         field.clearButtonMode = .whileEditing
-        field.font = .systemFont(ofSize: 16, weight: .medium)
+        field.font = AppTypography.font(size: 16, weight: .medium, textStyle: .body)
         field.textColor = AppTheme.textPrimary
         field.backgroundColor = AppTheme.inputBackground
-        field.layer.borderWidth = 1
+        field.layer.borderWidth = 0.5
         field.layer.borderColor = AppTheme.cardBorder.cgColor
         field.layer.cornerRadius = 12
         field.layer.cornerCurve = .continuous
@@ -319,12 +310,6 @@ final class CardEditorViewController: UIViewController {
 
     private func applyTheme() {
         AppTheme.applyGradient(to: backgroundGradientLayer, traitCollection: traitCollection)
-
-        topGlowView.backgroundColor = AppTheme.accent.withAlphaComponent(0.22)
-        topGlowView.layer.shadowColor = AppTheme.resolved(AppTheme.accent, for: traitCollection).cgColor
-
-        bottomGlowView.backgroundColor = AppTheme.accentTeal.withAlphaComponent(0.16)
-        bottomGlowView.layer.shadowColor = AppTheme.resolved(AppTheme.accentTeal, for: traitCollection).cgColor
 
         navigationItem.rightBarButtonItem?.tintColor = AppTheme.accent
 

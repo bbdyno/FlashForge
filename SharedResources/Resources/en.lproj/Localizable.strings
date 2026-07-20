@@ -1,5 +1,5 @@
-"home.eyebrow" = "FLASHFORGE";
-"home.title" = "Ready to remember?";
+"home.eyebrow" = "TODAY";
+"home.title" = "Today's review";
 "home.empty.create_deck" = "Build your first deck and turn small moments into lasting memory.";
 "home.empty.select_deck" = "Choose a deck to start a focused review.";
 "home.deck.select" = "Select Deck";

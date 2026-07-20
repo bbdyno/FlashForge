@@ -26,13 +26,13 @@ final class AppWalkthroughViewController: UIViewController {
         ),
         WalkthroughPage(
             symbolName: "rectangle.stack.fill.badge.person.crop",
-            tintColor: AppTheme.infoBlue,
+            tintColor: AppTheme.accent,
             title: FlashForgeStrings.Walkthrough.Page.Study.title,
             description: FlashForgeStrings.Walkthrough.Page.Study.description
         ),
         WalkthroughPage(
             symbolName: "square.and.arrow.down.fill",
-            tintColor: AppTheme.accentTeal,
+            tintColor: AppTheme.accent,
             title: FlashForgeStrings.Walkthrough.Page.Data.title,
             description: FlashForgeStrings.Walkthrough.Page.Data.description
         )
@@ -147,10 +147,9 @@ final class AppWalkthroughViewController: UIViewController {
         pageControl.currentPageIndicatorTintColor = AppTheme.accent
         pageControl.pageIndicatorTintColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection)
 
-        primaryButton.setTitleColor(AppTheme.textPrimary, for: .normal)
+        primaryButton.setTitleColor(.white, for: .normal)
         primaryButton.backgroundColor = AppTheme.buttonFill(from: AppTheme.accent, for: traitCollection)
-        primaryButton.layer.borderWidth = 1
-        primaryButton.layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
+        primaryButton.layer.borderWidth = 0
 
         skipButton.setTitleColor(AppTheme.textSecondary, for: .normal)
     }
@@ -303,7 +302,7 @@ private final class WalkthroughPageContentViewController: UIViewController {
 
         symbolImageView.image = UIImage(systemName: page.symbolName)
         symbolImageView.contentMode = .scaleAspectFit
-        symbolImageView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 56, weight: .bold)
+        symbolImageView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 38, weight: .semibold)
 
         titleLabel.text = page.title
         titleLabel.font = AppTypography.font(size: 30, weight: .bold, textStyle: .title1)
@@ -315,10 +314,10 @@ private final class WalkthroughPageContentViewController: UIViewController {
         descriptionLabel.textAlignment = .center
         descriptionLabel.numberOfLines = 0
 
-        cardView.layer.cornerRadius = 26
+        cardView.layer.cornerRadius = 18
         cardView.layer.cornerCurve = .continuous
 
-        symbolContainer.layer.cornerRadius = 56
+        symbolContainer.layer.cornerRadius = 40
         symbolContainer.layer.cornerCurve = .continuous
 
         cardView.snp.makeConstraints { make in
@@ -326,9 +325,9 @@ private final class WalkthroughPageContentViewController: UIViewController {
         }
 
         symbolContainer.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(42)
+            make.top.equalToSuperview().offset(48)
             make.centerX.equalToSuperview()
-            make.width.height.equalTo(112)
+            make.width.height.equalTo(80)
         }
 
         symbolImageView.snp.makeConstraints { make in
@@ -336,7 +335,7 @@ private final class WalkthroughPageContentViewController: UIViewController {
         }
 
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(symbolContainer.snp.bottom).offset(36)
+            make.top.equalTo(symbolContainer.snp.bottom).offset(34)
             make.leading.trailing.equalToSuperview().inset(24)
         }
 
@@ -350,12 +349,12 @@ private final class WalkthroughPageContentViewController: UIViewController {
     }
 
     private func applyTheme() {
-        cardView.backgroundColor = AppTheme.cardBackground.withAlphaComponent(traitCollection.userInterfaceStyle == .dark ? 0.16 : 0.72)
-        cardView.layer.borderWidth = 1
+        cardView.backgroundColor = AppTheme.cardBackground
+        cardView.layer.borderWidth = 0.5
         cardView.layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
 
         let tint = AppTheme.resolved(page.tintColor, for: traitCollection)
-        symbolContainer.backgroundColor = tint.withAlphaComponent(traitCollection.userInterfaceStyle == .dark ? 0.26 : 0.18)
+        symbolContainer.backgroundColor = AppTheme.accentSoft
         symbolImageView.tintColor = tint
 
         titleLabel.textColor = AppTheme.textPrimary
