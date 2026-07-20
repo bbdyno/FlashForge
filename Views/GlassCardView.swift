@@ -15,7 +15,7 @@ final class GlassCardView: UIView {
     }
 
     private let glassContainer = UIView()
-    private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
+    private let blurView = UIVisualEffectView(effect: nil)
     private let highlightView = GradientOverlayView()
     private let iconImageView = UIImageView()
     private let stateBadgeLabel = UILabel()
@@ -146,11 +146,11 @@ final class GlassCardView: UIView {
 
     private func configureStyle() {
         layer.shadowColor = AppTheme.resolved(AppTheme.shadowColor, for: traitCollection).cgColor
-        layer.shadowOpacity = 0.15
-        layer.shadowRadius = 30
-        layer.shadowOffset = CGSize(width: 0, height: 16)
+        layer.shadowOpacity = 0.11
+        layer.shadowRadius = 24
+        layer.shadowOffset = CGSize(width: 0, height: 14)
 
-        glassContainer.layer.cornerRadius = 24
+        glassContainer.layer.cornerRadius = 26
         glassContainer.layer.cornerCurve = .continuous
         glassContainer.layer.borderWidth = 1
         glassContainer.layer.borderColor = AppTheme.resolved(AppTheme.glassBorder, for: traitCollection).cgColor
@@ -160,23 +160,22 @@ final class GlassCardView: UIView {
 
         highlightView.gradientLayer.needsDisplayOnBoundsChange = true
         highlightView.gradientLayer.colors = [
-            AppTheme.resolved(AppTheme.glassHighlightStart, for: traitCollection).cgColor,
-            AppTheme.resolved(AppTheme.glassHighlightMid, for: traitCollection).cgColor,
+            AppTheme.resolved(AppTheme.accentSoft, for: traitCollection).withAlphaComponent(0.34).cgColor,
             UIColor.clear.cgColor
         ]
-        highlightView.gradientLayer.locations = [0.0, 0.38, 1.0]
+        highlightView.gradientLayer.locations = [0.0, 0.56]
         highlightView.gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         highlightView.gradientLayer.endPoint = CGPoint(x: 1, y: 1)
         highlightView.isUserInteractionEnabled = false
 
-        iconImageView.tintColor = AppTheme.textPrimary.withAlphaComponent(0.88)
+        iconImageView.tintColor = AppTheme.accent
         iconImageView.contentMode = .scaleAspectFit
         iconImageView.backgroundColor = AppTheme.badgeBackground
         iconImageView.layer.cornerRadius = 16
         iconImageView.layer.cornerCurve = .continuous
 
-        stateBadgeLabel.font = UIFont(name: "AvenirNext-DemiBold", size: 12) ?? .systemFont(ofSize: 12, weight: .semibold)
-        stateBadgeLabel.textColor = AppTheme.textPrimary.withAlphaComponent(0.92)
+        stateBadgeLabel.font = AppTypography.font(size: 11, weight: .bold, textStyle: .caption1)
+        stateBadgeLabel.textColor = AppTheme.accent
         stateBadgeLabel.backgroundColor = AppTheme.badgeBackground
         stateBadgeLabel.layer.cornerRadius = 12
         stateBadgeLabel.layer.cornerCurve = .continuous
@@ -185,27 +184,27 @@ final class GlassCardView: UIView {
         stateBadgeLabel.clipsToBounds = true
         stateBadgeLabel.textAlignment = .center
 
-        titleLabel.font = UIFont(name: "AvenirNext-Bold", size: 30) ?? .systemFont(ofSize: 30, weight: .bold)
-        titleLabel.textColor = AppTheme.textPrimary.withAlphaComponent(0.95)
+        titleLabel.font = AppTypography.font(size: 30, weight: .bold, textStyle: .title1)
+        titleLabel.textColor = AppTheme.textPrimary
         titleLabel.numberOfLines = 0
         titleLabel.lineBreakMode = .byWordWrapping
         titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
 
-        subtitleLabel.font = UIFont(name: "AvenirNext-DemiBold", size: 15) ?? .systemFont(ofSize: 15, weight: .semibold)
+        subtitleLabel.font = AppTypography.font(size: 14, weight: .semibold, textStyle: .subheadline)
         subtitleLabel.textColor = AppTheme.textSecondary.withAlphaComponent(0.95)
         subtitleLabel.numberOfLines = 1
         subtitleLabel.lineBreakMode = .byTruncatingTail
         subtitleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
 
-        detailLabel.font = UIFont(name: "AvenirNext-Medium", size: 17) ?? .systemFont(ofSize: 17, weight: .medium)
-        detailLabel.textColor = AppTheme.textPrimary.withAlphaComponent(0.90)
+        detailLabel.font = AppTypography.font(size: 17, weight: .medium, textStyle: .body)
+        detailLabel.textColor = AppTheme.textPrimary
         detailLabel.numberOfLines = 0
         detailLabel.lineBreakMode = .byWordWrapping
         detailLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         detailLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
 
-        helperLabel.font = UIFont(name: "AvenirNext-DemiBold", size: 14) ?? .systemFont(ofSize: 14, weight: .semibold)
+        helperLabel.font = AppTypography.font(size: 13, weight: .semibold, textStyle: .footnote)
         helperLabel.textColor = AppTheme.textSecondary.withAlphaComponent(0.95)
         helperLabel.textAlignment = .left
         helperLabel.numberOfLines = 1
@@ -222,21 +221,20 @@ final class GlassCardView: UIView {
         blurView.contentView.backgroundColor = AppTheme.glassFill
 
         highlightView.gradientLayer.colors = [
-            AppTheme.resolved(AppTheme.glassHighlightStart, for: traitCollection).cgColor,
-            AppTheme.resolved(AppTheme.glassHighlightMid, for: traitCollection).cgColor,
+            AppTheme.resolved(AppTheme.accentSoft, for: traitCollection).withAlphaComponent(0.34).cgColor,
             UIColor.clear.cgColor
         ]
 
-        iconImageView.tintColor = AppTheme.textPrimary.withAlphaComponent(0.88)
+        iconImageView.tintColor = AppTheme.accent
         iconImageView.backgroundColor = AppTheme.badgeBackground
 
-        stateBadgeLabel.textColor = AppTheme.textPrimary.withAlphaComponent(0.92)
+        stateBadgeLabel.textColor = AppTheme.accent
         stateBadgeLabel.backgroundColor = AppTheme.badgeBackground
         stateBadgeLabel.layer.borderColor = AppTheme.resolved(AppTheme.badgeBorder, for: traitCollection).cgColor
 
-        titleLabel.textColor = AppTheme.textPrimary.withAlphaComponent(0.95)
+        titleLabel.textColor = AppTheme.textPrimary
         subtitleLabel.textColor = AppTheme.textSecondary.withAlphaComponent(0.95)
-        detailLabel.textColor = AppTheme.textPrimary.withAlphaComponent(0.90)
+        detailLabel.textColor = AppTheme.textPrimary
         helperLabel.textColor = AppTheme.textSecondary.withAlphaComponent(0.95)
     }
 
@@ -328,13 +326,13 @@ final class GlassCardView: UIView {
             size = 30
         }
 
-        return UIFont(name: "AvenirNext-Bold", size: size) ?? .systemFont(ofSize: size, weight: .bold)
+        return AppTypography.font(size: size, weight: .bold, textStyle: .title1)
     }
 
     private func subtitleFont(for text: String) -> UIFont {
         let length = text.count
         let size: CGFloat = length >= 55 ? 14 : 15
-        return UIFont(name: "AvenirNext-DemiBold", size: size) ?? .systemFont(ofSize: size, weight: .semibold)
+        return AppTypography.font(size: size, weight: .semibold, textStyle: .subheadline)
     }
 
     private func detailFont(for text: String) -> UIFont {
@@ -356,7 +354,7 @@ final class GlassCardView: UIView {
             size = 17
         }
 
-        return UIFont(name: "AvenirNext-Medium", size: size) ?? .systemFont(ofSize: size, weight: .medium)
+        return AppTypography.font(size: size, weight: .medium, textStyle: .body)
     }
 }
 

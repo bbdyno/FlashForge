@@ -112,7 +112,7 @@ final class MoreViewController: UIViewController {
 
     private func configureUI() {
         title = FlashForgeStrings.More.title
-        navigationItem.largeTitleDisplayMode = .automatic
+        navigationItem.largeTitleDisplayMode = .never
 
         view.layer.insertSublayer(backgroundGradientLayer, at: 0)
         AppTheme.applyGradient(to: backgroundGradientLayer, traitCollection: traitCollection)
@@ -145,7 +145,7 @@ final class MoreViewController: UIViewController {
         stackView.addArrangedSubview(appInfoCard)
 
         footerLabel.text = FlashForgeStrings.More.footer
-        footerLabel.font = UIFont(name: "AvenirNext-Medium", size: 12) ?? .systemFont(ofSize: 12, weight: .medium)
+        footerLabel.font = AppTypography.font(size: 12, weight: .medium, textStyle: .caption1)
         footerLabel.textColor = AppTheme.textSecondary
         footerLabel.numberOfLines = 0
         stackView.addArrangedSubview(footerLabel)
@@ -177,11 +177,11 @@ final class MoreViewController: UIViewController {
         reminderCard.layer.cornerCurve = .continuous
 
         reminderTitleLabel.text = FlashForgeStrings.More.Reminder.title
-        reminderTitleLabel.font = UIFont(name: "AvenirNext-Bold", size: 19) ?? .systemFont(ofSize: 19, weight: .bold)
+        reminderTitleLabel.font = AppTypography.font(size: 19, weight: .bold, textStyle: .headline)
         reminderTitleLabel.textColor = AppTheme.textPrimary
 
         reminderDescriptionLabel.text = FlashForgeStrings.More.Reminder.description
-        reminderDescriptionLabel.font = UIFont(name: "AvenirNext-Medium", size: 14) ?? .systemFont(ofSize: 14, weight: .medium)
+        reminderDescriptionLabel.font = AppTypography.font(size: 14, weight: .medium, textStyle: .subheadline)
         reminderDescriptionLabel.textColor = AppTheme.textSecondary
         reminderDescriptionLabel.numberOfLines = 0
 
@@ -198,7 +198,7 @@ final class MoreViewController: UIViewController {
         reminderTimePicker.setValue(AppTheme.textPrimary, forKey: "textColor")
         reminderTimePicker.addTarget(self, action: #selector(didChangeReminderTime(_:)), for: .valueChanged)
 
-        reminderStatusLabel.font = UIFont(name: "AvenirNext-DemiBold", size: 13) ?? .systemFont(ofSize: 13, weight: .semibold)
+        reminderStatusLabel.font = AppTypography.font(size: 13, weight: .semibold, textStyle: .footnote)
         reminderStatusLabel.textColor = AppTheme.textSecondary
         reminderStatusLabel.numberOfLines = 2
 
@@ -245,7 +245,7 @@ final class MoreViewController: UIViewController {
         dataCard.layer.cornerCurve = .continuous
 
         dataTitleLabel.text = FlashForgeStrings.More.Data.title
-        dataTitleLabel.font = UIFont(name: "AvenirNext-Bold", size: 19) ?? .systemFont(ofSize: 19, weight: .bold)
+        dataTitleLabel.font = AppTypography.font(size: 19, weight: .bold, textStyle: .headline)
         dataTitleLabel.textColor = AppTheme.textPrimary
 
         configureActionButton(backupButton, title: FlashForgeStrings.More.Data.export, tint: AppTheme.accent)
@@ -264,12 +264,12 @@ final class MoreViewController: UIViewController {
         syncNowButton.accessibilityIdentifier = "more.syncNowButton"
         syncNowButton.addTarget(self, action: #selector(didTapSyncNow), for: .touchUpInside)
 
-        dataStatusLabel.font = UIFont(name: "AvenirNext-Medium", size: 13) ?? .systemFont(ofSize: 13, weight: .medium)
+        dataStatusLabel.font = AppTypography.font(size: 13, weight: .medium, textStyle: .footnote)
         dataStatusLabel.textColor = AppTheme.textSecondary
         dataStatusLabel.text = FlashForgeStrings.More.Data.description
         dataStatusLabel.numberOfLines = 2
 
-        iCloudStatusLabel.font = UIFont(name: "AvenirNext-Medium", size: 13) ?? .systemFont(ofSize: 13, weight: .medium)
+        iCloudStatusLabel.font = AppTypography.font(size: 13, weight: .medium, textStyle: .footnote)
         iCloudStatusLabel.textColor = AppTheme.textSecondary
         iCloudStatusLabel.numberOfLines = 2
 
@@ -327,11 +327,11 @@ final class MoreViewController: UIViewController {
         privacyCard.layer.cornerCurve = .continuous
 
         privacyTitleLabel.text = FlashForgeStrings.More.Privacy.title
-        privacyTitleLabel.font = .preferredFont(forTextStyle: .headline)
+        privacyTitleLabel.font = AppTypography.font(size: 19, weight: .bold, textStyle: .headline)
         privacyTitleLabel.adjustsFontForContentSizeCategory = true
 
         privacyDescriptionLabel.text = FlashForgeStrings.More.Privacy.description
-        privacyDescriptionLabel.font = .preferredFont(forTextStyle: .footnote)
+        privacyDescriptionLabel.font = AppTypography.font(size: 13, weight: .medium, textStyle: .footnote)
         privacyDescriptionLabel.adjustsFontForContentSizeCategory = true
         privacyDescriptionLabel.numberOfLines = 0
 
@@ -408,7 +408,9 @@ final class MoreViewController: UIViewController {
         style: UIFont.TextStyle
     ) {
         label.text = text
-        label.font = .preferredFont(forTextStyle: style)
+        let weight: AppTypography.Weight = style == .body ? .semibold : .medium
+        let size: CGFloat = style == .body ? 15 : 13
+        label.font = AppTypography.font(size: size, weight: weight, textStyle: style)
         label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 0
     }
@@ -422,7 +424,7 @@ final class MoreViewController: UIViewController {
         syncToastView.alpha = 0
         syncToastView.isHidden = true
 
-        syncToastLabel.font = UIFont(name: "AvenirNext-DemiBold", size: 13) ?? .systemFont(ofSize: 13, weight: .semibold)
+        syncToastLabel.font = AppTypography.font(size: 13, weight: .semibold, textStyle: .footnote)
         syncToastLabel.textColor = AppTheme.textPrimary
         syncToastLabel.numberOfLines = 0
         syncToastLabel.textAlignment = .center
@@ -448,10 +450,10 @@ final class MoreViewController: UIViewController {
         appInfoCard.layer.cornerCurve = .continuous
 
         appInfoTitleLabel.text = FlashForgeStrings.More.Appinfo.title
-        appInfoTitleLabel.font = UIFont(name: "AvenirNext-Bold", size: 19) ?? .systemFont(ofSize: 19, weight: .bold)
+        appInfoTitleLabel.font = AppTypography.font(size: 19, weight: .bold, textStyle: .headline)
         appInfoTitleLabel.textColor = AppTheme.textPrimary
 
-        appInfoBodyLabel.font = UIFont(name: "AvenirNext-Medium", size: 14) ?? .systemFont(ofSize: 14, weight: .medium)
+        appInfoBodyLabel.font = AppTypography.font(size: 14, weight: .medium, textStyle: .subheadline)
         appInfoBodyLabel.textColor = AppTheme.textSecondary
         appInfoBodyLabel.numberOfLines = 0
 
@@ -493,13 +495,13 @@ final class MoreViewController: UIViewController {
         developerCard.layer.cornerCurve = .continuous
 
         developerTitleLabel.text = FlashForgeStrings.More.Developer.title
-        developerTitleLabel.font = UIFont(name: "AvenirNext-Bold", size: 19) ?? .systemFont(ofSize: 19, weight: .bold)
+        developerTitleLabel.font = AppTypography.font(size: 19, weight: .bold, textStyle: .headline)
         developerTitleLabel.textColor = AppTheme.textPrimary
 
         configureActionButton(generateSamplesButton, title: FlashForgeStrings.More.Developer.generateSamples, tint: AppTheme.accentTeal)
         generateSamplesButton.addTarget(self, action: #selector(didTapGenerateSamples), for: .touchUpInside)
 
-        developerStatusLabel.font = UIFont(name: "AvenirNext-Medium", size: 13) ?? .systemFont(ofSize: 13, weight: .medium)
+        developerStatusLabel.font = AppTypography.font(size: 13, weight: .medium, textStyle: .footnote)
         developerStatusLabel.textColor = AppTheme.textSecondary
         developerStatusLabel.text = FlashForgeStrings.More.Developer.description
         developerStatusLabel.numberOfLines = 2
@@ -528,8 +530,8 @@ final class MoreViewController: UIViewController {
 
     private func configureActionButton(_ button: UIButton, title: String, tint: UIColor) {
         button.setTitle(title, for: .normal)
-        button.setTitleColor(AppTheme.textPrimary, for: .normal)
-        button.titleLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 14) ?? .systemFont(ofSize: 14, weight: .semibold)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = AppTypography.font(size: 14, weight: .semibold, textStyle: .subheadline)
         button.backgroundColor = AppTheme.buttonFill(from: tint, for: traitCollection)
         button.layer.cornerRadius = 12
         button.layer.cornerCurve = .continuous
@@ -581,7 +583,7 @@ final class MoreViewController: UIViewController {
         appInfoBodyLabel.textColor = AppTheme.textSecondary
 
         syncToastView.layer.borderColor = cardBorderColor
-        syncToastLabel.textColor = AppTheme.textPrimary
+        syncToastLabel.textColor = .white
         footerLabel.textColor = AppTheme.textSecondary
         applyActionButtonThemes()
     }

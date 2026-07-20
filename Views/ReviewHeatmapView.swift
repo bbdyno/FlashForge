@@ -62,14 +62,15 @@ final class ReviewHeatmapView: UIView {
     }
 
     private func configureStyle() {
-        layer.cornerRadius = 20
+        layer.cornerRadius = 22
         layer.cornerCurve = .continuous
         layer.borderWidth = 1
         layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
         backgroundColor = AppTheme.cardBackground
 
-        titleLabel.text = FlashForgeStrings.ReviewHeatmap.title
-        titleLabel.font = UIFont(name: "AvenirNext-DemiBold", size: 14) ?? .systemFont(ofSize: 14, weight: .semibold)
+        titleLabel.text = FlashForgeStrings.Insights.Activity.title
+        titleLabel.font = AppTypography.font(size: 17, weight: .bold, textStyle: .headline)
+        titleLabel.adjustsFontForContentSizeCategory = true
         titleLabel.textColor = AppTheme.textPrimary
 
         collectionView.backgroundColor = .clear
@@ -89,12 +90,12 @@ final class ReviewHeatmapView: UIView {
 
     private func configureLayout() {
         titleLabel.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview().inset(14)
+            make.top.leading.trailing.equalToSuperview().inset(18)
         }
 
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(10)
-            make.leading.trailing.bottom.equalToSuperview().inset(12)
+            make.top.equalTo(titleLabel.snp.bottom).offset(14)
+            make.leading.trailing.bottom.equalToSuperview().inset(18)
             make.height.greaterThanOrEqualTo(110)
         }
     }
@@ -215,13 +216,13 @@ private final class ReviewHeatmapCell: UICollectionViewCell {
         lastCount = count
         switch count {
         case ...0:
-            contentView.backgroundColor = AppTheme.cardBackground.withAlphaComponent(0.85)
+            contentView.backgroundColor = AppTheme.inputBackground
         case 1...10:
-            contentView.backgroundColor = AppTheme.accentTeal.withAlphaComponent(0.45)
+            contentView.backgroundColor = AppTheme.accent.withAlphaComponent(0.40)
         case 11...50:
-            contentView.backgroundColor = AppTheme.accentTeal.withAlphaComponent(0.72)
+            contentView.backgroundColor = AppTheme.accent.withAlphaComponent(0.68)
         default:
-            contentView.backgroundColor = AppTheme.accentTeal.withAlphaComponent(0.94)
+            contentView.backgroundColor = AppTheme.accent
         }
     }
 }

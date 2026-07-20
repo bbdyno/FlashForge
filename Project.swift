@@ -47,6 +47,9 @@ let project = Project(
                 "FirebaseCrashlyticsCollectionEnabled": .boolean(false),
                 "GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS": .boolean(false),
                 "GOOGLE_ANALYTICS_IDFV_COLLECTION_ENABLED": .boolean(false),
+                "UIAppFonts": .array([
+                    .string("Manrope-Variable.ttf")
+                ]),
                 "UILaunchScreen": .dictionary([:]),
                 "NSSupportsLiveActivities": .boolean(true),
                 "UIApplicationSceneManifest": .dictionary([
@@ -72,6 +75,7 @@ let project = Project(
             ],
             resources: [
                 "Resources/AppAssets.xcassets",
+                "Resources/Fonts/**",
                 "GoogleService-Info.plist"
             ],
             scripts: [

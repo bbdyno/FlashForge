@@ -1,8 +1,12 @@
-"home.title" = "FlashForge";
+"home.eyebrow" = "FLASHFORGE";
+"home.title" = "Ready to remember?";
+"home.empty.create_deck" = "Build your first deck and turn small moments into lasting memory.";
+"home.empty.select_deck" = "Choose a deck to start a focused review.";
 "home.deck.select" = "Select Deck";
 "home.due.none" = "No cards due today";
 "home.reveal" = "Show Answer";
 "home.reload" = "Reload";
+"home.open_library" = "Open Library";
 "home.due.summary" = "Today %d cards · New %d / Review %d";
 "home.due.inline" = "Due %d · Learning %d · Review %d";
 "home.due.inline.compact" = "Due %d · L %d · R %d";
@@ -19,7 +23,7 @@
 "home.grade.easy.title" = "Easy";
 "home.grade.easy.subtitle" = "Very easy";
 
-"more.title" = "More";
+"more.title" = "Settings";
 "more.reminder.title" = "Study Reminder";
 "more.reminder.description" = "Send a daily reminder at your chosen time.";
 "more.reminder.status.on" = "Reminder is set for %02d:%02d every day.";
@@ -69,9 +73,10 @@
 "more.icloud.status.updated" = "Last synced: %@";
 "more.icloud.status.error" = "iCloud sync failed: %@";
 
-"decks.title" = "Decks";
-"decks.empty" = "No decks yet.\nTap + to create your first deck.";
+"decks.title" = "Library";
+"decks.empty" = "Your library starts here.\nTap + to create your first deck.";
 "decks.row.subtitle" = "Today %d · New %d / Review %d · Remaining %d";
+"decks.row.due_badge.value" = "%d due";
 "decks.add.title" = "Add Deck";
 "decks.add.message" = "Choose how to add a deck.";
 "decks.add.manual" = "Create Manually";
@@ -88,9 +93,30 @@
 "decks.action.delete" = "Delete";
 
 "common.ok" = "OK";
-"tab.study" = "Study";
-"tab.decks" = "Decks";
+"tab.study" = "Today";
+"tab.decks" = "Library";
 "tab.more" = "More";
+"tab.insights" = "Insights";
+
+"insights.title" = "Insights";
+"insights.summary" = "%d decks · %d cards · %d due now";
+"insights.metric.reviewed_today" = "Reviewed today";
+"insights.metric.last_seven_days" = "Last 7 days";
+"insights.hero.reviews" = "reviews";
+"insights.metric.current_streak" = "Current streak";
+"insights.metric.retention" = "Estimated retention";
+"insights.value.days" = "%d days";
+"insights.value.percent" = "%d%%";
+"insights.value.unavailable" = "—";
+"insights.activity.title" = "Study activity";
+"insights.states.title" = "Card progress";
+"insights.states.new" = "New";
+"insights.states.learning" = "Learning";
+"insights.states.review" = "Review";
+"insights.states.relearning" = "Relearning";
+"insights.forecast.title" = "7-day due forecast";
+"insights.settings.accessibility" = "Open Settings";
+"insights.error" = "Insights could not be loaded.";
 
 "onboarding.title" = "Welcome to FlashForge";
 "onboarding.subtitle" = "Create your first deck and card to start studying right away.";

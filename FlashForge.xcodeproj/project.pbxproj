@@ -29,10 +29,14 @@
 		458B618B1F791ACF7F116934 /* FlashForgeStringsAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053CBE67BBC927E6500C04A6 /* FlashForgeStringsAlias.swift */; };
 		45FA097443B8C349A9723374 /* StudyStatusSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF794A337CBD5B9733BFEE5 /* StudyStatusSnapshot.swift */; };
 		4E29E5CB4CD3AA23FF84D096 /* TuistPlists+FlashForge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D314C8B2B1555CB18594B3 /* TuistPlists+FlashForge.swift */; };
+		4F17B7D7447DB497B381404C /* TuistFonts+FlashForge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5F9FB03DE35DA0AA3B766D /* TuistFonts+FlashForge.swift */; };
 		51E93FB1205B0D8F6AFFE1BF /* RootTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D461C4D4DA11970FCB8ACF50 /* RootTabBarController.swift */; };
+		5DB829F0B8E5ACF3D2550F98 /* Manrope-Variable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3685A8621F7E1E9AA14887D /* Manrope-Variable.ttf */; };
+		5DC77675580A0D6485348F01 /* InsightsSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0AC9926A63B3FDA8D73A7D /* InsightsSnapshot.swift */; };
 		606266CFD934DE3628B3D8AB /* SchedulerMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56638997A259354801A20F6A /* SchedulerMode.swift */; };
 		678FC23F12E83EC2647B80F0 /* TuistBundle+FlashForge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D472DD1C95FE3A90AF4B0E /* TuistBundle+FlashForge.swift */; };
 		67E01180A67B9AA704B1BD88 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFA33D699D6866CF70033EE /* SceneDelegate.swift */; };
+		72D2DA8A704EFAD749D18EE5 /* InsightsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F155FBE3138C11625C6546 /* InsightsViewController.swift */; };
 		751611C6D032D21CB655B467 /* StudyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD0BD0EAECA19D54900CC25 /* StudyCard.swift */; };
 		78E39DE8C508097318652D3F /* CardTextSanitizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CBFE84B93A991370BC52944 /* CardTextSanitizerTests.swift */; };
 		799053F61A2BE2684417ADD6 /* CardRepositoryPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC48DFDD7AD6F63201B93A3 /* CardRepositoryPersistenceTests.swift */; };
@@ -60,10 +64,13 @@
 		D521E8763AF28543238FDA1A /* StudySessionActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4B8A7C995FFF7C9319638A /* StudySessionActivityAttributes.swift */; };
 		D73C02E053050CFDD2C4A3BF /* FlashForgeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA23FB069A0C9939055C1301 /* FlashForgeUITests.swift */; };
 		D9919DCF5C4954F99CC45480 /* CardRepositoryDeckImportValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FA8E96F1711FC7AACED0ED /* CardRepositoryDeckImportValidationTests.swift */; };
+		D9A735E87ADD911AF7B0BB25 /* CardRepositoryInsightsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B167CE80CDED54909EE16AA8 /* CardRepositoryInsightsTests.swift */; };
 		DDA55246A23CD41412EBBBA2 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37760F3BF153FDC5EF8BEFDC /* Deck.swift */; };
 		E019ABFBA476703C376B36B2 /* DecksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BA7B4C4BA63469CF1D48A8 /* DecksViewController.swift */; };
 		E42AA0A1947A2DA8A862AE4E /* FSRSScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FE9F3EE624612B657115E5 /* FSRSScheduler.swift */; };
+		E44E92330EF97CD435265C7E /* AppDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A426469F23A843D8429253CC /* AppDesignSystem.swift */; };
 		E63DA69BBEA1639520763895 /* FSRSParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB34A41A0F1A04AB626218 /* FSRSParameters.swift */; };
+		ECAC00B145D0EDBCA49E41A7 /* Manrope-OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = A74DEC9F990A30FDC156FC2F /* Manrope-OFL.txt */; };
 		ECE7AD20DF2C379ED61E18D0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = F23BD6688FDF924BC36DAB93 /* FirebaseAnalytics */; };
 		F56A7CC7966EEA138A7A63E7 /* DeckDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2D145E0784B9C06BF5572D /* DeckDetailViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -153,6 +160,7 @@
 		11D472DD1C95FE3A90AF4B0E /* TuistBundle+FlashForge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistBundle+FlashForge.swift"; sourceTree = "<group>"; };
 		174EE85526D9B3386325270E /* StudyStatusService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyStatusService.swift; sourceTree = "<group>"; };
 		1A1E198DE7F4EAE36BF2902B /* StudyReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyReminderService.swift; sourceTree = "<group>"; };
+		21F155FBE3138C11625C6546 /* InsightsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsViewController.swift; sourceTree = "<group>"; };
 		27B9C0278336BD004596A432 /* StudyStatusWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyStatusWidget.swift; sourceTree = "<group>"; };
 		28642A0E5702194F0DF7B3AD /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		29096BBEA211227493FBF7C2 /* FSRSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSRSTests.swift; sourceTree = "<group>"; };
@@ -161,6 +169,7 @@
 		37760F3BF153FDC5EF8BEFDC /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
 		3A1B5E6F6E6CA28D5F2AF965 /* SM2Scheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SM2Scheduler.swift; sourceTree = "<group>"; };
 		3ADB34A41A0F1A04AB626218 /* FSRSParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSRSParameters.swift; sourceTree = "<group>"; };
+		3D0AC9926A63B3FDA8D73A7D /* InsightsSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsSnapshot.swift; sourceTree = "<group>"; };
 		43063C25FD351D73CFC1A701 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		43FA8E96F1711FC7AACED0ED /* CardRepositoryDeckImportValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRepositoryDeckImportValidationTests.swift; sourceTree = "<group>"; };
 		4A99F301ADDA6EC2EBF192A3 /* DecksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecksViewModel.swift; sourceTree = "<group>"; };
@@ -172,6 +181,7 @@
 		56638997A259354801A20F6A /* SchedulerMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerMode.swift; sourceTree = "<group>"; };
 		5F4B8A7C995FFF7C9319638A /* StudySessionActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudySessionActivityAttributes.swift; sourceTree = "<group>"; };
 		67A3B3161796298FDD85D8F8 /* FlashForge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlashForge.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B5F9FB03DE35DA0AA3B766D /* TuistFonts+FlashForge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistFonts+FlashForge.swift"; sourceTree = "<group>"; };
 		700AFB3B4CDA3F2F8FD9176C /* GlassCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassCardView.swift; sourceTree = "<group>"; };
 		71BA7B4C4BA63469CF1D48A8 /* DecksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecksViewController.swift; sourceTree = "<group>"; };
 		75FE9F3EE624612B657115E5 /* FSRSScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSRSScheduler.swift; sourceTree = "<group>"; };
@@ -180,9 +190,13 @@
 		97589DD14631A8CE9AA6E1BE /* FlashForgeUITests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "FlashForgeUITests-Info.plist"; sourceTree = "<group>"; };
 		9F49AB32BDE15486A130D8A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A0459A3B99EC7E2F11EE1821 /* SharedResources.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SharedResources.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A426469F23A843D8429253CC /* AppDesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDesignSystem.swift; sourceTree = "<group>"; };
+		A74DEC9F990A30FDC156FC2F /* Manrope-OFL.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Manrope-OFL.txt"; sourceTree = "<group>"; };
 		AA6D6E2802EB6C1CDE0FB302 /* FlashForgeWidgetsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashForgeWidgetsBundle.swift; sourceTree = "<group>"; };
 		AAD0BD0EAECA19D54900CC25 /* StudyCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyCard.swift; sourceTree = "<group>"; };
 		AAFA33D699D6866CF70033EE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		B167CE80CDED54909EE16AA8 /* CardRepositoryInsightsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRepositoryInsightsTests.swift; sourceTree = "<group>"; };
+		B3685A8621F7E1E9AA14887D /* Manrope-Variable.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-Variable.ttf"; sourceTree = "<group>"; };
 		B95BA1C7163594BF5A62BC85 /* CardEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardEditorViewController.swift; sourceTree = "<group>"; };
 		BF22BD610B18E1204D750A34 /* FlashForgeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "FlashForgeTests-Info.plist"; sourceTree = "<group>"; };
 		BF2D145E0784B9C06BF5572D /* DeckDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckDetailViewModel.swift; sourceTree = "<group>"; };
@@ -256,6 +270,7 @@
 		0685E4CBCF218C4D6FBE1DDE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A426469F23A843D8429253CC /* AppDesignSystem.swift */,
 				700AFB3B4CDA3F2F8FD9176C /* GlassCardView.swift */,
 				DACBC97F9E67929393B532B2 /* ReviewHeatmapView.swift */,
 			);
@@ -267,6 +282,7 @@
 			children = (
 				E12AD161F2369835545014CA /* TuistAssets+FlashForge.swift */,
 				11D472DD1C95FE3A90AF4B0E /* TuistBundle+FlashForge.swift */,
+				6B5F9FB03DE35DA0AA3B766D /* TuistFonts+FlashForge.swift */,
 				10D314C8B2B1555CB18594B3 /* TuistPlists+FlashForge.swift */,
 			);
 			path = Sources;
@@ -295,6 +311,7 @@
 				CC6A1679DDC1AB1BE4D56A45 /* DeckDetailViewController.swift */,
 				71BA7B4C4BA63469CF1D48A8 /* DecksViewController.swift */,
 				28642A0E5702194F0DF7B3AD /* HomeViewController.swift */,
+				21F155FBE3138C11625C6546 /* InsightsViewController.swift */,
 				94841623693077402111778D /* MoreViewController.swift */,
 				8FBB59EE0B5DFD2C7459A881 /* OnboardingViewController.swift */,
 				D461C4D4DA11970FCB8ACF50 /* RootTabBarController.swift */,
@@ -311,6 +328,7 @@
 				37760F3BF153FDC5EF8BEFDC /* Deck.swift */,
 				F6F2218C1D27BFD8C0FA63EE /* FlashCard.swift */,
 				3ADB34A41A0F1A04AB626218 /* FSRSParameters.swift */,
+				3D0AC9926A63B3FDA8D73A7D /* InsightsSnapshot.swift */,
 				4FDF11FE5547DC426B932AFE /* PersistenceModels.swift */,
 				56638997A259354801A20F6A /* SchedulerMode.swift */,
 				AAD0BD0EAECA19D54900CC25 /* StudyCard.swift */,
@@ -321,6 +339,7 @@
 		3155B3FF019698EE5191A77E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E6622753EFEB3C22750C7D31 /* Fonts */,
 				09E6DD8EF45F2F59CCF78086 /* AppAssets.xcassets */,
 			);
 			path = Resources;
@@ -338,6 +357,7 @@
 			isa = PBXGroup;
 			children = (
 				43FA8E96F1711FC7AACED0ED /* CardRepositoryDeckImportValidationTests.swift */,
+				B167CE80CDED54909EE16AA8 /* CardRepositoryInsightsTests.swift */,
 				2EC48DFDD7AD6F63201B93A3 /* CardRepositoryPersistenceTests.swift */,
 				4CBFE84B93A991370BC52944 /* CardTextSanitizerTests.swift */,
 				29096BBEA211227493FBF7C2 /* FSRSTests.swift */,
@@ -400,6 +420,15 @@
 				FA23FB069A0C9939055C1301 /* FlashForgeUITests.swift */,
 			);
 			path = UITests;
+			sourceTree = "<group>";
+		};
+		E6622753EFEB3C22750C7D31 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				A74DEC9F990A30FDC156FC2F /* Manrope-OFL.txt */,
+				B3685A8621F7E1E9AA14887D /* Manrope-Variable.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		EF17BA3CDDDEF9DCBF3905E4 /* Project */ = {
@@ -599,6 +628,8 @@
 			files = (
 				0A5C88C991A027F7E15BBFB1 /* GoogleService-Info.plist in Resources */,
 				BB2580F3F4B570324CF2C3B8 /* AppAssets.xcassets in Resources */,
+				ECAC00B145D0EDBCA49E41A7 /* Manrope-OFL.txt in Resources */,
+				5DB829F0B8E5ACF3D2550F98 /* Manrope-Variable.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -668,6 +699,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9919DCF5C4954F99CC45480 /* CardRepositoryDeckImportValidationTests.swift in Sources */,
+				D9A735E87ADD911AF7B0BB25 /* CardRepositoryInsightsTests.swift in Sources */,
 				799053F61A2BE2684417ADD6 /* CardRepositoryPersistenceTests.swift in Sources */,
 				78E39DE8C508097318652D3F /* CardTextSanitizerTests.swift in Sources */,
 				8FFEFA9C00BFB71C8EE0DBDC /* FSRSTests.swift in Sources */,
@@ -691,6 +723,7 @@
 				67E01180A67B9AA704B1BD88 /* SceneDelegate.swift in Sources */,
 				8E690888A8F60B1813671647 /* TuistAssets+FlashForge.swift in Sources */,
 				678FC23F12E83EC2647B80F0 /* TuistBundle+FlashForge.swift in Sources */,
+				4F17B7D7447DB497B381404C /* TuistFonts+FlashForge.swift in Sources */,
 				4E29E5CB4CD3AA23FF84D096 /* TuistPlists+FlashForge.swift in Sources */,
 				CC9637242E4F66EAE551ABA3 /* AppNotification.swift in Sources */,
 				79D6478AB8480D7DDCDAF0A5 /* Card.swift in Sources */,
@@ -698,6 +731,7 @@
 				DDA55246A23CD41412EBBBA2 /* Deck.swift in Sources */,
 				E63DA69BBEA1639520763895 /* FSRSParameters.swift in Sources */,
 				BB9B1C01638FD190CBC90506 /* FlashCard.swift in Sources */,
+				5DC77675580A0D6485348F01 /* InsightsSnapshot.swift in Sources */,
 				3B5E45CCDC0D77F1E9445FAE /* PersistenceModels.swift in Sources */,
 				606266CFD934DE3628B3D8AB /* SchedulerMode.swift in Sources */,
 				751611C6D032D21CB655B467 /* StudyCard.swift in Sources */,
@@ -717,12 +751,14 @@
 				1C3EB5D4819DBDDB02534C2B /* DeckDetailViewController.swift in Sources */,
 				E019ABFBA476703C376B36B2 /* DecksViewController.swift in Sources */,
 				8BA6F5C1CD15803CCB7C9B2B /* HomeViewController.swift in Sources */,
+				72D2DA8A704EFAD749D18EE5 /* InsightsViewController.swift in Sources */,
 				384023342BDA62019C3E064D /* MoreViewController.swift in Sources */,
 				8F62D2671F75C0B70092317C /* OnboardingViewController.swift in Sources */,
 				51E93FB1205B0D8F6AFFE1BF /* RootTabBarController.swift in Sources */,
 				F56A7CC7966EEA138A7A63E7 /* DeckDetailViewModel.swift in Sources */,
 				34B1A5A4B783E17891789A85 /* DecksViewModel.swift in Sources */,
 				323ABBD9C7F69CAE3D0B57CC /* HomeViewModel.swift in Sources */,
+				E44E92330EF97CD435265C7E /* AppDesignSystem.swift in Sources */,
 				080B94E7283BC9E25E1762DF /* GlassCardView.swift in Sources */,
 				0BA521677B2D6A433E04FAAE /* ReviewHeatmapView.swift in Sources */,
 			);

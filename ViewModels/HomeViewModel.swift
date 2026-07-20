@@ -106,7 +106,7 @@ final class HomeViewModel {
                 currentCardID = nil
                 output.didUpdateDeckSummaries([], nil)
                 output.didUpdateQueueCounts(QueueDueCounts(learning: 0, review: 0))
-                output.didShowEmptyState("Create a deck and add your first card to begin.")
+                output.didShowEmptyState(FlashForgeStrings.Home.Empty.createDeck)
                 studyStatusService.updateStudyProgress(
                     counts: QueueDueCounts(learning: 0, review: 0),
                     completedCount: 0,
@@ -133,7 +133,7 @@ final class HomeViewModel {
         guard let selectedDeckID else {
             currentCardID = nil
             output.didUpdateQueueCounts(QueueDueCounts(learning: 0, review: 0))
-            output.didShowEmptyState("Please select a deck.")
+            output.didShowEmptyState(FlashForgeStrings.Home.Empty.selectDeck)
             studyStatusService.updateStudyProgress(
                 counts: QueueDueCounts(learning: 0, review: 0),
                 completedCount: 0,

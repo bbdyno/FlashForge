@@ -128,7 +128,7 @@ final class DeckDetailViewController: UIViewController {
         emptyLabel.textAlignment = .center
         emptyLabel.numberOfLines = 2
         emptyLabel.textColor = AppTheme.textSecondary
-        emptyLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        emptyLabel.font = AppTypography.font(size: 15, weight: .medium, textStyle: .body)
         emptyLabel.isHidden = true
         view.addSubview(emptyLabel)
 
@@ -354,15 +354,15 @@ private final class DeckCardCell: UITableViewCell {
         cardView.layer.cornerRadius = 14
         cardView.layer.cornerCurve = .continuous
 
-        frontLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        frontLabel.font = AppTypography.font(size: 16, weight: .semibold, textStyle: .headline)
         frontLabel.textColor = AppTheme.textPrimary
         frontLabel.numberOfLines = 1
 
-        backLabel.font = UIFont.systemFont(ofSize: 13, weight: .medium)
+        backLabel.font = AppTypography.font(size: 13, weight: .medium, textStyle: .footnote)
         backLabel.textColor = AppTheme.textSecondary
         backLabel.numberOfLines = 1
 
-        statePillLabel.font = UIFont.systemFont(ofSize: 11, weight: .bold)
+        statePillLabel.font = AppTypography.font(size: 11, weight: .bold, textStyle: .caption1)
         statePillLabel.textColor = AppTheme.textPrimary
         statePillLabel.backgroundColor = UIColor.white.withAlphaComponent(0.14)
         statePillLabel.layer.cornerRadius = 10
@@ -372,7 +372,7 @@ private final class DeckCardCell: UITableViewCell {
         statePillLabel.clipsToBounds = true
         statePillLabel.textAlignment = .center
 
-        dueLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        dueLabel.font = AppTypography.font(size: 12, weight: .medium, textStyle: .caption1)
         dueLabel.textColor = AppTheme.textSecondary
 
         chevronImageView.tintColor = AppTheme.textSecondary

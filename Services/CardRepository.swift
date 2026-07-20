@@ -581,6 +581,99 @@ actor CardRepository {
         return summary
     }
 
+    func insightsSnapshot(
+        activityDays: Int = 140,
+        forecastDays: Int = 7,
+        now: Date = .now
+    ) throws -> InsightsSnapshot {
+        try ensurePrepared()
+        let context = try makeContext()
+        let decks = try fetchDecks(context: context).map(domainDeck(from:))
+        let cards = decks.flatMap(\.cards)
+        let today = calendar.startOfDay(for: now)
+        let activityDayCount = max(7, activityDays)
+        let forecastDayCount = max(1, forecastDays)
+
+        var reviewCountByDate: [Date: Int] = [:]
+        cards.forEach { card in
+            card.schedule.reviewHistory.forEach { timestamp in
+                reviewCountByDate[calendar.startOfDay(for: timestamp), default: 0] += 1
+            }
+        }
+
+        for offset in 0..<activityDayCount {
+            guard let date = calendar.date(byAdding: .day, value: -offset, to: today) else {
+                continue
+            }
+            reviewCountByDate[date, default: 0] += 0
+        }
+
+        let lastSevenDaysStart = calendar.date(byAdding: .day, value: -6, to: today) ?? today
+        let reviewedLastSevenDaysCount = reviewCountByDate.reduce(into: 0) { result, item in
+            if item.key >= lastSevenDaysStart, item.key <= today {
+                result += item.value
+            }
+        }
+
+        let stateCounts = CardStateCounts(
+            new: cards.filter { $0.schedule.state == .new }.count,
+            learning: cards.filter { $0.schedule.state == .learning }.count,
+            review: cards.filter { $0.schedule.state == .review }.count,
+            relearning: cards.filter { $0.schedule.state == .relearning }.count
+        )
+
+        let dueForecast = (0..<forecastDayCount).compactMap { offset -> DueForecastDay? in
+            guard let dayStart = calendar.date(byAdding: .day, value: offset, to: today),
+                  let nextDayStart = calendar.date(byAdding: .day, value: 1, to: dayStart) else {
+                return nil
+            }
+
+            let count: Int
+            if offset == 0 {
+                count = cards.filter { $0.schedule.dueDate < nextDayStart }.count
+            } else {
+                count = cards.filter {
+                    $0.schedule.dueDate >= dayStart && $0.schedule.dueDate < nextDayStart
+                }.count
+            }
+            return DueForecastDay(date: dayStart, count: count)
+        }
+
+        let retentionValues = cards.compactMap { card -> Double? in
+            guard card.schedule.state == .review,
+                  let fsrsState = card.schedule.fsrsState,
+                  fsrsState.stability > 0 else {
+                return nil
+            }
+            let elapsed = max(0, now.timeIntervalSince(fsrsState.lastReview) / 86_400)
+            let retrievability = pow(1 + (19.0 / 81.0) * elapsed / fsrsState.stability, -0.5)
+            return min(1, max(0, retrievability))
+        }
+
+        let estimatedRetention: Double?
+        if retentionValues.isEmpty {
+            estimatedRetention = nil
+        } else {
+            estimatedRetention = retentionValues.reduce(0, +) / Double(retentionValues.count)
+        }
+
+        return InsightsSnapshot(
+            deckCount: decks.count,
+            cardCount: cards.count,
+            dueNowCount: cards.filter { $0.schedule.dueDate <= now }.count,
+            reviewedTodayCount: reviewCountByDate[today] ?? 0,
+            reviewedLastSevenDaysCount: reviewedLastSevenDaysCount,
+            currentStreakDays: currentStreakDays(
+                reviewCountByDate: reviewCountByDate,
+                today: today
+            ),
+            estimatedRetention: estimatedRetention,
+            stateCounts: stateCounts,
+            reviewCountByDate: reviewCountByDate,
+            dueForecast: dueForecast
+        )
+    }
+
     private func ensurePrepared() throws {
         guard !hasPrepared else {
             return
@@ -960,6 +1053,30 @@ actor CardRepository {
         case .new:
             return 3
         }
+    }
+
+    private func currentStreakDays(
+        reviewCountByDate: [Date: Int],
+        today: Date
+    ) -> Int {
+        var cursor = today
+        if (reviewCountByDate[cursor] ?? 0) == 0 {
+            guard let yesterday = calendar.date(byAdding: .day, value: -1, to: cursor),
+                  (reviewCountByDate[yesterday] ?? 0) > 0 else {
+                return 0
+            }
+            cursor = yesterday
+        }
+
+        var streak = 0
+        while (reviewCountByDate[cursor] ?? 0) > 0 {
+            streak += 1
+            guard let previousDay = calendar.date(byAdding: .day, value: -1, to: cursor) else {
+                break
+            }
+            cursor = previousDay
+        }
+        return streak
     }
 
     private func normalizedCardContent(front: String, back: String, note: String) throws -> (front: String, back: String, note: String) {

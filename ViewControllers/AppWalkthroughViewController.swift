@@ -109,10 +109,10 @@ final class AppWalkthroughViewController: UIViewController {
         primaryButton.addTarget(self, action: #selector(didTapPrimaryButton), for: .touchUpInside)
         primaryButton.layer.cornerRadius = 14
         primaryButton.layer.cornerCurve = .continuous
-        primaryButton.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 17) ?? .systemFont(ofSize: 17, weight: .bold)
+        primaryButton.titleLabel?.font = AppTypography.font(size: 17, weight: .bold, textStyle: .headline)
 
         skipButton.addTarget(self, action: #selector(didTapSkipButton), for: .touchUpInside)
-        skipButton.titleLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 14) ?? .systemFont(ofSize: 14, weight: .semibold)
+        skipButton.titleLabel?.font = AppTypography.font(size: 14, weight: .semibold, textStyle: .subheadline)
 
         pageViewController.view.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(22)
@@ -306,12 +306,12 @@ private final class WalkthroughPageContentViewController: UIViewController {
         symbolImageView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 56, weight: .bold)
 
         titleLabel.text = page.title
-        titleLabel.font = UIFont(name: "AvenirNext-Bold", size: 30) ?? .systemFont(ofSize: 30, weight: .bold)
+        titleLabel.font = AppTypography.font(size: 30, weight: .bold, textStyle: .title1)
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 2
 
         descriptionLabel.text = page.description
-        descriptionLabel.font = UIFont(name: "AvenirNext-Medium", size: 17) ?? .systemFont(ofSize: 17, weight: .medium)
+        descriptionLabel.font = AppTypography.font(size: 17, weight: .medium, textStyle: .body)
         descriptionLabel.textAlignment = .center
         descriptionLabel.numberOfLines = 0
 

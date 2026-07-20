@@ -72,12 +72,12 @@ final class OnboardingViewController: UIViewController {
         titleLabel.text = FlashForgeStrings.Onboarding.title
         titleLabel.textColor = AppTheme.textPrimary
         titleLabel.numberOfLines = 2
-        titleLabel.font = UIFont(name: "AvenirNext-Bold", size: 30) ?? .systemFont(ofSize: 30, weight: .bold)
+        titleLabel.font = AppTypography.font(size: 30, weight: .bold, textStyle: .title1)
 
         subtitleLabel.text = FlashForgeStrings.Onboarding.subtitle
         subtitleLabel.textColor = AppTheme.textSecondary
         subtitleLabel.numberOfLines = 2
-        subtitleLabel.font = UIFont(name: "AvenirNext-Medium", size: 16) ?? .systemFont(ofSize: 16, weight: .medium)
+        subtitleLabel.font = AppTypography.font(size: 16, weight: .medium, textStyle: .body)
 
         [deckField, frontField, backField, noteField].forEach { field in
             field.backgroundColor = AppTheme.cardBackground
@@ -106,7 +106,7 @@ final class OnboardingViewController: UIViewController {
 
         startButton.setTitle(FlashForgeStrings.Onboarding.start, for: .normal)
         startButton.setTitleColor(AppTheme.textPrimary, for: .normal)
-        startButton.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 16) ?? .systemFont(ofSize: 16, weight: .bold)
+        startButton.titleLabel?.font = AppTypography.font(size: 16, weight: .bold, textStyle: .headline)
         startButton.backgroundColor = AppTheme.buttonFill(from: AppTheme.accent, for: traitCollection)
         startButton.layer.cornerRadius = 14
         startButton.layer.cornerCurve = .continuous
@@ -114,7 +114,7 @@ final class OnboardingViewController: UIViewController {
 
         importButton.setTitle(FlashForgeStrings.Onboarding.`import`, for: .normal)
         importButton.setTitleColor(AppTheme.textPrimary, for: .normal)
-        importButton.titleLabel?.font = UIFont(name: "AvenirNext-DemiBold", size: 15) ?? .systemFont(ofSize: 15, weight: .semibold)
+        importButton.titleLabel?.font = AppTypography.font(size: 15, weight: .semibold, textStyle: .subheadline)
         importButton.backgroundColor = AppTheme.buttonFill(from: AppTheme.infoBlue, for: traitCollection)
         importButton.layer.cornerRadius = 12
         importButton.layer.cornerCurve = .continuous

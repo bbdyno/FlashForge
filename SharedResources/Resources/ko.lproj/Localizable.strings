@@ -1,8 +1,12 @@
-"home.title" = "FlashForge";
+"home.eyebrow" = "FLASHFORGE";
+"home.title" = "기억할 준비가 됐나요?";
+"home.empty.create_deck" = "첫 덱을 만들고 짧은 순간을 오래 남는 기억으로 바꿔 보세요.";
+"home.empty.select_deck" = "집중 복습을 시작할 덱을 선택하세요.";
 "home.deck.select" = "덱 선택";
 "home.due.none" = "오늘 복습할 카드가 없습니다";
 "home.reveal" = "정답 보기";
 "home.reload" = "새로고침";
+"home.open_library" = "라이브러리 열기";
 "home.due.summary" = "오늘 %d장 · 신규 %d / 복습 %d";
 "home.due.inline" = "전체 %d · 학습 %d · 복습 %d";
 "home.due.inline.compact" = "전체 %d · 학습 %d · 복습 %d";
@@ -19,7 +23,7 @@
 "home.grade.easy.title" = "쉬움";
 "home.grade.easy.subtitle" = "매우 쉬움";
 
-"more.title" = "더보기";
+"more.title" = "설정";
 "more.reminder.title" = "학습 리마인더";
 "more.reminder.description" = "원하는 시간에 매일 리마인더를 보냅니다.";
 "more.reminder.status.on" = "매일 %02d:%02d에 리마인더가 설정되었습니다.";
@@ -69,9 +73,10 @@
 "more.icloud.status.updated" = "마지막 동기화: %@";
 "more.icloud.status.error" = "iCloud 동기화 실패: %@";
 
-"decks.title" = "덱";
-"decks.empty" = "아직 덱이 없습니다.\n+ 버튼을 눌러 첫 덱을 만들어 보세요.";
+"decks.title" = "라이브러리";
+"decks.empty" = "라이브러리를 시작해 보세요.\n+ 버튼을 눌러 첫 덱을 만드세요.";
 "decks.row.subtitle" = "오늘 %d · 신규 %d / 복습 %d · 남음 %d";
+"decks.row.due_badge.value" = "%d장";
 "decks.add.title" = "덱 추가";
 "decks.add.message" = "덱 추가 방식을 선택하세요.";
 "decks.add.manual" = "직접 만들기";
@@ -88,9 +93,30 @@
 "decks.action.delete" = "삭제";
 
 "common.ok" = "확인";
-"tab.study" = "학습";
-"tab.decks" = "덱";
+"tab.study" = "오늘";
+"tab.decks" = "라이브러리";
 "tab.more" = "더보기";
+"tab.insights" = "분석";
+
+"insights.title" = "분석";
+"insights.summary" = "덱 %d개 · 카드 %d장 · 지금 복습 %d장";
+"insights.metric.reviewed_today" = "오늘 복습";
+"insights.metric.last_seven_days" = "최근 7일";
+"insights.hero.reviews" = "회 복습";
+"insights.metric.current_streak" = "연속 학습";
+"insights.metric.retention" = "예상 기억률";
+"insights.value.days" = "%d일";
+"insights.value.percent" = "%d%%";
+"insights.value.unavailable" = "—";
+"insights.activity.title" = "학습 활동";
+"insights.states.title" = "카드 진행 상태";
+"insights.states.new" = "신규";
+"insights.states.learning" = "학습";
+"insights.states.review" = "복습";
+"insights.states.relearning" = "재학습";
+"insights.forecast.title" = "7일 복습 예정";
+"insights.settings.accessibility" = "설정 열기";
+"insights.error" = "분석 정보를 불러오지 못했습니다.";
 
 "onboarding.title" = "FlashForge에 오신 것을 환영합니다";
 "onboarding.subtitle" = "첫 덱과 카드를 만들고 바로 학습을 시작하세요.";

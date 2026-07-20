@@ -35,13 +35,13 @@
 - **풍부한 카드 콘텐츠:** 질문, 답변, 메모를 각 카드에 기록할 수 있습니다.
 - **스마트 큐:** 학습(Learning)과 복습(Review) 큐를 분리하여 집중 학습이 가능합니다.
 
-### 🎨 Glassmorphism UI (글래스모피즘 UI)
-- **Glass Card Design:** Stunning frosted-glass card interface with blur effects and translucency.
-- **Smooth Animations:** Card reveal with cross-dissolve transitions and 3D perspective drag.
-- **Dark Gradient Theme:** Modern dark UI with ambient glow effects.
-- **글래스 카드 디자인:** 블러 효과와 투명감이 돋보이는 아름다운 유리 질감 카드.
-- **부드러운 애니메이션:** 크로스 디졸브 전환과 3D 원근 드래그 효과.
-- **다크 그라데이션 테마:** 앰비언트 글로우가 적용된 모던 다크 UI.
+### 🎨 Calm Forge UI (Calm Forge 디자인)
+- **Focused Hierarchy:** Today, Library, and Insights each lead with one clear action or conclusion.
+- **Warm Premium Palette:** Paper, ink, ember, and teal colors create a calm study environment in light and dark mode.
+- **Purposeful Motion:** Card reveal and drag interactions provide feedback without distracting from recall.
+- **집중형 정보 구조:** Today, Library, Insights가 각각 하나의 핵심 행동과 결론을 먼저 보여줍니다.
+- **차분한 프리미엄 팔레트:** 종이, 잉크, 불씨, 청록색을 활용해 라이트·다크 모드 모두에서 편안한 학습 환경을 제공합니다.
+- **절제된 모션:** 카드 전환과 드래그 피드백은 유지하되 기억 회상을 방해하지 않습니다.
 
 ### 📊 Study Analytics (학습 분석)
 - **140-Day Heatmap:** Visual review activity calendar to track study consistency.
@@ -96,6 +96,7 @@
 | **Architecture** | MVVM |
 | **Local Storage** | SwiftData |
 | **Layout** | SnapKit |
+| **Typography** | Manrope (SIL Open Font License 1.1) |
 | **Concurrency** | Swift Concurrency (async/await, Actor) |
 | **Scheduling** | SM-2 (Anki) + FSRS Hybrid |
 | **Project Management** | Tuist |
@@ -156,12 +157,18 @@ FlashForge/
 ├── ViewControllers/        # Study, Decks, DeckDetail, CardEditor, More, Onboarding
 ├── Views/                  # GlassCardView, ReviewHeatmapView
 ├── Resources/
-│   ├── en.lproj/           # English
-│   └── ko.lproj/           # 한국어
+│   ├── Fonts/              # Manrope + OFL license
+│   └── AppAssets.xcassets/ # App icon and colors
 ├── Tests/                  # Unit tests
 ├── Tuist/                  # Tuist project configuration
 └── Makefile
 ```
+
+## Third-party fonts
+
+FlashForge bundles **Manrope** from the official Google Fonts repository. It is
+distributed under the SIL Open Font License 1.1; the full license is included at
+`Resources/Fonts/Manrope-OFL.txt`.
 
 <br>
 

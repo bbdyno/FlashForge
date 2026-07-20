@@ -116,12 +116,12 @@ final class CardEditorViewController: UIViewController {
         configureCard(noteCard)
 
         introTitleLabel.text = FlashForgeStrings.CardEditor.Intro.title
-        introTitleLabel.font = UIFont(name: "AvenirNext-Bold", size: 20) ?? .systemFont(ofSize: 20, weight: .bold)
+        introTitleLabel.font = AppTypography.font(size: 20, weight: .bold, textStyle: .title3)
         introTitleLabel.textColor = AppTheme.textPrimary
 
         introDescriptionLabel.text = FlashForgeStrings.CardEditor.Intro.description
         introDescriptionLabel.numberOfLines = 0
-        introDescriptionLabel.font = UIFont(name: "AvenirNext-Medium", size: 14) ?? .systemFont(ofSize: 14, weight: .medium)
+        introDescriptionLabel.font = AppTypography.font(size: 14, weight: .medium, textStyle: .subheadline)
         introDescriptionLabel.textColor = AppTheme.textSecondary
 
         backTextView.font = UIFont.systemFont(ofSize: 16)
@@ -293,7 +293,7 @@ final class CardEditorViewController: UIViewController {
     private func makeSectionHeader(title: String) -> UILabel {
         let label = UILabel()
         label.text = title
-        label.font = UIFont(name: "AvenirNext-DemiBold", size: 14) ?? .systemFont(ofSize: 14, weight: .semibold)
+        label.font = AppTypography.font(size: 14, weight: .semibold, textStyle: .subheadline)
         label.textColor = AppTheme.textSecondary
         return label
     }
