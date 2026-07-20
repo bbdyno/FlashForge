@@ -4,49 +4,50 @@ const translations = {
     nav_support: "Support",
     nav_store: "App Store",
     lang_label: "Language",
-    hero_badge: "Launching on the App Store",
-    hero_title_1: "Study Smarter",
-    hero_title_2: "with science-backed reviews.",
-    hero_sub: "FlashForge combines SM-2 and FSRS to optimize spaced repetition and help you retain more with less effort.",
-    hero_desc: "100% offline-first. Your study data stays on your device.",
-    cta_appstore: "View on App Store",
-    cta_github: "View on GitHub",
-    cta_support: "Support Development",
-    trust_1: "SM-2 + FSRS Hybrid",
-    trust_2: "Offline-First Privacy",
-    trust_3: "Deck/Review Analytics",
-    mock_sub: "Smart flashcards for focused study",
-    mock_stat_1: "Due cards",
-    mock_stat_2: "Review streak",
-    mock_stat_3: "Retention",
-    features_title: "Everything for deliberate flashcard learning",
-    features_sub: "From algorithm-driven scheduling to smooth review flows, built for daily learners.",
-    f1_title: "Hybrid Scheduling",
-    f1_desc: "Combine proven SM-2 with modern FSRS for adaptive, retention-focused intervals.",
-    f2_title: "Deck & Card Management",
-    f2_desc: "Create unlimited decks, rich cards, and organize your content for focused sessions.",
-    f3_title: "4-Grade Feedback",
-    f3_desc: "Rate each review as Again, Hard, Good, or Easy for precise next scheduling.",
-    f4_title: "Review Analytics",
-    f4_desc: "Track progress with due summaries, card states, and long-range heatmap insights.",
-    f5_title: "Backup & Restore",
-    f5_desc: "Export and import your decks and review history as portable backup files.",
-    f6_title: "Privacy by Design",
-    f6_desc: "No account, no server sync by default, and no forced data collection.",
-    flow_title: "How FlashForge fits your study routine",
+    hero_badge: "AVAILABLE ON THE APP STORE",
+    hero_title_1: "Remember",
+    hero_title_2: "what matters.",
+    hero_sub: "Flashcards that adapt to your memory — not the other way around.",
+    hero_desc: "No account. No clutter. Just focused reviews, clear progress, and optional private iCloud sync.",
+    cta_appstore: "Get FlashForge",
+    cta_github: "View source",
+    trust_1: "Adaptive SM-2 + FSRS",
+    trust_2: "Offline-first",
+    trust_3: "Private by default",
+    preview_eyebrow: "TODAY",
+    preview_title: "Today's review",
+    preview_deck: "All decks",
+    preview_state: "12 cards ready",
+    preview_label: "REVIEW",
+    preview_card_title: "What do you want to remember?",
+    preview_card_note: "Focus on one idea. FlashForge handles the timing.",
+    preview_action: "Reveal answer",
+    preview_insights: "LAST 7 DAYS",
+    preview_reviews: "reviews completed",
+    features_label: "DESIGNED FOR DAILY RECALL",
+    features_title: "A calmer way to learn for the long term.",
+    features_sub: "Everything you need to build a reliable study habit. Nothing you do not.",
+    f1_title: "Adaptive review timing",
+    f1_desc: "SM-2 and FSRS work together to schedule each card around your actual memory.",
+    f4_title: "Insights you can use",
+    f4_desc: "See review activity, retention, streaks, card progress, and what is due next.",
+    f6_title: "Your data stays yours",
+    f6_desc: "Study without an account. Keep data on-device, use private iCloud sync, or export a backup.",
+    flow_label: "A SIMPLE RHYTHM",
+    flow_title: "Build once. Review at the right time.",
     flow_1_title: "Create",
-    flow_1_desc: "Build decks and cards for topics you actually want to remember.",
+    flow_1_desc: "Turn ideas, vocabulary, or notes into focused cards.",
     flow_2_title: "Review",
-    flow_2_desc: "Use the hybrid scheduler and 4-grade feedback to optimize intervals.",
+    flow_2_desc: "Rate your recall and let the scheduler adjust the next interval.",
     flow_3_title: "Retain",
-    flow_3_desc: "Track streaks and heatmaps to maintain consistency over the long term.",
-    support_title: "Support the developer",
-    support_sub: "FlashForge is built independently. Your support helps keep updates shipping.",
-    support_coffee_title: "Buy Me a Coffee",
-    support_coffee_btn: "Open Support Page",
-    support_crypto_title: "Crypto Donation",
+    flow_3_desc: "Use clear trends to stay consistent without chasing a perfect streak.",
+    support_label: "INDEPENDENTLY BUILT",
+    support_title: "Support FlashForge",
+    support_sub: "Your support helps fund thoughtful updates, maintenance, and long-term availability.",
+    support_coffee_btn: "Buy me a coffee",
     copy_btn: "Copy",
     copy_done: "Copied to clipboard",
+    copy_failed: "Copy failed",
     footer_rights: "© 2026 FlashForge. All rights reserved.",
     footer_contact: "Contact",
     footer_terms: "Terms",
@@ -55,51 +56,52 @@ const translations = {
   ko: {
     nav_features: "주요 기능",
     nav_support: "후원",
-    nav_store: "앱스토어",
+    nav_store: "App Store",
     lang_label: "언어",
-    hero_badge: "App Store 출시 예정",
-    hero_title_1: "더 똑똑하게 학습하고",
+    hero_badge: "APP STORE에서 이용 가능",
+    hero_title_1: "중요한 것을",
     hero_title_2: "더 오래 기억하세요.",
-    hero_sub: "FlashForge는 SM-2와 FSRS를 결합해 간격 반복을 최적화하고, 더 적은 노력으로 더 높은 기억 유지율을 돕습니다.",
-    hero_desc: "100% 오프라인 우선. 학습 데이터는 기기에 저장됩니다.",
-    cta_appstore: "App Store 보기",
-    cta_github: "GitHub 보기",
-    cta_support: "개발 후원하기",
-    trust_1: "SM-2 + FSRS 하이브리드",
-    trust_2: "오프라인 우선 프라이버시",
-    trust_3: "덱/복습 분석",
-    mock_sub: "집중 학습을 위한 스마트 플래시카드",
-    mock_stat_1: "복습 대기 카드",
-    mock_stat_2: "연속 학습",
-    mock_stat_3: "기억 유지율",
-    features_title: "의도적인 플래시카드 학습에 필요한 모든 기능",
-    features_sub: "알고리즘 기반 스케줄링부터 부드러운 복습 흐름까지, 매일 학습하는 사용자를 위해 설계했습니다.",
-    f1_title: "하이브리드 스케줄링",
-    f1_desc: "검증된 SM-2와 최신 FSRS를 결합해 적응형 복습 간격을 제공합니다.",
-    f2_title: "덱/카드 관리",
-    f2_desc: "무제한 덱과 풍부한 카드 구성을 통해 학습 콘텐츠를 체계적으로 관리합니다.",
-    f3_title: "4단계 피드백",
-    f3_desc: "Again, Hard, Good, Easy 평가로 다음 복습 시점을 정밀하게 계산합니다.",
-    f4_title: "복습 분석",
-    f4_desc: "복습 요약, 카드 상태, 장기 히트맵으로 학습 진도를 확인하세요.",
-    f5_title: "백업/복원",
-    f5_desc: "덱과 복습 기록을 내보내고 가져와 손쉽게 데이터 이관이 가능합니다.",
-    f6_title: "프라이버시 중심 설계",
-    f6_desc: "기본은 무계정/무서버이며, 강제 데이터 수집이 없습니다.",
-    flow_title: "FlashForge 학습 루틴",
+    hero_sub: "사용자의 기억에 맞춰 복습 시점을 조정하는 플래시카드.",
+    hero_desc: "계정도, 복잡함도 없습니다. 집중 복습과 명확한 분석, 선택적인 비공개 iCloud 동기화만 담았습니다.",
+    cta_appstore: "FlashForge 받기",
+    cta_github: "소스 보기",
+    trust_1: "SM-2 + FSRS 적응형 복습",
+    trust_2: "오프라인 우선",
+    trust_3: "기본부터 비공개",
+    preview_eyebrow: "TODAY",
+    preview_title: "오늘의 복습",
+    preview_deck: "모든 덱",
+    preview_state: "복습 카드 12개",
+    preview_label: "REVIEW",
+    preview_card_title: "무엇을 오래 기억하고 싶나요?",
+    preview_card_note: "하나의 아이디어에 집중하세요. 다음 복습 시점은 FlashForge가 계산합니다.",
+    preview_action: "정답 보기",
+    preview_insights: "최근 7일",
+    preview_reviews: "완료한 복습",
+    features_label: "매일의 기억을 위한 설계",
+    features_title: "오래 배우기 위한 더 차분한 방법.",
+    features_sub: "꾸준한 학습 습관에 필요한 기능만 담았습니다.",
+    f1_title: "기억에 맞는 복습 시점",
+    f1_desc: "SM-2와 FSRS가 함께 작동해 실제 기억 상태에 맞춰 카드별 복습 간격을 계산합니다.",
+    f4_title: "쓸모 있는 학습 분석",
+    f4_desc: "복습 활동, 기억 유지율, 연속 학습, 카드 진도와 다음 복습량을 확인하세요.",
+    f6_title: "내 데이터는 나에게",
+    f6_desc: "계정 없이 학습하고, 기기에 저장하며, 비공개 iCloud 동기화나 백업 파일을 선택할 수 있습니다.",
+    flow_label: "단순한 학습 흐름",
+    flow_title: "한 번 만들고, 필요한 순간에 복습하세요.",
     flow_1_title: "생성",
-    flow_1_desc: "기억하고 싶은 주제로 덱과 카드를 만드세요.",
+    flow_1_desc: "아이디어, 단어, 메모를 집중할 수 있는 카드로 만드세요.",
     flow_2_title: "복습",
-    flow_2_desc: "하이브리드 스케줄러와 4단계 피드백으로 간격을 최적화하세요.",
+    flow_2_desc: "기억 정도를 평가하면 스케줄러가 다음 복습 간격을 조정합니다.",
     flow_3_title: "유지",
-    flow_3_desc: "스트릭과 히트맵으로 꾸준한 장기 학습을 유지하세요.",
-    support_title: "개발자 후원",
-    support_sub: "FlashForge는 1인 개발 프로젝트입니다. 후원이 업데이트 지속에 큰 도움이 됩니다.",
-    support_coffee_title: "커피로 후원하기",
-    support_coffee_btn: "후원 페이지 열기",
-    support_crypto_title: "암호화폐 후원",
+    flow_3_desc: "완벽한 스트릭보다 명확한 추세를 보며 꾸준함을 유지하세요.",
+    support_label: "독립적으로 개발",
+    support_title: "FlashForge 후원",
+    support_sub: "후원은 신중한 업데이트와 유지보수, 장기적인 서비스 지속에 사용됩니다.",
+    support_coffee_btn: "커피로 후원하기",
     copy_btn: "복사",
     copy_done: "클립보드에 복사되었습니다",
+    copy_failed: "복사하지 못했습니다",
     footer_rights: "© 2026 FlashForge. All rights reserved.",
     footer_contact: "문의",
     footer_terms: "이용약관",
@@ -120,11 +122,11 @@ function applyLanguage(lang) {
   currentLang = translations[lang] ? lang : "en";
   document.documentElement.lang = currentLang;
 
-  document.querySelectorAll("[data-i18n]").forEach((el) => {
-    const key = el.getAttribute("data-i18n");
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    const key = element.getAttribute("data-i18n");
     const value = t(key);
     if (value) {
-      el.textContent = value;
+      element.textContent = value;
     }
   });
 
@@ -181,30 +183,10 @@ function setupCopyButtons() {
         await copyText(target.textContent.trim());
         showToast(t("copy_done"));
       } catch (error) {
-        showToast("Copy failed");
+        showToast(t("copy_failed"));
       }
     });
   });
-}
-
-function setupRevealAnimations() {
-  const revealTargets = document.querySelectorAll(".reveal");
-  if (revealTargets.length === 0) {
-    return;
-  }
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-        }
-      });
-    },
-    { threshold: 0.12 }
-  );
-
-  revealTargets.forEach((el) => observer.observe(el));
 }
 
 function setupLanguageSelector() {
@@ -224,4 +206,3 @@ function setupLanguageSelector() {
 
 setupLanguageSelector();
 setupCopyButtons();
-setupRevealAnimations();
