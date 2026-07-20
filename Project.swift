@@ -109,7 +109,7 @@ let project = Project(
                       exit 0
                     fi
 
-                    CRASHLYTICS_RUN_SCRIPT="${BUILD_DIR%Build/*}SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run"
+                    CRASHLYTICS_RUN_SCRIPT="${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run"
                     if [ ! -f "${CRASHLYTICS_RUN_SCRIPT}" ]; then
                       echo "warning: Crashlytics run script not found at ${CRASHLYTICS_RUN_SCRIPT}. Skipping dSYM upload."
                       exit 0
@@ -117,7 +117,15 @@ let project = Project(
 
                     "${CRASHLYTICS_RUN_SCRIPT}"
                     """,
-                    name: "Firebase Crashlytics Upload dSYMs"
+                    name: "Firebase Crashlytics Upload dSYMs",
+                    inputPaths: [
+                        "${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+                        "${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+                        "${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+                        "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleService-Info.plist",
+                        "${TARGET_BUILD_DIR}/${EXECUTABLE_PATH}"
+                    ],
+                    basedOnDependencyAnalysis: false
                 )
             ],
             dependencies: [
@@ -138,7 +146,8 @@ let project = Project(
                     "CODE_SIGN_STYLE": .string("Manual"),
                     "CODE_SIGN_IDENTITY[sdk=iphoneos*]": .string("iOS Development"),
                     "PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]": .string(provisioningProfileName),
-                    "PROVISIONING_PROFILE[sdk=iphoneos*]": .string(provisioningProfileUUID)
+                    "PROVISIONING_PROFILE[sdk=iphoneos*]": .string(provisioningProfileUUID),
+                    "OTHER_LDFLAGS": .string("$(inherited) -ObjC")
                 ]
             )
         ),

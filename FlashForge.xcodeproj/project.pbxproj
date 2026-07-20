@@ -663,12 +663,18 @@
 		};
 		6DBE03C9AA451EBB2BF3B056 /* Firebase Crashlytics Upload dSYMs */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleService-Info.plist",
+				"${TARGET_BUILD_DIR}/${EXECUTABLE_PATH}",
 			);
 			name = "Firebase Crashlytics Upload dSYMs";
 			outputFileListPaths = (
@@ -677,7 +683,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" != \"Release\" ]; then\n  exit 0\nfi\n\nGOOGLE_SERVICE_INFO=\"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleService-Info.plist\"\nif [ ! -f \"${GOOGLE_SERVICE_INFO}\" ]; then\n  echo \"warning: GoogleService-Info.plist not found. Skipping Crashlytics dSYM upload.\"\n  exit 0\nfi\n\nCRASHLYTICS_RUN_SCRIPT=\"${BUILD_DIR%Build/*}SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\nif [ ! -f \"${CRASHLYTICS_RUN_SCRIPT}\" ]; then\n  echo \"warning: Crashlytics run script not found at ${CRASHLYTICS_RUN_SCRIPT}. Skipping dSYM upload.\"\n  exit 0\nfi\n\n\"${CRASHLYTICS_RUN_SCRIPT}\"";
+			shellScript = "if [ \"${CONFIGURATION}\" != \"Release\" ]; then\n  exit 0\nfi\n\nGOOGLE_SERVICE_INFO=\"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleService-Info.plist\"\nif [ ! -f \"${GOOGLE_SERVICE_INFO}\" ]; then\n  echo \"warning: GoogleService-Info.plist not found. Skipping Crashlytics dSYM upload.\"\n  exit 0\nfi\n\nCRASHLYTICS_RUN_SCRIPT=\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\nif [ ! -f \"${CRASHLYTICS_RUN_SCRIPT}\" ]; then\n  echo \"warning: Crashlytics run script not found at ${CRASHLYTICS_RUN_SCRIPT}. Skipping dSYM upload.\"\n  exit 0\nfi\n\n\"${CRASHLYTICS_RUN_SCRIPT}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -808,7 +814,7 @@
 				);
 				MARKETING_VERSION = 1.1.0;
 				OTHER_LDFLAGS = (
-					"$(inherited)",
+					"$(inherited) -ObjC",
 					"-L$(DT_TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bbdyno.app.flashFlow;
@@ -913,7 +919,7 @@
 				);
 				MARKETING_VERSION = 1.1.0;
 				OTHER_LDFLAGS = (
-					"$(inherited)",
+					"$(inherited) -ObjC",
 					"-L$(DT_TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bbdyno.app.flashFlow;
