@@ -6,9 +6,10 @@ let widgetBundleId = "com.bbdyno.app.flashFlow.widget"
 let testBundleId = "com.bbdyno.app.flashFlowTests"
 let uiTestBundleId = "com.bbdyno.app.flashFlowUITests"
 let developmentTeamId = "M79H9K226Y"
-let provisioningProfileName = "FlashFlow App Provisioning"
-let provisioningProfileUUID = "a23ea4e6-f546-448f-b9e4-ee6f5ca37ad2"
-let widgetProvisioningProfileName = "FlashFlow WidgetExtension Provisioning"
+let provisioningProfileName = "FlashForge iOS Distribution Provisioning"
+let provisioningProfileUUID = "b8ee75c0-3572-4788-ad21-a75a79de7904"
+let widgetProvisioningProfileName = "FlashForge Widget Distribution Provisioning"
+let widgetProvisioningProfileUUID = "24312bb1-92d0-419e-bb25-064eb8dd7643"
 let marketingVersion = "1.1.0"
 let buildNumber = "2026.07.20.1"
 
@@ -143,11 +144,24 @@ let project = Project(
                     "CURRENT_PROJECT_VERSION": .string(buildNumber),
                     "CODE_SIGN_ENTITLEMENTS": .string("Config/FlashForge.entitlements"),
                     "DEVELOPMENT_TEAM": .string(developmentTeamId),
-                    "CODE_SIGN_STYLE": .string("Manual"),
-                    "CODE_SIGN_IDENTITY[sdk=iphoneos*]": .string("iOS Development"),
-                    "PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]": .string(provisioningProfileName),
-                    "PROVISIONING_PROFILE[sdk=iphoneos*]": .string(provisioningProfileUUID),
                     "OTHER_LDFLAGS": .string("$(inherited) -ObjC")
+                ],
+                configurations: [
+                    .debug(
+                        name: "Debug",
+                        settings: [
+                            "CODE_SIGN_STYLE": .string("Automatic")
+                        ]
+                    ),
+                    .release(
+                        name: "Release",
+                        settings: [
+                            "CODE_SIGN_STYLE": .string("Manual"),
+                            "CODE_SIGN_IDENTITY[sdk=iphoneos*]": .string("iPhone Distribution"),
+                            "PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]": .string(provisioningProfileName),
+                            "PROVISIONING_PROFILE[sdk=iphoneos*]": .string(provisioningProfileUUID)
+                        ]
+                    )
                 ]
             )
         ),
@@ -185,10 +199,24 @@ let project = Project(
                     "MARKETING_VERSION": .string(marketingVersion),
                     "CURRENT_PROJECT_VERSION": .string(buildNumber),
                     "CODE_SIGN_ENTITLEMENTS": .string("Config/FlashForgeWidgets.entitlements"),
-                    "DEVELOPMENT_TEAM": .string(developmentTeamId),
-                    "CODE_SIGN_STYLE": .string("Manual"),
-                    "CODE_SIGN_IDENTITY[sdk=iphoneos*]": .string("iOS Development"),
-                    "PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]": .string(widgetProvisioningProfileName)
+                    "DEVELOPMENT_TEAM": .string(developmentTeamId)
+                ],
+                configurations: [
+                    .debug(
+                        name: "Debug",
+                        settings: [
+                            "CODE_SIGN_STYLE": .string("Automatic")
+                        ]
+                    ),
+                    .release(
+                        name: "Release",
+                        settings: [
+                            "CODE_SIGN_STYLE": .string("Manual"),
+                            "CODE_SIGN_IDENTITY[sdk=iphoneos*]": .string("iPhone Distribution"),
+                            "PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]": .string(widgetProvisioningProfileName),
+                            "PROVISIONING_PROFILE[sdk=iphoneos*]": .string(widgetProvisioningProfileUUID)
+                        ]
+                    )
                 ]
             )
         ),

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -816,7 +816,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Config/FlashForge.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2026.07.20.1;
 				DEVELOPMENT_TEAM = M79H9K226Y;
@@ -829,19 +829,19 @@
 				);
 				MARKETING_VERSION = 1.1.0;
 				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
+					"$(inherited) -ObjC",
 					"-L$(DT_TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bbdyno.app.flashFlow;
 				PRODUCT_NAME = FlashForge;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "a23ea4e6-f546-448f-b9e4-ee6f5ca37ad2";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = complete;
@@ -918,8 +918,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Config/FlashForge.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2026.07.20.1;
 				DEVELOPMENT_TEAM = M79H9K226Y;
 				ENABLE_PREVIEWS = YES;
@@ -931,14 +932,13 @@
 				);
 				MARKETING_VERSION = 1.1.0;
 				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
+					"$(inherited) -ObjC",
 					"-L$(DT_TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bbdyno.app.flashFlow;
 				PRODUCT_NAME = FlashForge;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "a23ea4e6-f546-448f-b9e4-ee6f5ca37ad2";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "b8ee75c0-3572-4788-ad21-a75a79de7904";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "FlashForge iOS Distribution Provisioning";
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
@@ -1004,7 +1004,10 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = complete;
@@ -1037,7 +1040,10 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = complete;
@@ -1108,8 +1114,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Config/FlashForgeWidgets.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2026.07.20.1;
 				DEVELOPMENT_TEAM = M79H9K226Y;
 				INFOPLIST_FILE = "Derived/InfoPlists/FlashForgeWidgets-Info.plist";
@@ -1126,7 +1133,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bbdyno.app.flashFlow.widget;
 				PRODUCT_NAME = FlashForgeWidgets;
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "24312bb1-92d0-419e-bb25-064eb8dd7643";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "FlashForge Widget Distribution Provisioning";
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
@@ -1142,7 +1150,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Config/FlashForgeWidgets.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2026.07.20.1;
 				DEVELOPMENT_TEAM = M79H9K226Y;
@@ -1160,12 +1168,14 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bbdyno.app.flashFlow.widget;
 				PRODUCT_NAME = FlashForgeWidgets;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = complete;
