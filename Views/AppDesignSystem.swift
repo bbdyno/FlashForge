@@ -12,65 +12,65 @@ enum AppTheme {
         }
     }
 
-    // Calm Forge: warm paper, deep ink, and a single ember action color.
+    // Editorial Mono: quiet neutral surfaces with one restrained indigo accent.
     static let backgroundTop = dynamic(
-        UIColor(red: 0.97, green: 0.95, blue: 0.91, alpha: 1),
-        UIColor(red: 0.055, green: 0.075, blue: 0.11, alpha: 1)
+        UIColor(red: 0.965, green: 0.965, blue: 0.945, alpha: 1),
+        UIColor(red: 0.065, green: 0.069, blue: 0.078, alpha: 1)
     )
     static let backgroundMid = dynamic(
-        UIColor(red: 0.96, green: 0.94, blue: 0.90, alpha: 1),
-        UIColor(red: 0.065, green: 0.09, blue: 0.13, alpha: 1)
+        UIColor(red: 0.965, green: 0.965, blue: 0.945, alpha: 1),
+        UIColor(red: 0.065, green: 0.069, blue: 0.078, alpha: 1)
     )
     static let backgroundBottom = dynamic(
-        UIColor(red: 0.94, green: 0.92, blue: 0.88, alpha: 1),
-        UIColor(red: 0.075, green: 0.105, blue: 0.15, alpha: 1)
+        UIColor(red: 0.965, green: 0.965, blue: 0.945, alpha: 1),
+        UIColor(red: 0.065, green: 0.069, blue: 0.078, alpha: 1)
     )
 
     static let cardBackground = dynamic(
-        UIColor(red: 1.00, green: 0.995, blue: 0.98, alpha: 1),
-        UIColor(red: 0.09, green: 0.125, blue: 0.18, alpha: 1)
+        UIColor(red: 1.00, green: 1.00, blue: 0.995, alpha: 1),
+        UIColor(red: 0.105, green: 0.110, blue: 0.122, alpha: 1)
     )
     static let cardBorder = dynamic(
-        UIColor(red: 0.83, green: 0.80, blue: 0.74, alpha: 1),
-        UIColor(red: 0.23, green: 0.28, blue: 0.36, alpha: 1)
+        UIColor(red: 0.875, green: 0.875, blue: 0.845, alpha: 1),
+        UIColor(red: 0.175, green: 0.183, blue: 0.202, alpha: 1)
     )
     static let textPrimary = dynamic(
-        UIColor(red: 0.075, green: 0.105, blue: 0.17, alpha: 1),
-        UIColor(red: 0.965, green: 0.95, blue: 0.91, alpha: 1)
+        UIColor(red: 0.09, green: 0.095, blue: 0.105, alpha: 1),
+        UIColor(red: 0.955, green: 0.955, blue: 0.935, alpha: 1)
     )
     static let textSecondary = dynamic(
-        UIColor(red: 0.36, green: 0.38, blue: 0.41, alpha: 1),
-        UIColor(red: 0.68, green: 0.71, blue: 0.76, alpha: 1)
+        UIColor(red: 0.40, green: 0.405, blue: 0.43, alpha: 1),
+        UIColor(red: 0.61, green: 0.62, blue: 0.65, alpha: 1)
     )
 
     static let ink = dynamic(
-        UIColor(red: 0.075, green: 0.12, blue: 0.22, alpha: 1),
-        UIColor(red: 0.965, green: 0.95, blue: 0.91, alpha: 1)
+        UIColor(red: 0.09, green: 0.095, blue: 0.105, alpha: 1),
+        UIColor(red: 0.955, green: 0.955, blue: 0.935, alpha: 1)
     )
     static let inkSurface = dynamic(
-        UIColor(red: 0.075, green: 0.12, blue: 0.22, alpha: 1),
-        UIColor(red: 0.12, green: 0.17, blue: 0.25, alpha: 1)
+        UIColor(red: 0.09, green: 0.095, blue: 0.105, alpha: 1),
+        UIColor(red: 0.17, green: 0.18, blue: 0.20, alpha: 1)
     )
-    static let onInk = UIColor(red: 0.985, green: 0.97, blue: 0.93, alpha: 1)
+    static let onInk = UIColor(red: 0.985, green: 0.985, blue: 0.97, alpha: 1)
     static let accent = dynamic(
-        UIColor(red: 0.95, green: 0.29, blue: 0.18, alpha: 1),
-        UIColor(red: 1.00, green: 0.40, blue: 0.28, alpha: 1)
+        UIColor(red: 0.35, green: 0.31, blue: 0.82, alpha: 1),
+        UIColor(red: 0.50, green: 0.47, blue: 0.95, alpha: 1)
     )
     static let accentSoft = dynamic(
-        UIColor(red: 1.00, green: 0.88, blue: 0.82, alpha: 1),
-        UIColor(red: 0.28, green: 0.13, blue: 0.12, alpha: 1)
+        UIColor(red: 0.925, green: 0.915, blue: 0.985, alpha: 1),
+        UIColor(red: 0.16, green: 0.145, blue: 0.265, alpha: 1)
     )
     static let accentTeal = dynamic(
-        UIColor(red: 0.05, green: 0.55, blue: 0.54, alpha: 1),
-        UIColor(red: 0.25, green: 0.76, blue: 0.73, alpha: 1)
+        UIColor(red: 0.20, green: 0.46, blue: 0.38, alpha: 1),
+        UIColor(red: 0.39, green: 0.71, blue: 0.60, alpha: 1)
     )
     static let tealSoft = dynamic(
-        UIColor(red: 0.83, green: 0.94, blue: 0.91, alpha: 1),
-        UIColor(red: 0.08, green: 0.25, blue: 0.26, alpha: 1)
+        UIColor(red: 0.925, green: 0.930, blue: 0.915, alpha: 1),
+        UIColor(red: 0.135, green: 0.145, blue: 0.150, alpha: 1)
     )
     static let infoBlue = dynamic(
-        UIColor(red: 0.22, green: 0.38, blue: 0.68, alpha: 1),
-        UIColor(red: 0.45, green: 0.61, blue: 0.92, alpha: 1)
+        UIColor(red: 0.35, green: 0.31, blue: 0.82, alpha: 1),
+        UIColor(red: 0.50, green: 0.47, blue: 0.95, alpha: 1)
     )
     static let dangerRed = dynamic(.systemRed, UIColor(red: 1, green: 0.38, blue: 0.37, alpha: 1))
 
@@ -92,25 +92,25 @@ enum AppTheme {
     )
 
     static let inputBackground = dynamic(
-        UIColor(red: 0.92, green: 0.90, blue: 0.85, alpha: 1),
-        UIColor(red: 0.12, green: 0.16, blue: 0.22, alpha: 1)
+        UIColor(red: 0.925, green: 0.925, blue: 0.90, alpha: 1),
+        UIColor(red: 0.135, green: 0.14, blue: 0.155, alpha: 1)
     )
     static let glassBorder = cardBorder
     static let glassFill = cardBackground
     static let glassHighlightStart = dynamic(
-        UIColor.white.withAlphaComponent(0.72),
-        UIColor.white.withAlphaComponent(0.06)
+        UIColor.white.withAlphaComponent(0.18),
+        UIColor.white.withAlphaComponent(0.025)
     )
     static let glassHighlightMid = UIColor.clear
     static let badgeBackground = accentSoft
     static let badgeBorder = accent.withAlphaComponent(0.28)
     static let shadowColor = dynamic(
-        UIColor(red: 0.08, green: 0.10, blue: 0.13, alpha: 0.18),
-        UIColor.black.withAlphaComponent(0.45)
+        UIColor(red: 0.08, green: 0.08, blue: 0.10, alpha: 0.12),
+        UIColor.black.withAlphaComponent(0.30)
     )
     static let tabBarBackground = dynamic(
-        UIColor(red: 0.99, green: 0.98, blue: 0.95, alpha: 0.96),
-        UIColor(red: 0.07, green: 0.095, blue: 0.14, alpha: 0.96)
+        UIColor(red: 0.985, green: 0.985, blue: 0.97, alpha: 0.98),
+        UIColor(red: 0.075, green: 0.079, blue: 0.089, alpha: 0.98)
     )
 
     static func resolved(_ color: UIColor, for traitCollection: UITraitCollection) -> UIColor {
@@ -129,21 +129,21 @@ enum AppTheme {
             resolved(backgroundBottom, for: traits).cgColor
         ]
         layer.locations = [0, 0.48, 1]
-        layer.startPoint = CGPoint(x: 0.08, y: 0)
-        layer.endPoint = CGPoint(x: 0.92, y: 1)
+        layer.startPoint = CGPoint(x: 0, y: 0)
+        layer.endPoint = CGPoint(x: 0, y: 1)
     }
 
-    static func styleSurface(_ view: UIView, radius: CGFloat = 20, shadow: Bool = false) {
+    static func styleSurface(_ view: UIView, radius: CGFloat = 18, shadow: Bool = false) {
         view.backgroundColor = cardBackground
         view.layer.cornerRadius = radius
         view.layer.cornerCurve = .continuous
-        view.layer.borderWidth = 1
+        view.layer.borderWidth = 0.5
         view.layer.borderColor = resolved(cardBorder, for: view.traitCollection).cgColor
         guard shadow else { return }
         view.layer.shadowColor = resolved(shadowColor, for: view.traitCollection).cgColor
-        view.layer.shadowOpacity = 0.12
-        view.layer.shadowRadius = 22
-        view.layer.shadowOffset = CGSize(width: 0, height: 12)
+        view.layer.shadowOpacity = 0.08
+        view.layer.shadowRadius = 16
+        view.layer.shadowOffset = CGSize(width: 0, height: 8)
     }
 
     @MainActor
@@ -151,14 +151,14 @@ enum AppTheme {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = backgroundTop
-        appearance.shadowColor = .clear
+        appearance.shadowColor = cardBorder.withAlphaComponent(0.45)
         appearance.titleTextAttributes = [
             .foregroundColor: textPrimary,
             .font: AppTypography.font(size: 17, weight: .semibold, textStyle: .headline)
         ]
         appearance.largeTitleTextAttributes = [
             .foregroundColor: textPrimary,
-            .font: AppTypography.font(size: 34, weight: .bold, textStyle: .largeTitle)
+            .font: AppTypography.font(size: 32, weight: .bold, textStyle: .largeTitle)
         ]
         return appearance
     }

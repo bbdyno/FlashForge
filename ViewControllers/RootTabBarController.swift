@@ -60,8 +60,8 @@ final class RootTabBarController: UITabBarController {
         studyNavigation.navigationBar.isHidden = true
         studyNavigation.tabBarItem = UITabBarItem(
             title: FlashForgeStrings.Tab.study,
-            image: UIImage(systemName: "sparkles"),
-            selectedImage: UIImage(systemName: "sparkles")
+            image: UIImage(systemName: "square.grid.2x2"),
+            selectedImage: UIImage(systemName: "square.grid.2x2.fill")
         )
         studyNavigation.tabBarItem.accessibilityIdentifier = "tab.study"
 
@@ -80,8 +80,8 @@ final class RootTabBarController: UITabBarController {
         insightsNavigation.navigationBar.prefersLargeTitles = true
         insightsNavigation.tabBarItem = UITabBarItem(
             title: FlashForgeStrings.Tab.insights,
-            image: UIImage(systemName: "chart.xyaxis.line"),
-            selectedImage: UIImage(systemName: "chart.xyaxis.line")
+            image: UIImage(systemName: "chart.bar"),
+            selectedImage: UIImage(systemName: "chart.bar.fill")
         )
         insightsNavigation.tabBarItem.accessibilityIdentifier = "tab.insights"
 
@@ -113,7 +113,7 @@ final class RootTabBarController: UITabBarController {
             appearance.normal.iconColor = AppTheme.textSecondary
             appearance.normal.titleTextAttributes = [
                 .foregroundColor: AppTheme.textSecondary,
-                .font: AppTypography.font(size: 10, weight: .semibold, textStyle: .caption2)
+                .font: AppTypography.font(size: 10, weight: .medium, textStyle: .caption2)
             ]
             appearance.selected.iconColor = AppTheme.accent
             appearance.selected.titleTextAttributes = [
