@@ -22,27 +22,6 @@ private enum WidgetText {
     }
 }
 
-private enum WidgetPalette {
-    static let backgroundTop = Color(red: 0.04, green: 0.10, blue: 0.19)
-    static let backgroundMid = Color(red: 0.08, green: 0.18, blue: 0.33)
-    static let backgroundBottom = Color(red: 0.03, green: 0.07, blue: 0.14)
-    static let highlight = Color(red: 0.35, green: 0.84, blue: 0.95).opacity(0.16)
-    static let glow = Color(red: 0.22, green: 0.80, blue: 0.87).opacity(0.22)
-    static let cardBorder = Color.white.opacity(0.16)
-
-    static let textPrimary = Color.white.opacity(0.96)
-    static let textSecondary = Color.white.opacity(0.74)
-
-    static let track = Color.white.opacity(0.18)
-    static let accentStart = Color(red: 0.28, green: 0.74, blue: 0.86)
-    static let accentEnd = Color(red: 0.22, green: 0.80, blue: 0.87)
-
-    static let surface = Color.white.opacity(0.08)
-    static let surfaceBorder = Color.white.opacity(0.13)
-    static let badgeFill = Color.white.opacity(0.11)
-    static let badgeBorder = Color.white.opacity(0.14)
-}
-
 private func syncStatusText(for state: StudySyncState) -> String {
     switch state {
     case .idle:
@@ -130,34 +109,10 @@ private struct StudyStatusProvider: TimelineProvider {
 private struct WidgetCardBackground: View {
     var body: some View {
         ContainerRelativeShape()
-            .fill(
-                LinearGradient(
-                    colors: [
-                        WidgetPalette.backgroundTop,
-                        WidgetPalette.backgroundMid,
-                        WidgetPalette.backgroundBottom
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-            )
-            .overlay(alignment: .topTrailing) {
-                Circle()
-                    .fill(WidgetPalette.highlight)
-                    .frame(width: 120, height: 120)
-                    .blur(radius: 24)
-                    .offset(x: 34, y: -36)
-            }
-            .overlay(alignment: .bottomLeading) {
-                Circle()
-                    .fill(WidgetPalette.glow)
-                    .frame(width: 96, height: 96)
-                    .blur(radius: 20)
-                    .offset(x: -28, y: 32)
-            }
+            .fill(WidgetTheme.background)
             .overlay(
                 ContainerRelativeShape()
-                    .stroke(WidgetPalette.cardBorder, lineWidth: 0.8)
+                    .stroke(WidgetTheme.border, lineWidth: 0.5)
             )
     }
 }
@@ -176,15 +131,9 @@ private struct WidgetProgressBar: View {
             let minimumVisibleWidth = min(proxy.size.width, 8)
             ZStack(alignment: .leading) {
                 Capsule()
-                    .fill(WidgetPalette.track)
+                    .fill(WidgetTheme.border)
                 Capsule()
-                    .fill(
-                        LinearGradient(
-                            colors: [WidgetPalette.accentStart, WidgetPalette.accentEnd],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
+                    .fill(WidgetTheme.accent)
                     .frame(width: clampedValue == 0 ? 0 : max(minimumVisibleWidth, fillWidth))
             }
         }
@@ -192,57 +141,159 @@ private struct WidgetProgressBar: View {
     }
 }
 
-private struct WidgetMetricCard: View {
+private struct WidgetStatusBadge: View {
+    let state: StudySyncState
+
+    var body: some View {
+        Label(syncStatusText(for: state), systemImage: syncStatusIcon(for: state))
+            .font(WidgetTypography.font(size: 9, weight: .semibold, relativeTo: .caption2))
+            .lineLimit(1)
+            .minimumScaleFactor(0.75)
+            .foregroundStyle(WidgetTheme.accent)
+            .padding(.horizontal, 7)
+            .padding(.vertical, 4)
+            .background(WidgetTheme.accentSoft, in: Capsule())
+    }
+}
+
+private struct WidgetHeader: View {
+    let deckTitle: String
+    let syncState: StudySyncState
+    let compact: Bool
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 8) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(WidgetText.title)
+                    .font(WidgetTypography.font(size: 9, weight: .semibold, relativeTo: .caption2))
+                    .foregroundStyle(WidgetTheme.textSecondary)
+                    .lineLimit(1)
+                Text(deckTitle)
+                    .font(
+                        WidgetTypography.font(
+                            size: compact ? 12 : 14,
+                            weight: .semibold,
+                            relativeTo: compact ? .footnote : .subheadline
+                        )
+                    )
+                    .foregroundStyle(WidgetTheme.textPrimary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
+            }
+
+            Spacer(minLength: 4)
+
+            if !compact {
+                WidgetStatusBadge(state: syncState)
+            }
+        }
+    }
+}
+
+private struct WidgetProgressSummary: View {
+    let progressText: String
+    let completedGoalText: String
+    let progressValue: Double
+    let compact: Bool
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: compact ? 5 : 7) {
+            HStack(alignment: .lastTextBaseline, spacing: 7) {
+                Text(progressText)
+                    .font(
+                        WidgetTypography.font(
+                            size: compact ? 28 : 32,
+                            weight: .bold,
+                            relativeTo: .largeTitle
+                        )
+                    )
+                    .monospacedDigit()
+                    .foregroundStyle(WidgetTheme.textPrimary)
+                Text(completedGoalText)
+                    .font(
+                        WidgetTypography.font(
+                            size: compact ? 9 : 10,
+                            weight: .semibold,
+                            relativeTo: .caption
+                        )
+                    )
+                    .monospacedDigit()
+                    .foregroundStyle(WidgetTheme.textSecondary)
+                Spacer(minLength: 0)
+            }
+
+            WidgetProgressBar(value: progressValue, height: compact ? 4 : 5)
+        }
+    }
+}
+
+private struct WidgetMetric: View {
     let title: String
     let value: Int
     let systemImage: String
     let compact: Bool
 
     var body: some View {
-        Group {
-            if compact {
-                HStack(spacing: 5) {
-                    Label(title, systemImage: systemImage)
-                        .font(.caption2)
-                        .fontWeight(.medium)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.75)
-                        .foregroundStyle(WidgetPalette.textSecondary)
-                    Spacer(minLength: 4)
-                    Text(value.formatted())
-                        .font(.callout)
-                        .fontWeight(.semibold)
-                        .monospacedDigit()
-                        .foregroundStyle(WidgetPalette.textPrimary)
-                }
-            } else {
-                VStack(alignment: .leading, spacing: 4) {
-                    Label(title, systemImage: systemImage)
-                        .font(.caption2)
-                        .fontWeight(.medium)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.75)
-                        .foregroundStyle(WidgetPalette.textSecondary)
-                    Text(value.formatted())
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .monospacedDigit()
-                        .foregroundStyle(WidgetPalette.textPrimary)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
+        HStack(spacing: compact ? 6 : 8) {
+            Image(systemName: systemImage)
+                .font(.system(size: compact ? 10 : 11, weight: .semibold))
+                .foregroundStyle(WidgetTheme.accent)
+                .frame(width: compact ? 14 : 16)
+
+            VStack(alignment: .leading, spacing: 1) {
+                Text(title)
+                    .font(
+                        WidgetTypography.font(
+                            size: compact ? 8 : 9,
+                            weight: .medium,
+                            relativeTo: .caption2
+                        )
+                    )
+                    .foregroundStyle(WidgetTheme.textSecondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.72)
+                Text(value.formatted())
+                    .font(
+                        WidgetTypography.font(
+                            size: compact ? 15 : 17,
+                            weight: .bold,
+                            relativeTo: .headline
+                        )
+                    )
+                    .monospacedDigit()
+                    .foregroundStyle(WidgetTheme.textPrimary)
             }
         }
-        .padding(.horizontal, compact ? 7 : 10)
-        .padding(.vertical, compact ? 4 : 7)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            RoundedRectangle(cornerRadius: compact ? 9 : 12, style: .continuous)
-                .fill(WidgetPalette.surface)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: compact ? 9 : 12, style: .continuous)
-                .stroke(WidgetPalette.surfaceBorder, lineWidth: 0.8)
-        )
+    }
+}
+
+private struct WidgetMetricStrip: View {
+    let completedCount: Int
+    let remainingCount: Int
+    let compact: Bool
+
+    var body: some View {
+        HStack(spacing: compact ? 8 : 12) {
+            WidgetMetric(
+                title: WidgetText.completed,
+                value: completedCount,
+                systemImage: "checkmark",
+                compact: compact
+            )
+
+            Rectangle()
+                .fill(WidgetTheme.border)
+                .frame(width: 0.5)
+
+            WidgetMetric(
+                title: WidgetText.remaining,
+                value: remainingCount,
+                systemImage: "clock",
+                compact: compact
+            )
+        }
+        .padding(.top, compact ? 1 : 2)
     }
 }
 
@@ -271,91 +322,25 @@ private struct StudyStatusCard: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: compact ? 7 : 9) {
-            header
-            progressSection
-            HStack(spacing: compact ? 5 : 7) {
-                WidgetMetricCard(
-                    title: WidgetText.completed,
-                    value: snapshot.completedCount,
-                    systemImage: "checkmark.circle.fill",
-                    compact: compact
-                )
-                WidgetMetricCard(
-                    title: WidgetText.remaining,
-                    value: snapshot.remainingCount,
-                    systemImage: "clock.fill",
-                    compact: compact
-                )
-            }
+        VStack(alignment: .leading, spacing: compact ? 9 : 10) {
+            WidgetHeader(deckTitle: deckTitle, syncState: snapshot.syncState, compact: compact)
+            WidgetProgressSummary(
+                progressText: progressText,
+                completedGoalText: completedGoalText,
+                progressValue: progressValue,
+                compact: compact
+            )
+            WidgetMetricStrip(
+                completedCount: snapshot.completedCount,
+                remainingCount: snapshot.remainingCount,
+                compact: compact
+            )
         }
-        .padding(.horizontal, compact ? 10 : 12)
-        .padding(.vertical, compact ? 12 : 13)
+        .padding(compact ? 14 : 16)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .containerBackground(for: .widget) {
             WidgetCardBackground()
         }
-    }
-
-    private var header: some View {
-        HStack(alignment: .top, spacing: 7) {
-            VStack(alignment: .leading, spacing: compact ? 1 : 2) {
-                Text(WidgetText.title)
-                    .font(.caption2)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(WidgetPalette.textSecondary)
-                    .lineLimit(1)
-                Text(deckTitle)
-                    .font(compact ? .footnote : .subheadline)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(WidgetPalette.textPrimary)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.75)
-            }
-
-            Spacer(minLength: 6)
-
-            if !compact {
-                syncBadge
-            }
-        }
-    }
-
-    private var progressSection: some View {
-        VStack(alignment: .leading, spacing: compact ? 4 : 5) {
-            HStack(alignment: .lastTextBaseline, spacing: 6) {
-                Text(progressText)
-                    .font(.system(size: compact ? 20 : 26, weight: .bold, design: .rounded))
-                    .monospacedDigit()
-                    .foregroundStyle(WidgetPalette.textPrimary)
-                Text(completedGoalText)
-                    .font(compact ? .caption2 : .caption)
-                    .fontWeight(.semibold)
-                    .monospacedDigit()
-                    .foregroundStyle(WidgetPalette.textSecondary)
-                Spacer(minLength: 0)
-            }
-            WidgetProgressBar(value: progressValue, height: compact ? 4 : 5)
-        }
-    }
-
-    private var syncBadge: some View {
-        Label(syncStatusText(for: snapshot.syncState), systemImage: syncStatusIcon(for: snapshot.syncState))
-            .font(.caption2)
-            .fontWeight(.medium)
-            .lineLimit(1)
-            .minimumScaleFactor(0.7)
-            .foregroundStyle(WidgetPalette.textSecondary)
-            .padding(.horizontal, 5)
-            .padding(.vertical, 2)
-            .background(
-                Capsule()
-                    .fill(WidgetPalette.badgeFill)
-            )
-            .overlay(
-                Capsule()
-                    .stroke(WidgetPalette.badgeBorder, lineWidth: 0.8)
-            )
     }
 }
 
@@ -365,7 +350,6 @@ struct StudyStatusWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: StudyStatusProvider()) { entry in
             StudyStatusWidgetView(entry: entry)
-                .environment(\.colorScheme, .dark)
         }
         .configurationDisplayName(WidgetText.localized("widget.config.title", fallback: "Today's Study"))
         .description(
@@ -375,6 +359,7 @@ struct StudyStatusWidget: Widget {
             )
         )
         .supportedFamilies([.systemSmall, .systemMedium, .accessoryRectangular])
+        .contentMarginsDisabled()
     }
 }
 
@@ -389,15 +374,18 @@ private struct StudyStatusWidgetView: View {
         case .systemMedium:
             StudyStatusCard(snapshot: entry.snapshot, compact: false)
         case .accessoryRectangular:
-            accessoryView
+            StudyAccessoryStatusView(snapshot: entry.snapshot)
         default:
             StudyStatusCard(snapshot: entry.snapshot, compact: true)
         }
     }
+}
 
-    private var accessoryView: some View {
-        let snapshot = entry.snapshot
-        return VStack(alignment: .leading, spacing: 6) {
+private struct StudyAccessoryStatusView: View {
+    let snapshot: StudyStatusSnapshot
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
             HStack(alignment: .firstTextBaseline, spacing: 6) {
                 Text(snapshot.selectedDeckTitle.isEmpty ? WidgetText.noDeck : snapshot.selectedDeckTitle)
                     .font(.caption)
@@ -419,7 +407,7 @@ private struct StudyStatusWidgetView: View {
 
             ProgressView(value: snapshot.progress)
                 .progressViewStyle(.linear)
-                .tint(WidgetPalette.accentEnd)
+                .tint(WidgetTheme.accent)
 
             HStack(spacing: 10) {
                 Label(snapshot.completedCount.formatted(), systemImage: "checkmark.circle.fill")
@@ -451,94 +439,46 @@ struct StudySessionLiveActivityWidget: Widget {
                 HStack(alignment: .top, spacing: 10) {
                     VStack(alignment: .leading, spacing: 3) {
                         Text(context.state.remainingCount == 0 ? WidgetText.complete : WidgetText.liveLabel)
-                            .font(.caption)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(WidgetPalette.textSecondary)
+                            .font(WidgetTypography.font(size: 10, weight: .semibold, relativeTo: .caption))
+                            .foregroundStyle(WidgetTheme.textSecondary)
                         Text(context.state.deckTitle)
-                            .font(.headline)
-                            .fontWeight(.semibold)
+                            .font(WidgetTypography.font(size: 17, weight: .semibold, relativeTo: .headline))
                             .lineLimit(1)
                             .minimumScaleFactor(0.75)
-                            .foregroundStyle(WidgetPalette.textPrimary)
+                            .foregroundStyle(WidgetTheme.textPrimary)
                     }
                     Spacer(minLength: 8)
-                    Label(
-                        syncStatusText(for: context.state.syncState),
-                        systemImage: syncStatusIcon(for: context.state.syncState)
-                    )
-                        .font(.caption2)
-                        .fontWeight(.medium)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.72)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(WidgetPalette.badgeFill, in: Capsule())
-                        .overlay(
-                            Capsule()
-                                .stroke(WidgetPalette.badgeBorder, lineWidth: 0.8)
-                        )
-                        .foregroundStyle(WidgetPalette.textSecondary)
+                    WidgetStatusBadge(state: context.state.syncState)
                 }
 
                 HStack(alignment: .lastTextBaseline, spacing: 8) {
                     Text(ratioText)
-                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                        .font(WidgetTypography.font(size: 32, weight: .bold, relativeTo: .largeTitle))
                         .monospacedDigit()
-                        .foregroundStyle(WidgetPalette.textPrimary)
+                        .foregroundStyle(WidgetTheme.textPrimary)
                     Text(
                         completionText(
                             completedCount: context.state.completedCount,
                             goalCount: context.state.goalCount
                         )
                     )
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
+                    .font(WidgetTypography.font(size: 13, weight: .semibold, relativeTo: .subheadline))
                     .monospacedDigit()
-                    .foregroundStyle(WidgetPalette.textSecondary)
+                    .foregroundStyle(WidgetTheme.textSecondary)
                 }
 
                 WidgetProgressBar(value: ratio, height: 7)
 
-                HStack(spacing: 8) {
-                    WidgetMetricCard(
-                        title: WidgetText.completed,
-                        value: context.state.completedCount,
-                        systemImage: "checkmark.circle.fill",
-                        compact: true
-                    )
-                    WidgetMetricCard(
-                        title: WidgetText.remaining,
-                        value: context.state.remainingCount,
-                        systemImage: "clock.fill",
-                        compact: true
-                    )
-                }
+                WidgetMetricStrip(
+                    completedCount: context.state.completedCount,
+                    remainingCount: context.state.remainingCount,
+                    compact: false
+                )
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 14)
-            .background(
-                RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                WidgetPalette.backgroundTop,
-                                WidgetPalette.backgroundMid,
-                                WidgetPalette.backgroundBottom
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 18, style: .continuous)
-                            .stroke(WidgetPalette.cardBorder, lineWidth: 0.8)
-                    )
-            )
-            .padding(.horizontal, 4)
-            .padding(.vertical, 8)
-            .environment(\.colorScheme, .dark)
-            .activityBackgroundTint(WidgetPalette.backgroundTop)
-            .activitySystemActionForegroundColor(WidgetPalette.textPrimary)
+            .activityBackgroundTint(WidgetTheme.background)
+            .activitySystemActionForegroundColor(WidgetTheme.textPrimary)
         } dynamicIsland: { context in
             let ratio = progressRatio(
                 completedCount: context.state.completedCount,
@@ -593,7 +533,7 @@ struct StudySessionLiveActivityWidget: Widget {
                 DynamicIslandExpandedRegion(.bottom) {
                     VStack(alignment: .leading, spacing: 6) {
                         ProgressView(value: ratio)
-                            .tint(WidgetPalette.accentEnd)
+                            .tint(WidgetTheme.accent)
                         HStack {
                             Text(ratioText)
                                 .font(.caption)
@@ -632,7 +572,7 @@ struct StudySessionLiveActivityWidget: Widget {
                     .font(.caption2)
                     .monospacedDigit()
             }
-            .keylineTint(WidgetPalette.accentEnd)
+            .keylineTint(WidgetTheme.accent)
         }
     }
 

@@ -162,6 +162,9 @@ let project = Project(
                 "CFBundleVersion": .string(buildNumber),
                 "CFBundleDevelopmentRegion": .string("en"),
                 "CFBundleDisplayName": .string("FlashForge Widgets"),
+                "UIAppFonts": .array([
+                    .string("Manrope-Variable.ttf")
+                ]),
                 "NSExtension": .dictionary([
                     "NSExtensionPointIdentifier": .string("com.apple.widgetkit-extension")
                 ])
@@ -169,6 +172,9 @@ let project = Project(
             sources: [
                 "WidgetExtension/**/*.swift",
                 "Shared/**/*.swift"
+            ],
+            resources: [
+                "Resources/Fonts/**"
             ],
             dependencies: [
                 .project(target: "SharedResources", path: "SharedResources")
