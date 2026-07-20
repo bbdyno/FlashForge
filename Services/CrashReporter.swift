@@ -94,7 +94,7 @@ enum CrashReporter {
                 "call_stack": callStack
             ]
             let error = NSError(
-                domain: "com.bbdyno.flashflow.uncaught-exception",
+                domain: "com.bbdyno.flashforge.uncaught-exception",
                 code: 1,
                 userInfo: userInfo
             )
