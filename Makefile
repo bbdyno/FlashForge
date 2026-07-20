@@ -1,9 +1,12 @@
-# Make targets for Tuist workflow
-.PHONY: install clean
+# Make targets for the pinned Tuist workflow
+.PHONY: bootstrap install clean
 
-install:
-	tuist install
-	tuist generate
+bootstrap:
+	mise install
+
+install: bootstrap
+	mise exec -- tuist install
+	mise exec -- tuist generate --no-open
 
 clean:
-	tuist clean
+	mise exec -- tuist clean

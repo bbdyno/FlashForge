@@ -9,8 +9,8 @@ let developmentTeamId = "M79H9K226Y"
 let provisioningProfileName = "FlashFlow App Provisioning"
 let provisioningProfileUUID = "a23ea4e6-f546-448f-b9e4-ee6f5ca37ad2"
 let widgetProvisioningProfileName = "FlashFlow WidgetExtension Provisioning"
-let marketingVersion = "1.0.1"
-let buildNumber = "2026.02.18.1"
+let marketingVersion = "1.1.0"
+let buildNumber = "2026.07.20.1"
 
 let project = Project(
     name: appName,
@@ -41,6 +41,7 @@ let project = Project(
             infoPlist: .extendingDefault(with: [
                 "CFBundleShortVersionString": .string(marketingVersion),
                 "CFBundleVersion": .string(buildNumber),
+                "CFBundleDisplayName": .string("FlashForge"),
                 "CFBundleDevelopmentRegion": .string("en"),
                 "UILaunchScreen": .dictionary([:]),
                 "NSSupportsLiveActivities": .boolean(true),
@@ -143,7 +144,7 @@ let project = Project(
                 "CFBundleShortVersionString": .string(marketingVersion),
                 "CFBundleVersion": .string(buildNumber),
                 "CFBundleDevelopmentRegion": .string("en"),
-                "CFBundleDisplayName": .string("FlashFlow Widgets"),
+                "CFBundleDisplayName": .string("FlashForge Widgets"),
                 "NSExtension": .dictionary([
                     "NSExtensionPointIdentifier": .string("com.apple.widgetkit-extension")
                 ])

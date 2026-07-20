@@ -108,15 +108,12 @@ This project uses [Tuist](https://tuist.io) for project generation and dependenc
 
 ### Prerequisites
 - Xcode 16.0 or later
-- [Tuist](https://docs.tuist.io/guides/quick-start/install-tuist/) installed
+- [mise](https://mise.jdx.dev/) installed
 
 ### Installation
 
 ```bash
-# Install Tuist (if not already installed)
-curl -Ls https://install.tuist.io | bash
-
-# Generate project and install dependencies
+# Install the pinned Tuist version, dependencies, and generated project
 make install
 ```
 
