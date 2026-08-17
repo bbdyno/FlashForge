@@ -22,6 +22,11 @@ final class MoreViewController: UIViewController {
     private let contentView = UIView()
     private let stackView = UIStackView()
 
+    private let appearanceCard = UIView()
+    private let appearanceTitleLabel = UILabel()
+    private let appearanceDescriptionLabel = UILabel()
+    private let appearanceControl = UISegmentedControl()
+
     private let reminderCard = UIView()
     private let reminderTitleLabel = UILabel()
     private let reminderDescriptionLabel = UILabel()
@@ -128,6 +133,7 @@ final class MoreViewController: UIViewController {
         stackView.axis = .vertical
         stackView.spacing = 12
 
+        configureAppearanceCard()
         configureReminderCard()
         configurePrivacyCard()
         configureDataCard()
@@ -137,6 +143,7 @@ final class MoreViewController: UIViewController {
         configureAppInfoCard()
         configureSyncToast()
 
+        stackView.addArrangedSubview(appearanceCard)
         stackView.addArrangedSubview(reminderCard)
         stackView.addArrangedSubview(privacyCard)
         stackView.addArrangedSubview(dataCard)
@@ -170,6 +177,51 @@ final class MoreViewController: UIViewController {
         applyPrivacySettings()
     }
 
+    private func configureAppearanceCard() {
+        appearanceCard.layer.cornerRadius = 18
+        appearanceCard.layer.cornerCurve = .continuous
+        appearanceCard.layer.borderWidth = 1.0 / UIScreen.main.scale
+
+        appearanceTitleLabel.text = FlashForgeStrings.More.Appearance.title
+        appearanceTitleLabel.font = AppTypography.font(size: 19, weight: .bold, textStyle: .headline)
+        appearanceTitleLabel.adjustsFontForContentSizeCategory = true
+
+        appearanceDescriptionLabel.text = FlashForgeStrings.More.Appearance.description
+        appearanceDescriptionLabel.font = AppTypography.font(size: 14, weight: .medium, textStyle: .subheadline)
+        appearanceDescriptionLabel.adjustsFontForContentSizeCategory = true
+        appearanceDescriptionLabel.numberOfLines = 0
+
+        [
+            FlashForgeStrings.More.Appearance.Option.system,
+            FlashForgeStrings.More.Appearance.Option.light,
+            FlashForgeStrings.More.Appearance.Option.dark
+        ].enumerated().forEach { index, title in
+            appearanceControl.insertSegment(withTitle: title, at: index, animated: false)
+        }
+        appearanceControl.selectedSegmentIndex = AppAppearance.allCases.firstIndex(
+            of: AppAppearanceService.shared.current
+        ) ?? 0
+        appearanceControl.accessibilityIdentifier = "more.appearanceControl"
+        appearanceControl.addTarget(self, action: #selector(didChangeAppearance(_:)), for: .valueChanged)
+
+        let stack = UIStackView(arrangedSubviews: [
+            appearanceTitleLabel,
+            appearanceDescriptionLabel,
+            appearanceControl
+        ])
+        stack.axis = .vertical
+        stack.spacing = 12
+        stack.setCustomSpacing(6, after: appearanceTitleLabel)
+
+        appearanceCard.addSubview(stack)
+        stack.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(16)
+        }
+        appearanceControl.snp.makeConstraints { make in
+            make.height.equalTo(38)
+        }
+    }
+
     private func configureReminderCard() {
         reminderCard.backgroundColor = AppTheme.cardBackground
         reminderCard.layer.borderWidth = 0.5
@@ -191,7 +243,7 @@ final class MoreViewController: UIViewController {
 
         reminderTimePicker.datePickerMode = .time
         reminderTimePicker.preferredDatePickerStyle = .compact
-        reminderTimePicker.locale = Locale(identifier: "en_US_POSIX")
+        reminderTimePicker.locale = .autoupdatingCurrent
         reminderTimePicker.tintColor = AppTheme.accent
         reminderTimePicker.backgroundColor = AppTheme.inputBackground
         reminderTimePicker.layer.cornerRadius = 10
@@ -557,6 +609,27 @@ final class MoreViewController: UIViewController {
 
         let cardBorderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
 
+        appearanceCard.backgroundColor = AppTheme.cardBackground
+        appearanceCard.layer.borderColor = cardBorderColor
+        appearanceTitleLabel.textColor = AppTheme.textPrimary
+        appearanceDescriptionLabel.textColor = AppTheme.textSecondary
+        appearanceControl.backgroundColor = AppTheme.inputBackground
+        appearanceControl.selectedSegmentTintColor = AppTheme.accent
+        appearanceControl.setTitleTextAttributes(
+            [
+                .foregroundColor: AppTheme.textSecondary,
+                .font: AppTypography.font(size: 13, weight: .semibold, textStyle: .subheadline)
+            ],
+            for: .normal
+        )
+        appearanceControl.setTitleTextAttributes(
+            [
+                .foregroundColor: UIColor.white,
+                .font: AppTypography.font(size: 13, weight: .bold, textStyle: .subheadline)
+            ],
+            for: .selected
+        )
+
         reminderCard.backgroundColor = AppTheme.cardBackground
         reminderCard.layer.borderColor = cardBorderColor
         reminderTitleLabel.textColor = AppTheme.textPrimary
@@ -641,6 +714,15 @@ final class MoreViewController: UIViewController {
     private func applyPrivacySettings() {
         analyticsSwitch.setOn(TelemetryPreferences.isAnalyticsEnabled, animated: false)
         crashReportingSwitch.setOn(TelemetryPreferences.isCrashReportingEnabled, animated: false)
+    }
+
+    @objc
+    private func didChangeAppearance(_ sender: UISegmentedControl) {
+        guard AppAppearance.allCases.indices.contains(sender.selectedSegmentIndex) else {
+            return
+        }
+        let appearance = AppAppearance.allCases[sender.selectedSegmentIndex]
+        AppAppearanceService.shared.set(appearance, on: view.window)
     }
 
     @objc

@@ -24,6 +24,11 @@
 "home.grade.easy.subtitle" = "매우 쉬움";
 
 "more.title" = "설정";
+"more.appearance.title" = "화면 모드";
+"more.appearance.description" = "기기 설정을 따르거나 라이트·다크 모드를 직접 선택하세요.";
+"more.appearance.option.system" = "시스템";
+"more.appearance.option.light" = "라이트";
+"more.appearance.option.dark" = "다크";
 "more.reminder.title" = "학습 리마인더";
 "more.reminder.description" = "원하는 시간에 매일 리마인더를 보냅니다.";
 "more.reminder.status.on" = "매일 %02d:%02d에 리마인더가 설정되었습니다.";
@@ -118,8 +123,8 @@
 "insights.settings.accessibility" = "설정 열기";
 "insights.error" = "분석 정보를 불러오지 못했습니다.";
 
-"onboarding.title" = "FlashForge에 오신 것을 환영합니다";
-"onboarding.subtitle" = "첫 덱과 카드를 만들고 바로 학습을 시작하세요.";
+"onboarding.title" = "카드 한 장으로 시작하세요";
+"onboarding.subtitle" = "덱과 첫 카드를 만들어 보세요. 나머지는 준비될 때 천천히 추가하면 됩니다.";
 "onboarding.field.deck.placeholder" = "덱 이름 (예: 단어장)";
 "onboarding.field.front.placeholder" = "첫 카드 앞면";
 "onboarding.field.back.placeholder" = "첫 카드 뒷면";
@@ -137,12 +142,12 @@
 "onboarding.backup.invalid.selection" = "유효한 백업 파일을 선택해 주세요.";
 "onboarding.backup.invalid.extension" = "파일 확장자는 .%@ 이어야 합니다.";
 
-"walkthrough.page.intro.title" = "FlashForge 빠르게 시작하기";
-"walkthrough.page.intro.description" = "매일 반복 학습에 맞춘 흐름으로 카드를 빠르게 복습할 수 있어요.";
-"walkthrough.page.study.title" = "간단한 학습 루프";
-"walkthrough.page.study.description" = "앞면을 보고 답을 떠올린 뒤 정답을 확인하고 Again/Hard/Good/Easy로 평가하세요.";
-"walkthrough.page.data.title" = "덱과 백업 관리";
-"walkthrough.page.data.description" = "덱을 만들고 카드를 추가한 뒤, 백업 내보내기/가져오기로 데이터를 안전하게 관리하세요.";
+"walkthrough.page.intro.title" = "덜 반복하고 더 오래 기억하기";
+"walkthrough.page.intro.description" = "매일 무작정 반복하지 않고, 복습 효과가 가장 좋은 때에 카드를 다시 보여 줍니다.";
+"walkthrough.page.study.title" = "집중할 수 있는 학습 흐름";
+"walkthrough.page.study.description" = "앞면을 보고 답을 떠올린 다음 정답을 확인하고 기억 정도를 평가하세요.";
+"walkthrough.page.data.title" = "처음부터 비공개로";
+"walkthrough.page.data.description" = "카드는 기기와 비공개 iCloud 공간에 저장됩니다. 필요할 때 언제든 백업으로 내보낼 수 있습니다.";
 "walkthrough.action.next" = "다음";
 "walkthrough.action.start" = "시작하기";
 "walkthrough.action.skip" = "건너뛰기";

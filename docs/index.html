@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FlashForge — Smart Flashcards for Lasting Memory</title>
+  <title>FlashForge — Private flashcards for lasting memory</title>
   <meta name="description" content="FlashForge is a private, offline-first flashcard app with adaptive spaced repetition and clear study insights.">
   <meta property="og:title" content="FlashForge — Remember what matters">
   <meta property="og:description" content="Private flashcards, adaptive reviews, and useful insights — without an account.">
@@ -14,9 +14,9 @@
   <meta name="twitter:title" content="FlashForge — Remember what matters">
   <meta name="twitter:description" content="Private flashcards, adaptive reviews, and useful insights — without an account.">
   <meta name="twitter:image" content="https://bbdyno.github.io/FlashForge/assets/og.png">
-  <meta name="theme-color" content="#f6f6f1">
+  <meta name="theme-color" content="#0b0c0d">
   <meta name="apple-itunes-app" content="app-id=6759084535">
-  <link rel="icon" href="assets/flashforge-icon.png" type="image/png">
+  <link rel="icon" href="assets/brand-mark.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Noto+Sans+KR:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
@@ -27,18 +27,15 @@
   <header class="site-header">
     <nav class="nav container" aria-label="Primary navigation">
       <a class="brand" href="#top" aria-label="FlashForge home">
-        <img src="assets/flashforge-icon.png" alt="">
+        <img src="assets/brand-mark.svg" alt="">
         <span>FlashForge</span>
       </a>
 
       <div class="nav-right">
         <a href="#features" data-i18n="nav_features">Features</a>
+        <a href="#privacy" data-i18n="nav_privacy">Privacy</a>
         <a href="#support" data-i18n="nav_support">Support</a>
-        <a class="nav-store" href="https://apps.apple.com/app/id6759084535" target="_blank" rel="noreferrer">
-          <span data-i18n="nav_store">App Store</span>
-          <span aria-hidden="true">↗</span>
-        </a>
-
+        <a href="https://github.com/bbdyno/FlashForge" target="_blank" rel="noreferrer">GitHub ↗</a>
         <label class="lang-wrap" for="langSelect">
           <span class="visually-hidden" data-i18n="lang_label">Language</span>
           <select id="langSelect" aria-label="Language selector">
@@ -53,26 +50,20 @@
   <main id="top">
     <section class="hero container">
       <div class="hero-copy">
-        <p class="eyebrow"><span></span><span data-i18n="hero_badge">AVAILABLE ON THE APP STORE</span></p>
+        <p class="eyebrow"><span></span><span data-i18n="hero_badge">FLASHCARDS, WITHOUT THE CLUTTER</span></p>
         <h1>
           <span data-i18n="hero_title_1">Remember</span>
           <span data-i18n="hero_title_2">what matters.</span>
         </h1>
-        <p class="hero-sub" data-i18n="hero_sub">
-          Flashcards that adapt to your memory — not the other way around.
-        </p>
-        <p class="hero-desc" data-i18n="hero_desc">
-          No account. No clutter. Just focused reviews, clear progress, and optional private iCloud sync.
-        </p>
+        <p class="hero-sub" data-i18n="hero_sub">Flashcards that adapt to your memory — not the other way around.</p>
+        <p class="hero-desc" data-i18n="hero_desc">No account. No feed. Just focused reviews, clear progress, and optional private iCloud sync.</p>
 
-        <div class="cta-row">
-          <a class="btn btn-primary" href="https://apps.apple.com/app/id6759084535" target="_blank" rel="noreferrer">
-            <span data-i18n="cta_appstore">Get FlashForge</span>
-            <span aria-hidden="true">↗</span>
+        <div class="store-row">
+          <a class="app-store-link" href="https://apps.apple.com/app/id6759084535" target="_blank" rel="noreferrer" aria-label="Download FlashForge on the App Store">
+            <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" width="120" height="40">
           </a>
-          <a class="btn btn-secondary" href="https://github.com/bbdyno/FlashForge" target="_blank" rel="noreferrer">
-            <span data-i18n="cta_github">View source</span>
-            <span aria-hidden="true">↗</span>
+          <a class="source-link" href="https://github.com/bbdyno/FlashForge" target="_blank" rel="noreferrer">
+            <span data-i18n="cta_github">View source</span><span aria-hidden="true">↗</span>
           </a>
         </div>
 
@@ -84,104 +75,92 @@
       </div>
 
       <div class="product-preview" aria-label="FlashForge interface preview">
-        <div class="preview-topline">
-          <span class="preview-dot"></span>
+        <div class="preview-masthead">
           <span data-i18n="preview_eyebrow">TODAY</span>
+          <span>17 AUG</span>
         </div>
-        <h2 data-i18n="preview_title">Today's review</h2>
-        <div class="preview-filter">
-          <span data-i18n="preview_deck">All decks</span>
-          <span aria-hidden="true">⌄</span>
-        </div>
-        <p class="preview-status"><span>✓</span><span data-i18n="preview_state">12 cards ready</span></p>
-
-        <div class="preview-card">
-          <div class="preview-card-head">
-            <span class="preview-symbol" aria-hidden="true">A</span>
-            <span class="preview-label" data-i18n="preview_label">REVIEW</span>
-          </div>
-          <h3 data-i18n="preview_card_title">What do you want to remember?</h3>
-          <p data-i18n="preview_card_note">Focus on one idea. FlashForge handles the timing.</p>
-          <div class="preview-action" data-i18n="preview_action">Reveal answer</div>
-        </div>
-
-        <div class="preview-insight">
+        <div class="preview-summary">
           <div>
-            <span data-i18n="preview_insights">LAST 7 DAYS</span>
-            <strong>86</strong>
+            <strong>12</strong>
+            <span data-i18n="preview_due">cards due today</span>
           </div>
-          <p data-i18n="preview_reviews">reviews completed</p>
-          <div class="preview-bars" aria-hidden="true">
-            <i style="height: 34%"></i><i style="height: 56%"></i><i style="height: 44%"></i>
-            <i style="height: 74%"></i><i style="height: 63%"></i><i style="height: 88%"></i><i style="height: 100%"></i>
-          </div>
+          <dl>
+            <div><dt>3</dt><dd data-i18n="preview_new">new</dd></div>
+            <div><dt>9</dt><dd data-i18n="preview_review">review</dd></div>
+          </dl>
         </div>
+        <button class="preview-filter" type="button" tabindex="-1">
+          <span data-i18n="preview_deck">Science &amp; Environment</span>
+          <span aria-hidden="true">⌄</span>
+        </button>
+
+        <div class="preview-stack" aria-hidden="true"><i></i><i></i></div>
+        <article class="preview-card">
+          <div class="preview-card-head">
+            <span data-i18n="preview_label">REVIEW</span>
+            <span>3 / 12</span>
+          </div>
+          <h2 data-i18n="preview_card_title">Which layer protects Earth from harmful solar radiation?</h2>
+          <p data-i18n="preview_card_note">Tap the card when you are ready to reveal the answer.</p>
+          <div class="preview-action" data-i18n="preview_action">Reveal answer</div>
+        </article>
       </div>
     </section>
 
     <section id="features" class="section container">
       <div class="section-intro">
-        <p class="section-label" data-i18n="features_label">DESIGNED FOR DAILY RECALL</p>
-        <h2 data-i18n="features_title">A calmer way to learn for the long term.</h2>
-        <p data-i18n="features_sub">Everything you need to build a reliable study habit. Nothing you do not.</p>
+        <p class="section-label" data-i18n="features_label">BUILT FOR DAILY RECALL</p>
+        <h2 data-i18n="features_title">A quieter way to learn for the long term.</h2>
+        <p data-i18n="features_sub">The tools needed for a dependable study habit, with none of the noise around them.</p>
       </div>
 
       <div class="feature-grid">
         <article class="feature-card">
           <span class="feature-number">01</span>
           <h3 data-i18n="f1_title">Adaptive review timing</h3>
-          <p data-i18n="f1_desc">SM-2 and FSRS work together to schedule each card around your actual memory.</p>
+          <p data-i18n="f1_desc">SM-2 and FSRS schedule each card around your actual recall.</p>
         </article>
-
-        <article class="feature-card feature-card-accent">
+        <article class="feature-card">
           <span class="feature-number">02</span>
-          <h3 data-i18n="f4_title">Insights you can use</h3>
-          <p data-i18n="f4_desc">See review activity, retention, streaks, card progress, and what is due next.</p>
-          <div class="mini-heatmap" aria-hidden="true">
-            <i></i><i></i><i class="on"></i><i></i><i class="mid"></i><i class="on"></i><i></i>
-            <i class="mid"></i><i></i><i></i><i class="on"></i><i></i><i class="mid"></i><i class="on"></i>
-            <i></i><i class="on"></i><i class="mid"></i><i></i><i></i><i class="on"></i><i class="mid"></i>
-          </div>
+          <h3 data-i18n="f2_title">The familiar study loop</h3>
+          <p data-i18n="f2_desc">Read the front, reveal the answer, and grade recall with four clear choices.</p>
+          <div class="grade-sample" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         </article>
-
         <article class="feature-card">
           <span class="feature-number">03</span>
-          <h3 data-i18n="f6_title">Your data stays yours</h3>
-          <p data-i18n="f6_desc">Study without an account. Keep data on-device, use private iCloud sync, or export a backup.</p>
+          <h3 data-i18n="f3_title">Insights that stay useful</h3>
+          <p data-i18n="f3_desc">Review activity, retention, card progress, and upcoming work in one place.</p>
+          <div class="mini-heatmap" aria-hidden="true">
+            <i></i><i class="mid"></i><i class="on"></i><i></i><i class="mid"></i><i class="on"></i><i></i>
+            <i class="mid"></i><i></i><i class="on"></i><i></i><i class="mid"></i><i class="on"></i><i></i>
+          </div>
         </article>
       </div>
     </section>
 
-    <section class="routine-section">
-      <div class="container routine-layout">
-        <div class="routine-heading">
-          <p class="section-label" data-i18n="flow_label">A SIMPLE RHYTHM</p>
-          <h2 data-i18n="flow_title">Build once. Review at the right time.</h2>
+    <section class="process-section">
+      <div class="container process-layout">
+        <div class="process-heading">
+          <p class="section-label" data-i18n="flow_label">HOW IT WORKS</p>
+          <h2 data-i18n="flow_title">Create once. Review when it counts.</h2>
         </div>
-
         <ol class="flow-list">
-          <li>
-            <span>01</span>
-            <div>
-              <h3 data-i18n="flow_1_title">Create</h3>
-              <p data-i18n="flow_1_desc">Turn ideas, vocabulary, or notes into focused cards.</p>
-            </div>
-          </li>
-          <li>
-            <span>02</span>
-            <div>
-              <h3 data-i18n="flow_2_title">Review</h3>
-              <p data-i18n="flow_2_desc">Rate your recall and let the scheduler adjust the next interval.</p>
-            </div>
-          </li>
-          <li>
-            <span>03</span>
-            <div>
-              <h3 data-i18n="flow_3_title">Retain</h3>
-              <p data-i18n="flow_3_desc">Use clear trends to stay consistent without chasing a perfect streak.</p>
-            </div>
-          </li>
+          <li><span>01</span><div><h3 data-i18n="flow_1_title">Create</h3><p data-i18n="flow_1_desc">Turn an idea, term, or note into a focused card.</p></div></li>
+          <li><span>02</span><div><h3 data-i18n="flow_2_title">Review</h3><p data-i18n="flow_2_desc">Recall the answer and rate how well you remembered.</p></div></li>
+          <li><span>03</span><div><h3 data-i18n="flow_3_title">Return</h3><p data-i18n="flow_3_desc">FlashForge calculates when that card should come back.</p></div></li>
         </ol>
+      </div>
+    </section>
+
+    <section id="privacy" class="section container privacy-layout">
+      <div class="privacy-mark" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="privacy-copy">
+        <p class="section-label" data-i18n="privacy_label">PRIVATE BY DESIGN</p>
+        <h2 data-i18n="privacy_title">Your cards remain yours.</h2>
+        <p data-i18n="privacy_desc">No account is required. Study data stays on your device and in your private iCloud container when sync is enabled. Optional diagnostics never include card text.</p>
+        <a href="privacy.html"><span data-i18n="privacy_link">Read the privacy policy</span> ↗</a>
       </div>
     </section>
 
@@ -190,22 +169,14 @@
         <div class="support-copy">
           <p class="section-label" data-i18n="support_label">INDEPENDENTLY BUILT</p>
           <h2 data-i18n="support_title">Support FlashForge</h2>
-          <p data-i18n="support_sub">Your support helps fund thoughtful updates, maintenance, and long-term availability.</p>
+          <p data-i18n="support_sub">Your support funds careful updates, maintenance, and long-term availability.</p>
           <a href="https://buymeacoffee.com/bbdyno" target="_blank" rel="noreferrer" class="coffee-link">
-            <span data-i18n="support_coffee_btn">Buy me a coffee</span>
-            <span aria-hidden="true">↗</span>
+            <span data-i18n="support_coffee_btn">Buy me a coffee</span><span aria-hidden="true">↗</span>
           </a>
         </div>
-
         <div class="wallet-list">
-          <div class="wallet">
-            <div><span>BTC</span><code id="btcAddress">bc1qz5neag5j4cg6j8sj53889udws70v7223zlvgd3</code></div>
-            <button class="copy-btn" data-copy-target="btcAddress" data-i18n="copy_btn">Copy</button>
-          </div>
-          <div class="wallet">
-            <div><span>ETH</span><code id="ethAddress">0x5f35523757d0e672fa3ffbc0f1d50d35fd6b2571</code></div>
-            <button class="copy-btn" data-copy-target="ethAddress" data-i18n="copy_btn">Copy</button>
-          </div>
+          <div class="wallet"><div><span>BTC</span><code id="btcAddress">bc1qz5neag5j4cg6j8sj53889udws70v7223zlvgd3</code></div><button class="copy-btn" data-copy-target="btcAddress" data-i18n="copy_btn">Copy</button></div>
+          <div class="wallet"><div><span>ETH</span><code id="ethAddress">0x5f35523757d0e672fa3ffbc0f1d50d35fd6b2571</code></div><button class="copy-btn" data-copy-target="ethAddress" data-i18n="copy_btn">Copy</button></div>
         </div>
       </div>
     </section>
@@ -214,10 +185,10 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <div>
-        <p class="footer-brand">FlashForge</p>
+        <p class="footer-brand">FlashForge <span>1.2.0</span></p>
         <p data-i18n="footer_rights">© 2026 FlashForge. All rights reserved.</p>
+        <p class="apple-credit">Apple and the Apple logo are trademarks of Apple Inc., registered in the U.S. and other countries and regions. App Store is a service mark of Apple Inc.</p>
       </div>
-
       <div class="footer-links">
         <a href="https://github.com/bbdyno/FlashForge" target="_blank" rel="noreferrer">GitHub</a>
         <a href="mailto:della.kimko@gmail.com" data-i18n="footer_contact">Contact</a>
@@ -226,7 +197,6 @@
       </div>
     </div>
   </footer>
-
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 </body>
 </html>

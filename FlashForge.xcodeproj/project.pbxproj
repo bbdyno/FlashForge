@@ -20,6 +20,7 @@
 		23DDF6EF2ED95C95AB87C027 /* SharedResources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0459A3B99EC7E2F11EE1821 /* SharedResources.framework */; };
 		2744FAF5A6C9BA5F220B6091 /* FlashForgeWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CC3EE56F35E255141FD63E1B /* FlashForgeWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		323ABBD9C7F69CAE3D0B57CC /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34E594E97AF0B69E7790D09 /* HomeViewModel.swift */; };
+		346BE324B1DE07529F875F57 /* AppAppearanceServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522CF6E806E0EADBB0295F74 /* AppAppearanceServiceTests.swift */; };
 		34B1A5A4B783E17891789A85 /* DecksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A99F301ADDA6EC2EBF192A3 /* DecksViewModel.swift */; };
 		365783B4BAE20304EBB0E725 /* CrashReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50096BDBECC96DB3FB393852 /* CrashReporter.swift */; };
 		37D79F7F82C9100A8A4AF189 /* FlashForgeWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6D6E2802EB6C1CDE0FB302 /* FlashForgeWidgetsBundle.swift */; };
@@ -53,7 +54,9 @@
 		8F4EFDB073C9C915D9A03C61 /* StudySessionActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4B8A7C995FFF7C9319638A /* StudySessionActivityAttributes.swift */; };
 		8F62D2671F75C0B70092317C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBB59EE0B5DFD2C7459A881 /* OnboardingViewController.swift */; };
 		8FFEFA9C00BFB71C8EE0DBDC /* FSRSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29096BBEA211227493FBF7C2 /* FSRSTests.swift */; };
+		907477EABF232A74180800D3 /* WalkthroughArtworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0032E53D00341876923168CD /* WalkthroughArtworkView.swift */; };
 		91E119AC9DDBA9AFF344F7C6 /* CardEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95BA1C7163594BF5A62BC85 /* CardEditorViewController.swift */; };
+		9C5D4103123440189177DD4C /* AppAppearanceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DD95FF415EA25D5704F3F /* AppAppearanceService.swift */; };
 		A6094970CF5ECACAF182663E /* SharedResources.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A0459A3B99EC7E2F11EE1821 /* SharedResources.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AD0262810281751BE87930FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A34BEB8690A7E0022ADD56 /* AppDelegate.swift */; };
 		AE331E9D0D9B754CC9A9F582 /* AppWalkthroughViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C751CA6D9B0B0605F5EB41FA /* AppWalkthroughViewController.swift */; };
@@ -159,6 +162,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0032E53D00341876923168CD /* WalkthroughArtworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkthroughArtworkView.swift; sourceTree = "<group>"; };
 		053CBE67BBC927E6500C04A6 /* FlashForgeStringsAlias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashForgeStringsAlias.swift; sourceTree = "<group>"; };
 		09E6DD8EF45F2F59CCF78086 /* AppAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppAssets.xcassets; sourceTree = "<group>"; };
 		109824F4FAE52670B7B97F42 /* TuistBundle+FlashForgeWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistBundle+FlashForgeWidgets.swift"; sourceTree = "<group>"; };
@@ -166,6 +170,7 @@
 		11D472DD1C95FE3A90AF4B0E /* TuistBundle+FlashForge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistBundle+FlashForge.swift"; sourceTree = "<group>"; };
 		174EE85526D9B3386325270E /* StudyStatusService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyStatusService.swift; sourceTree = "<group>"; };
 		1A1E198DE7F4EAE36BF2902B /* StudyReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyReminderService.swift; sourceTree = "<group>"; };
+		1D6DD95FF415EA25D5704F3F /* AppAppearanceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearanceService.swift; sourceTree = "<group>"; };
 		21F155FBE3138C11625C6546 /* InsightsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsViewController.swift; sourceTree = "<group>"; };
 		27B9C0278336BD004596A432 /* StudyStatusWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyStatusWidget.swift; sourceTree = "<group>"; };
 		28642A0E5702194F0DF7B3AD /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -184,6 +189,7 @@
 		4FDF11FE5547DC426B932AFE /* PersistenceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceModels.swift; sourceTree = "<group>"; };
 		50096BDBECC96DB3FB393852 /* CrashReporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReporter.swift; sourceTree = "<group>"; };
 		500A5ECFA833BCC0766E720B /* FlashForgeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlashForgeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		522CF6E806E0EADBB0295F74 /* AppAppearanceServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearanceServiceTests.swift; sourceTree = "<group>"; };
 		56638997A259354801A20F6A /* SchedulerMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerMode.swift; sourceTree = "<group>"; };
 		5F4B8A7C995FFF7C9319638A /* StudySessionActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudySessionActivityAttributes.swift; sourceTree = "<group>"; };
 		67A3B3161796298FDD85D8F8 /* FlashForge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlashForge.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -281,6 +287,7 @@
 				A426469F23A843D8429253CC /* AppDesignSystem.swift */,
 				700AFB3B4CDA3F2F8FD9176C /* GlassCardView.swift */,
 				DACBC97F9E67929393B532B2 /* ReviewHeatmapView.swift */,
+				0032E53D00341876923168CD /* WalkthroughArtworkView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -301,6 +308,7 @@
 		20B51723166122151970EC1C /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				1D6DD95FF415EA25D5704F3F /* AppAppearanceService.swift */,
 				E3CA506AB9614B52192E28C9 /* AppTelemetry.swift */,
 				D9AD08B6C3F0A200AEE26108 /* CardRepository.swift */,
 				50096BDBECC96DB3FB393852 /* CrashReporter.swift */,
@@ -366,6 +374,7 @@
 		442A19A737FB31EFFC1655CE /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				522CF6E806E0EADBB0295F74 /* AppAppearanceServiceTests.swift */,
 				43FA8E96F1711FC7AACED0ED /* CardRepositoryDeckImportValidationTests.swift */,
 				B167CE80CDED54909EE16AA8 /* CardRepositoryInsightsTests.swift */,
 				2EC48DFDD7AD6F63201B93A3 /* CardRepositoryPersistenceTests.swift */,
@@ -720,6 +729,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				346BE324B1DE07529F875F57 /* AppAppearanceServiceTests.swift in Sources */,
 				D9919DCF5C4954F99CC45480 /* CardRepositoryDeckImportValidationTests.swift in Sources */,
 				D9A735E87ADD911AF7B0BB25 /* CardRepositoryInsightsTests.swift in Sources */,
 				799053F61A2BE2684417ADD6 /* CardRepositoryPersistenceTests.swift in Sources */,
@@ -757,6 +767,7 @@
 				3B5E45CCDC0D77F1E9445FAE /* PersistenceModels.swift in Sources */,
 				606266CFD934DE3628B3D8AB /* SchedulerMode.swift in Sources */,
 				751611C6D032D21CB655B467 /* StudyCard.swift in Sources */,
+				9C5D4103123440189177DD4C /* AppAppearanceService.swift in Sources */,
 				18F053DD0EC51C6E5D9D98AC /* AppTelemetry.swift in Sources */,
 				3FE4103C0B2CCE3DDD6857BE /* CardRepository.swift in Sources */,
 				365783B4BAE20304EBB0E725 /* CrashReporter.swift in Sources */,
@@ -783,6 +794,7 @@
 				E44E92330EF97CD435265C7E /* AppDesignSystem.swift in Sources */,
 				080B94E7283BC9E25E1762DF /* GlassCardView.swift in Sources */,
 				0BA521677B2D6A433E04FAAE /* ReviewHeatmapView.swift in Sources */,
+				907477EABF232A74180800D3 /* WalkthroughArtworkView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -818,7 +830,7 @@
 				CODE_SIGN_ENTITLEMENTS = Config/FlashForge.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2026.07.20.1;
+				CURRENT_PROJECT_VERSION = 2026.08.17.1;
 				DEVELOPMENT_TEAM = M79H9K226Y;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Derived/InfoPlists/FlashForge-Info.plist";
@@ -827,7 +839,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited) -ObjC",
 					"-L$(DT_TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
@@ -884,7 +896,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2026.07.20.1;
+				CURRENT_PROJECT_VERSION = 2026.08.17.1;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -903,7 +915,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -921,7 +933,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2026.07.20.1;
+				CURRENT_PROJECT_VERSION = 2026.08.17.1;
 				DEVELOPMENT_TEAM = M79H9K226Y;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Derived/InfoPlists/FlashForge-Info.plist";
@@ -930,7 +942,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited) -ObjC",
 					"-L$(DT_TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
@@ -954,7 +966,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2026.07.20.1;
+				CURRENT_PROJECT_VERSION = 2026.08.17.1;
 				INFOPLIST_FILE = "Derived/InfoPlists/FlashForgeUITests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -962,7 +974,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-L$(DT_TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
@@ -985,7 +997,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2026.07.20.1;
+				CURRENT_PROJECT_VERSION = 2026.08.17.1;
 				INFOPLIST_FILE = "Derived/InfoPlists/FlashForgeUITests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -993,7 +1005,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-L$(DT_TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
@@ -1021,7 +1033,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2026.07.20.1;
+				CURRENT_PROJECT_VERSION = 2026.08.17.1;
 				INFOPLIST_FILE = "Derived/InfoPlists/FlashForgeTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1029,7 +1041,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-L$(DT_TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
@@ -1088,7 +1100,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2026.07.20.1;
+				CURRENT_PROJECT_VERSION = 2026.08.17.1;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1101,7 +1113,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_STRICT_CONCURRENCY = complete;
@@ -1117,7 +1129,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2026.07.20.1;
+				CURRENT_PROJECT_VERSION = 2026.08.17.1;
 				DEVELOPMENT_TEAM = M79H9K226Y;
 				INFOPLIST_FILE = "Derived/InfoPlists/FlashForgeWidgets-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -1126,7 +1138,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-L$(DT_TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
@@ -1152,7 +1164,7 @@
 				CODE_SIGN_ENTITLEMENTS = Config/FlashForgeWidgets.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2026.07.20.1;
+				CURRENT_PROJECT_VERSION = 2026.08.17.1;
 				DEVELOPMENT_TEAM = M79H9K226Y;
 				INFOPLIST_FILE = "Derived/InfoPlists/FlashForgeWidgets-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -1161,7 +1173,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-L$(DT_TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
@@ -1188,7 +1200,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2026.07.20.1;
+				CURRENT_PROJECT_VERSION = 2026.08.17.1;
 				INFOPLIST_FILE = "Derived/InfoPlists/FlashForgeTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1196,7 +1208,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-L$(DT_TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",

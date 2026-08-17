@@ -24,6 +24,11 @@
 "home.grade.easy.subtitle" = "Very easy";
 
 "more.title" = "Settings";
+"more.appearance.title" = "Appearance";
+"more.appearance.description" = "Choose a theme or follow this device.";
+"more.appearance.option.system" = "System";
+"more.appearance.option.light" = "Light";
+"more.appearance.option.dark" = "Dark";
 "more.reminder.title" = "Study Reminder";
 "more.reminder.description" = "Send a daily reminder at your chosen time.";
 "more.reminder.status.on" = "Reminder is set for %02d:%02d every day.";
@@ -118,8 +123,8 @@
 "insights.settings.accessibility" = "Open Settings";
 "insights.error" = "Insights could not be loaded.";
 
-"onboarding.title" = "Welcome to FlashForge";
-"onboarding.subtitle" = "Create your first deck and card to start studying right away.";
+"onboarding.title" = "Start with one card";
+"onboarding.subtitle" = "Create a deck and the first card. You can add the rest whenever you are ready.";
 "onboarding.field.deck.placeholder" = "Deck name (e.g. Vocabulary)";
 "onboarding.field.front.placeholder" = "First card front";
 "onboarding.field.back.placeholder" = "First card back";
@@ -137,12 +142,12 @@
 "onboarding.backup.invalid.selection" = "Please select a valid backup file.";
 "onboarding.backup.invalid.extension" = "File extension must be .%@.";
 
-"walkthrough.page.intro.title" = "Start Faster with FlashForge";
-"walkthrough.page.intro.description" = "Review cards quickly with a focused flow built for daily repetition.";
-"walkthrough.page.study.title" = "Simple Study Loop";
-"walkthrough.page.study.description" = "Read the front, reveal the answer, then grade recall with Again/Hard/Good/Easy.";
-"walkthrough.page.data.title" = "Decks and Backup";
-"walkthrough.page.data.description" = "Create decks, add cards, and keep your data safe using backup import/export.";
+"walkthrough.page.intro.title" = "Remember with less effort";
+"walkthrough.page.intro.description" = "FlashForge brings each card back when reviewing it is most useful — not simply every day.";
+"walkthrough.page.study.title" = "A focused study loop";
+"walkthrough.page.study.description" = "Read the front, recall the answer, reveal it, and rate how well you remembered.";
+"walkthrough.page.data.title" = "Private by design";
+"walkthrough.page.data.description" = "Your cards stay on your device and in your private iCloud container. Export a backup whenever you want.";
 "walkthrough.action.next" = "Next";
 "walkthrough.action.start" = "Start";
 "walkthrough.action.skip" = "Skip";
