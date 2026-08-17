@@ -31,6 +31,11 @@ final class RootTabBarController: UITabBarController {
     init(repository: CardRepository) {
         self.repository = repository
         super.init(nibName: nil, bundle: nil)
+        if #available(iOS 18.0, *) {
+            // iPadOS otherwise promotes UITabBarController's hidden native
+            // tab bar into a second floating control above our editorial bar.
+            traitOverrides.horizontalSizeClass = .compact
+        }
     }
 
     @available(*, unavailable)
@@ -81,7 +86,6 @@ final class RootTabBarController: UITabBarController {
             image: UIImage(systemName: "square.grid.2x2"),
             selectedImage: UIImage(systemName: "square.grid.2x2.fill")
         )
-        studyNavigation.tabBarItem.accessibilityIdentifier = "tab.study"
 
         let decks = DecksViewController(repository: repository)
         let decksNavigation = UINavigationController(rootViewController: decks)
@@ -92,7 +96,6 @@ final class RootTabBarController: UITabBarController {
             image: UIImage(systemName: "rectangle.stack"),
             selectedImage: UIImage(systemName: "rectangle.stack.fill")
         )
-        decksNavigation.tabBarItem.accessibilityIdentifier = "tab.decks"
 
         let insights = InsightsViewController(repository: repository)
         let insightsNavigation = UINavigationController(rootViewController: insights)
@@ -103,7 +106,6 @@ final class RootTabBarController: UITabBarController {
             image: UIImage(systemName: "chart.bar"),
             selectedImage: UIImage(systemName: "chart.bar.fill")
         )
-        insightsNavigation.tabBarItem.accessibilityIdentifier = "tab.insights"
 
         viewControllers = [studyNavigation, decksNavigation, insightsNavigation]
     }
