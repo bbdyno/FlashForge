@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title description">
+  <title id="title">FlashForge</title>
+  <desc id="description">Three softly stacked flashcards with a warm copper marker.</desc>
+  <rect width="1024" height="1024" fill="#0b0c0d"/>
+  <ellipse cx="512" cy="512" rx="352" ry="325" fill="none" stroke="#302f2c" stroke-width="22" stroke-dasharray="34 42"/>
+  <g transform="rotate(-4 512 512)">
+    <rect x="260" y="202" width="570" height="470" rx="102" fill="#202123" stroke="#47443f" stroke-width="26"/>
+    <rect x="222" y="252" width="570" height="470" rx="102" fill="#191a1b" stroke="#47443f" stroke-width="26"/>
+    <rect x="184" y="302" width="600" height="470" rx="108" fill="#f1ebdd" stroke="#d96b45" stroke-width="30"/>
+    <path d="M294 492H672" stroke="#111214" stroke-width="44" stroke-linecap="round"/>
+    <path d="M294 590H570" stroke="#817a70" stroke-width="34" stroke-linecap="round"/>
+    <circle cx="754" cy="358" r="58" fill="#d96b45"/>
+  </g>
+</svg>

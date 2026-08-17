@@ -10,8 +10,7 @@ import SnapKit
 import SharedResources
 
 private struct WalkthroughPage {
-    let symbolName: String
-    let tintColor: UIColor
+    let artwork: WalkthroughArtworkKind
     let title: String
     let description: String
 }
@@ -19,20 +18,17 @@ private struct WalkthroughPage {
 final class AppWalkthroughViewController: UIViewController {
     private lazy var pages: [WalkthroughPage] = [
         WalkthroughPage(
-            symbolName: "bolt.fill",
-            tintColor: AppTheme.accent,
+            artwork: .memory,
             title: FlashForgeStrings.Walkthrough.Page.Intro.title,
             description: FlashForgeStrings.Walkthrough.Page.Intro.description
         ),
         WalkthroughPage(
-            symbolName: "rectangle.stack.fill.badge.person.crop",
-            tintColor: AppTheme.accent,
+            artwork: .study,
             title: FlashForgeStrings.Walkthrough.Page.Study.title,
             description: FlashForgeStrings.Walkthrough.Page.Study.description
         ),
         WalkthroughPage(
-            symbolName: "square.and.arrow.down.fill",
-            tintColor: AppTheme.accent,
+            artwork: .privacy,
             title: FlashForgeStrings.Walkthrough.Page.Data.title,
             description: FlashForgeStrings.Walkthrough.Page.Data.description
         )
@@ -263,8 +259,7 @@ private final class WalkthroughPageContentViewController: UIViewController {
     private let page: WalkthroughPage
 
     private let cardView = UIView()
-    private let symbolContainer = UIView()
-    private let symbolImageView = UIImageView()
+    private lazy var artworkView = WalkthroughArtworkView(kind: page.artwork)
     private let titleLabel = UILabel()
     private let descriptionLabel = UILabel()
 
@@ -295,53 +290,38 @@ private final class WalkthroughPageContentViewController: UIViewController {
         view.backgroundColor = .clear
 
         view.addSubview(cardView)
-        cardView.addSubview(symbolContainer)
-        symbolContainer.addSubview(symbolImageView)
+        cardView.addSubview(artworkView)
         cardView.addSubview(titleLabel)
         cardView.addSubview(descriptionLabel)
 
-        symbolImageView.image = UIImage(systemName: page.symbolName)
-        symbolImageView.contentMode = .scaleAspectFit
-        symbolImageView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 38, weight: .semibold)
-
         titleLabel.text = page.title
-        titleLabel.font = AppTypography.font(size: 30, weight: .bold, textStyle: .title1)
-        titleLabel.textAlignment = .center
+        titleLabel.font = AppTypography.font(size: 32, weight: .bold, textStyle: .title1)
+        titleLabel.textAlignment = .left
         titleLabel.numberOfLines = 2
 
         descriptionLabel.text = page.description
-        descriptionLabel.font = AppTypography.font(size: 17, weight: .medium, textStyle: .body)
-        descriptionLabel.textAlignment = .center
+        descriptionLabel.font = AppTypography.font(size: 16, weight: .medium, textStyle: .body)
+        descriptionLabel.textAlignment = .left
         descriptionLabel.numberOfLines = 0
-
-        cardView.layer.cornerRadius = 18
-        cardView.layer.cornerCurve = .continuous
-
-        symbolContainer.layer.cornerRadius = 40
-        symbolContainer.layer.cornerCurve = .continuous
 
         cardView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
 
-        symbolContainer.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(48)
-            make.centerX.equalToSuperview()
-            make.width.height.equalTo(80)
-        }
-
-        symbolImageView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+        artworkView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(8)
+            make.leading.trailing.equalToSuperview().inset(4)
+            make.height.equalTo(270)
         }
 
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(symbolContainer.snp.bottom).offset(34)
-            make.leading.trailing.equalToSuperview().inset(24)
+            make.top.equalTo(artworkView.snp.bottom).offset(28)
+            make.leading.trailing.equalToSuperview().inset(10)
         }
 
         descriptionLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(16)
-            make.leading.trailing.equalToSuperview().inset(24)
+            make.leading.trailing.equalTo(titleLabel)
             make.bottom.lessThanOrEqualToSuperview().inset(32)
         }
 
@@ -349,13 +329,8 @@ private final class WalkthroughPageContentViewController: UIViewController {
     }
 
     private func applyTheme() {
-        cardView.backgroundColor = AppTheme.cardBackground
-        cardView.layer.borderWidth = 0.5
-        cardView.layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
-
-        let tint = AppTheme.resolved(page.tintColor, for: traitCollection)
-        symbolContainer.backgroundColor = AppTheme.accentSoft
-        symbolImageView.tintColor = tint
+        cardView.backgroundColor = .clear
+        cardView.layer.borderWidth = 0
 
         titleLabel.textColor = AppTheme.textPrimary
         descriptionLabel.textColor = AppTheme.textSecondary

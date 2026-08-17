@@ -160,7 +160,7 @@ final class HomeViewController: UIViewController {
 
         brandMarkView.image = UIImage(systemName: "circle.fill")
         brandMarkView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 13, weight: .bold)
-        brandMarkView.tintColor = AppTheme.textSecondary
+        brandMarkView.tintColor = AppTheme.accent
         brandMarkView.contentMode = .scaleAspectFit
 
         brandLabel.text = FlashForgeStrings.Home.eyebrow
@@ -221,10 +221,11 @@ final class HomeViewController: UIViewController {
         dueSummaryTextLabel.text = FlashForgeStrings.Home.Due.none
         dueSummaryTextLabel.isUserInteractionEnabled = false
 
-        cardBackdropView.backgroundColor = .clear
+        cardBackdropView.backgroundColor = AppTheme.inputBackground
         cardBackdropView.layer.cornerRadius = 20
         cardBackdropView.layer.cornerCurve = .continuous
-        cardBackdropView.layer.borderWidth = 0
+        cardBackdropView.layer.borderWidth = 1.0 / UIScreen.main.scale
+        cardBackdropView.layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
         cardBackdropView.layer.shadowOpacity = 0
         cardBackdropView.isUserInteractionEnabled = false
 
@@ -292,7 +293,7 @@ final class HomeViewController: UIViewController {
     private func applyTheme() {
         AppTheme.applyGradient(to: backgroundGradientLayer, traitCollection: traitCollection)
 
-        brandMarkView.tintColor = AppTheme.textSecondary
+        brandMarkView.tintColor = AppTheme.accent
         brandLabel.textColor = AppTheme.textSecondary
         titleLabel.textColor = AppTheme.textPrimary
 
@@ -306,7 +307,8 @@ final class HomeViewController: UIViewController {
         dueSummaryTextLabel.textColor = AppTheme.textSecondary
 
         dueSummaryContainer.backgroundColor = .clear
-        cardBackdropView.backgroundColor = .clear
+        cardBackdropView.backgroundColor = AppTheme.inputBackground
+        cardBackdropView.layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
 
         revealAnswerButton.setTitleColor(.white, for: .normal)
         revealAnswerButton.backgroundColor = AppTheme.buttonFill(from: AppTheme.accent, for: traitCollection)
@@ -594,7 +596,9 @@ final class HomeViewController: UIViewController {
         reloadButton.isHidden = true
 
         cardBackdropView.alpha = 0
-        cardBackdropView.transform = CGAffineTransform(scaleX: 0.97, y: 0.97)
+        let restingBackdropTransform = CGAffineTransform(translationX: 0, y: 10)
+            .scaledBy(x: 0.96, y: 1)
+        cardBackdropView.transform = restingBackdropTransform.scaledBy(x: 0.98, y: 0.98)
         glassCardView.alpha = 0
         glassCardView.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
         glassCardView.layer.transform = CATransform3DIdentity
@@ -607,7 +611,7 @@ final class HomeViewController: UIViewController {
             options: [.allowUserInteraction, .beginFromCurrentState]
         ) { [weak self] in
             self?.cardBackdropView.alpha = 1
-            self?.cardBackdropView.transform = .identity
+            self?.cardBackdropView.transform = restingBackdropTransform
             self?.glassCardView.alpha = 1
             self?.glassCardView.transform = .identity
         }
@@ -626,6 +630,9 @@ final class HomeViewController: UIViewController {
         reloadButton.setTitle(
             deckSummaries.isEmpty ? FlashForgeStrings.Home.openLibrary : FlashForgeStrings.Home.reload,
             for: .normal
+        )
+        emptyStateIconView.image = UIImage(
+            systemName: deckSummaries.isEmpty ? "rectangle.stack.badge.plus" : "checkmark"
         )
     }
 

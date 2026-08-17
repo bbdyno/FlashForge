@@ -1,17 +1,28 @@
-# ⚡ FlashForge
+<p align="center">
+  <img src="docs/assets/readme-hero.svg" alt="FlashForge — Remember what matters" width="100%">
+</p>
 
-![iOS](https://img.shields.io/badge/iOS-17.0%2B-black?logo=apple) ![Swift](https://img.shields.io/badge/Swift-5.9-F05138?logo=swift&logoColor=white) ![Privacy](https://img.shields.io/badge/Privacy-First-success) ![License](https://img.shields.io/badge/License-Apache%202.0-blue)
+<p align="center">
+  <img src="https://img.shields.io/badge/version-1.2.0-d96b45" alt="Version 1.2.0">
+  <img src="https://img.shields.io/badge/iOS-17.0%2B-111214?logo=apple" alt="iOS 17 or later">
+  <img src="https://img.shields.io/badge/Swift-5.9-F05138?logo=swift&logoColor=white" alt="Swift 5.9">
+  <img src="https://img.shields.io/badge/Privacy-First-4f8169" alt="Privacy first">
+  <img src="https://img.shields.io/badge/License-Apache%202.0-4f6280" alt="Apache 2.0 license">
+</p>
 
-> **Smart Flashcards with Spaced Repetition. Study Smarter, Not Harder.**
-> **과학적 간격 반복 알고리즘으로 기억력을 극대화하는 플래시카드 앱.**
+<p align="center">
+  <a href="https://apps.apple.com/app/id6759084535">
+    <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" height="40">
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://bbdyno.github.io/FlashForge/">Website</a>
+</p>
 
----
-
-<br>
+<p align="center"><sub>Apple and the Apple logo are trademarks of Apple Inc. App Store is a service mark of Apple Inc.</sub></p>
 
 ## 📱 About the App
 
-**FlashForge** is an offline-first flashcard study app powered by a hybrid spaced repetition engine. Combining the proven **SM-2 (Anki)** algorithm with the cutting-edge **FSRS (Free Spaced Repetition Scheduler)**, FlashForge optimizes your review intervals to maximize long-term retention with minimal effort.
+**FlashForge** is a private, offline-first flashcard app powered by a hybrid spaced repetition engine. It combines **SM-2** with **FSRS (Free Spaced Repetition Scheduler)** to adapt review timing to actual recall while preserving the familiar front → reveal → grade study flow.
 
 **FlashForge**는 검증된 **SM-2(Anki)** 알고리즘과 최신 **FSRS** 알고리즘을 결합한 하이브리드 간격 반복 엔진을 탑재한 오프라인 우선 플래시카드 앱입니다. 회원가입 없이 학습할 수 있으며 카드 내용은 기기와 사용자가 활성화한 iCloud에만 저장됩니다.
 
@@ -35,13 +46,15 @@
 - **풍부한 카드 콘텐츠:** 질문, 답변, 메모를 각 카드에 기록할 수 있습니다.
 - **스마트 큐:** 학습(Learning)과 복습(Review) 큐를 분리하여 집중 학습이 가능합니다.
 
-### 🎨 Calm Forge UI (Calm Forge 디자인)
-- **Focused Hierarchy:** Today, Library, and Insights each lead with one clear action or conclusion.
-- **Warm Premium Palette:** Paper, ink, ember, and teal colors create a calm study environment in light and dark mode.
-- **Purposeful Motion:** Card reveal and drag interactions provide feedback without distracting from recall.
-- **집중형 정보 구조:** Today, Library, Insights가 각각 하나의 핵심 행동과 결론을 먼저 보여줍니다.
-- **차분한 프리미엄 팔레트:** 종이, 잉크, 불씨, 청록색을 활용해 라이트·다크 모드 모두에서 편안한 학습 환경을 제공합니다.
-- **절제된 모션:** 카드 전환과 드래그 피드백은 유지하되 기억 회상을 방해하지 않습니다.
+### 🎨 Soft Editorial UI (소프트 에디토리얼 디자인)
+- **Familiar Usability:** Today, Library, and Insights keep their existing navigation and study behavior.
+- **User-controlled Appearance:** Follow the system or explicitly select Light or Dark in Settings.
+- **Tactile Visual Language:** Obsidian, warm paper, precise rules, and copper accents replace glossy or pixel-inspired decoration.
+- **Custom Onboarding Art:** Theme-aware vector illustrations are drawn directly in UIKit rather than relying on generated or stock artwork.
+- **익숙한 사용성:** Today, Library, Insights의 기존 탐색 구조와 학습 동작을 그대로 유지합니다.
+- **사용자 선택 화면 모드:** 설정에서 시스템, 라이트, 다크 모드를 직접 선택할 수 있습니다.
+- **절제된 시각 언어:** 흑요석색, 따뜻한 종이색, 얇은 구획선과 구리색 포인트로 화면을 구성했습니다.
+- **직접 그린 온보딩:** 생성형·스톡 이미지 대신 UIKit 벡터 패스로 테마 대응 일러스트를 직접 그립니다.
 
 ### 📊 Study Analytics (학습 분석)
 - **140-Day Heatmap:** Visual review activity calendar to track study consistency.
@@ -73,15 +86,11 @@
 
 <br>
 
-## 📸 Screenshots
+## Design Preview / 디자인 미리보기
 
-> Screenshots coming soon.
+The repository artwork and the [product website](https://bbdyno.github.io/FlashForge/) use the same Soft Editorial system as version 1.2.0: dark-first presentation, theme-aware surfaces, restrained motion, and a single warm accent.
 
-<!--
-| Study | Decks | Card Detail | Settings |
-|:---:|:---:|:---:|:---:|
-| <img src="Screenshots/1.png" alt="Study" width="200" /> | <img src="Screenshots/2.png" alt="Decks" width="200" /> | <img src="Screenshots/3.png" alt="Card Detail" width="200" /> | <img src="Screenshots/4.png" alt="Settings" width="200" /> |
--->
+저장소 이미지와 [제품 웹사이트](https://bbdyno.github.io/FlashForge/)는 버전 1.2.0 앱과 동일한 소프트 에디토리얼 디자인 시스템을 사용합니다. 다크 중심 화면, 테마 대응 표면, 절제된 모션과 하나의 따뜻한 포인트 색을 일관되게 적용했습니다.
 
 <br>
 

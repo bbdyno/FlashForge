@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">FlashForge 1.2</title>
+  <desc id="description">A dark editorial illustration of the FlashForge study experience.</desc>
+  <rect width="1200" height="630" fill="#0b0c0d"/>
+  <path d="M0 80H1200M0 550H1200" stroke="#302f2c"/>
+  <path d="M80 0V630M1120 0V630" stroke="#302f2c"/>
+
+  <g transform="translate(80 78)" font-family="Manrope, Arial, sans-serif">
+    <circle cx="5" cy="5" r="5" fill="#d96b45"/>
+    <text x="22" y="10" fill="#b0a99d" font-size="14" font-weight="700" letter-spacing="2.8">FLASHFORGE 1.2</text>
+    <text x="0" y="128" fill="#f1ebdd" font-size="76" font-weight="800" letter-spacing="-5">Remember</text>
+    <text x="0" y="204" fill="#d96b45" font-size="76" font-weight="800" letter-spacing="-5">what matters.</text>
+    <text x="0" y="260" fill="#b0a99d" font-size="21" font-weight="500">Private, adaptive flashcards without the clutter.</text>
+
+    <g transform="translate(0 332)">
+      <rect width="118" height="38" rx="19" fill="#191a1b" stroke="#47443f"/>
+      <circle cx="22" cy="19" r="4" fill="#d96b45"/>
+      <text x="36" y="24" fill="#f1ebdd" font-size="13" font-weight="650">OFFLINE-FIRST</text>
+      <rect x="130" width="100" height="38" rx="19" fill="#191a1b" stroke="#47443f"/>
+      <circle cx="152" cy="19" r="4" fill="#74a98e"/>
+      <text x="166" y="24" fill="#f1ebdd" font-size="13" font-weight="650">PRIVATE</text>
+    </g>
+  </g>
+
+  <g transform="translate(710 72)">
+    <rect x="23" y="25" width="384" height="472" rx="34" fill="#0b0c0d" stroke="#302f2c" transform="rotate(2 215 261)"/>
+    <rect x="0" y="0" width="410" height="500" rx="34" fill="#141516" stroke="#47443f"/>
+    <text x="32" y="45" fill="#d96b45" font-family="Manrope, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="2.5">TODAY</text>
+    <text x="330" y="45" fill="#b0a99d" font-family="Manrope, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="1.5">17 AUG</text>
+    <line x1="32" y1="64" x2="378" y2="64" stroke="#302f2c"/>
+
+    <text x="32" y="136" fill="#f1ebdd" font-family="Manrope, Arial, sans-serif" font-size="68" font-weight="800" letter-spacing="-4">12</text>
+    <text x="120" y="126" fill="#b0a99d" font-family="Manrope, Arial, sans-serif" font-size="13" font-weight="500">cards due today</text>
+
+    <rect x="32" y="160" width="346" height="40" rx="11" fill="#202123" stroke="#302f2c"/>
+    <text x="48" y="185" fill="#f1ebdd" font-family="Manrope, Arial, sans-serif" font-size="13" font-weight="600">Science &amp; Environment</text>
+    <path d="M350 177l5 6 5-6" fill="none" stroke="#b0a99d" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="50" y="225" width="310" height="232" rx="22" fill="#202123" stroke="#302f2c"/>
+    <rect x="40" y="235" width="330" height="232" rx="22" fill="#191a1b" stroke="#47443f"/>
+    <text x="64" y="269" fill="#d96b45" font-family="Manrope, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="2">REVIEW</text>
+    <text x="316" y="269" fill="#b0a99d" font-family="Manrope, Arial, sans-serif" font-size="11" font-weight="700">3 / 12</text>
+    <text x="64" y="326" fill="#f1ebdd" font-family="Manrope, Arial, sans-serif" font-size="23" font-weight="750">
+      <tspan x="64" dy="0">Which layer protects Earth</tspan>
+      <tspan x="64" dy="31">from harmful solar radiation?</tspan>
+    </text>
+    <text x="64" y="406" fill="#b0a99d" font-family="Manrope, Arial, sans-serif" font-size="12">Tap the card to reveal the answer.</text>
+    <rect x="64" y="425" width="282" height="28" rx="9" fill="#d96b45"/>
+    <text x="205" y="444" text-anchor="middle" fill="#fff8ef" font-family="Manrope, Arial, sans-serif" font-size="11" font-weight="700">Reveal answer</text>
+  </g>
+</svg>
