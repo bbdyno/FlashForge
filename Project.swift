@@ -11,7 +11,7 @@ let provisioningProfileUUID = "b8ee75c0-3572-4788-ad21-a75a79de7904"
 let widgetProvisioningProfileName = "FlashForge Widget Distribution Provisioning"
 let widgetProvisioningProfileUUID = "24312bb1-92d0-419e-bb25-064eb8dd7643"
 let marketingVersion = "1.2.0"
-let buildNumber = "2026.08.17.1"
+let buildNumber = "2026.08.18.1"
 
 let project = Project(
     name: appName,
@@ -48,6 +48,7 @@ let project = Project(
                 "FirebaseCrashlyticsCollectionEnabled": .boolean(false),
                 "GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS": .boolean(false),
                 "GOOGLE_ANALYTICS_IDFV_COLLECTION_ENABLED": .boolean(false),
+                "ITSAppUsesNonExemptEncryption": .boolean(false),
                 "UIAppFonts": .array([
                     .string("Manrope-Variable.ttf")
                 ]),
