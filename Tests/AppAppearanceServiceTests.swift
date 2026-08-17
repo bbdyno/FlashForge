@@ -20,10 +20,10 @@ final class AppAppearanceServiceTests: XCTestCase {
         super.tearDown()
     }
 
-    func testDefaultsToSystemAppearance() {
+    func testDefaultsToDarkAppearance() {
         let service = AppAppearanceService(defaults: defaults)
 
-        XCTAssertEqual(service.current, .system)
+        XCTAssertEqual(service.current, .dark)
     }
 
     func testPersistsAndAppliesSelectedAppearance() {

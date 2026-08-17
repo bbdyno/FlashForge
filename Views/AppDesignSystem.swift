@@ -45,6 +45,16 @@ enum AppTheme {
         UIColor(red: 0.635, green: 0.608, blue: 0.558, alpha: 1)
     )
 
+    // Study cards stay paper-like in both modes. In dark mode this creates the
+    // deliberate editorial contrast used by the approved concept instead of
+    // turning every surface into another dark panel.
+    static let studyPaper = UIColor(red: 0.957, green: 0.925, blue: 0.855, alpha: 1)
+    static let studyPaperSecondary = UIColor(red: 0.875, green: 0.831, blue: 0.748, alpha: 1)
+    static let studyPaperTertiary = UIColor(red: 0.792, green: 0.745, blue: 0.663, alpha: 1)
+    static let studyInk = UIColor(red: 0.075, green: 0.071, blue: 0.064, alpha: 1)
+    static let studyMuted = UIColor(red: 0.337, green: 0.310, blue: 0.270, alpha: 1)
+    static let studyLine = UIColor(red: 0.720, green: 0.667, blue: 0.580, alpha: 1)
+
     static let ink = dynamic(
         UIColor(red: 0.090, green: 0.086, blue: 0.078, alpha: 1),
         UIColor(red: 0.945, green: 0.922, blue: 0.875, alpha: 1)

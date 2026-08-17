@@ -66,6 +66,7 @@
 		BB2580F3F4B570324CF2C3B8 /* AppAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09E6DD8EF45F2F59CCF78086 /* AppAssets.xcassets */; };
 		BB9B1C01638FD190CBC90506 /* FlashCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F2218C1D27BFD8C0FA63EE /* FlashCard.swift */; };
 		CC9637242E4F66EAE551ABA3 /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA66B93FA8114B912CE7A7AC /* AppNotification.swift */; };
+		CD63CFBD9B65DD8C8E2D4BE2 /* AppearanceOptionControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2090DAFBA8DDFC315CC1C17 /* AppearanceOptionControl.swift */; };
 		CF62FA84395E74E526372A88 /* StudyStatusSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF794A337CBD5B9733BFEE5 /* StudyStatusSnapshot.swift */; };
 		D521E8763AF28543238FDA1A /* StudySessionActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4B8A7C995FFF7C9319638A /* StudySessionActivityAttributes.swift */; };
 		D73C02E053050CFDD2C4A3BF /* FlashForgeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA23FB069A0C9939055C1301 /* FlashForgeUITests.swift */; };
@@ -215,6 +216,7 @@
 		BF22BD610B18E1204D750A34 /* FlashForgeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "FlashForgeTests-Info.plist"; sourceTree = "<group>"; };
 		BF2D145E0784B9C06BF5572D /* DeckDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckDetailViewModel.swift; sourceTree = "<group>"; };
 		C086E74EC7A22085D867BFD9 /* FlashForgeWidgets-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "FlashForgeWidgets-Info.plist"; sourceTree = "<group>"; };
+		C2090DAFBA8DDFC315CC1C17 /* AppearanceOptionControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceOptionControl.swift; sourceTree = "<group>"; };
 		C751CA6D9B0B0605F5EB41FA /* AppWalkthroughViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppWalkthroughViewController.swift; sourceTree = "<group>"; };
 		CC3EE56F35E255141FD63E1B /* FlashForgeWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FlashForgeWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC6A1679DDC1AB1BE4D56A45 /* DeckDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckDetailViewController.swift; sourceTree = "<group>"; };
@@ -285,6 +287,7 @@
 			isa = PBXGroup;
 			children = (
 				A426469F23A843D8429253CC /* AppDesignSystem.swift */,
+				C2090DAFBA8DDFC315CC1C17 /* AppearanceOptionControl.swift */,
 				700AFB3B4CDA3F2F8FD9176C /* GlassCardView.swift */,
 				DACBC97F9E67929393B532B2 /* ReviewHeatmapView.swift */,
 				0032E53D00341876923168CD /* WalkthroughArtworkView.swift */,
@@ -792,6 +795,7 @@
 				34B1A5A4B783E17891789A85 /* DecksViewModel.swift in Sources */,
 				323ABBD9C7F69CAE3D0B57CC /* HomeViewModel.swift in Sources */,
 				E44E92330EF97CD435265C7E /* AppDesignSystem.swift in Sources */,
+				CD63CFBD9B65DD8C8E2D4BE2 /* AppearanceOptionControl.swift in Sources */,
 				080B94E7283BC9E25E1762DF /* GlassCardView.swift in Sources */,
 				0BA521677B2D6A433E04FAAE /* ReviewHeatmapView.swift in Sources */,
 				907477EABF232A74180800D3 /* WalkthroughArtworkView.swift in Sources */,
