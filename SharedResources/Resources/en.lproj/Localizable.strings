@@ -4,6 +4,7 @@
 "home.empty.select_deck" = "Choose a deck to start a focused review.";
 "home.deck.select" = "Select Deck";
 "home.due.none" = "No cards due today";
+"home.due.caption" = "cards due today";
 "home.reveal" = "Show Answer";
 "home.reload" = "Reload";
 "home.open_library" = "Open Library";

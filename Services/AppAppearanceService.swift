@@ -43,7 +43,7 @@ final class AppAppearanceService {
     var current: AppAppearance {
         guard let rawValue = defaults.string(forKey: Key.appearance),
               let appearance = AppAppearance(rawValue: rawValue) else {
-            return .system
+            return .dark
         }
         return appearance
     }

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
   <title id="title">FlashForge 1.2</title>
-  <desc id="description">A dark editorial illustration of the FlashForge study experience.</desc>
+  <desc id="description">FlashForge's dark editorial Today screen with warm stacked study cards.</desc>
   <rect width="1200" height="630" fill="#0b0c0d"/>
   <path d="M0 80H1200M0 550H1200" stroke="#302f2c"/>
   <path d="M80 0V630M1120 0V630" stroke="#302f2c"/>
@@ -11,41 +11,46 @@
     <text x="0" y="128" fill="#f1ebdd" font-size="76" font-weight="800" letter-spacing="-5">Remember</text>
     <text x="0" y="204" fill="#d96b45" font-size="76" font-weight="800" letter-spacing="-5">what matters.</text>
     <text x="0" y="260" fill="#b0a99d" font-size="21" font-weight="500">Private, adaptive flashcards without the clutter.</text>
-
     <g transform="translate(0 332)">
-      <rect width="118" height="38" rx="19" fill="#191a1b" stroke="#47443f"/>
-      <circle cx="22" cy="19" r="4" fill="#d96b45"/>
-      <text x="36" y="24" fill="#f1ebdd" font-size="13" font-weight="650">OFFLINE-FIRST</text>
-      <rect x="130" width="100" height="38" rx="19" fill="#191a1b" stroke="#47443f"/>
-      <circle cx="152" cy="19" r="4" fill="#74a98e"/>
-      <text x="166" y="24" fill="#f1ebdd" font-size="13" font-weight="650">PRIVATE</text>
+      <path d="M0 0H118" stroke="#47443f"/>
+      <circle cx="5" cy="19" r="4" fill="#d96b45"/>
+      <text x="19" y="24" fill="#f1ebdd" font-size="13" font-weight="650">OFFLINE-FIRST</text>
+      <path d="M140 0H228" stroke="#47443f"/>
+      <circle cx="145" cy="19" r="4" fill="#74a98e"/>
+      <text x="159" y="24" fill="#f1ebdd" font-size="13" font-weight="650">PRIVATE</text>
     </g>
   </g>
 
-  <g transform="translate(710 72)">
-    <rect x="23" y="25" width="384" height="472" rx="34" fill="#0b0c0d" stroke="#302f2c" transform="rotate(2 215 261)"/>
-    <rect x="0" y="0" width="410" height="500" rx="34" fill="#141516" stroke="#47443f"/>
-    <text x="32" y="45" fill="#d96b45" font-family="Manrope, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="2.5">TODAY</text>
-    <text x="330" y="45" fill="#b0a99d" font-family="Manrope, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="1.5">17 AUG</text>
-    <line x1="32" y1="64" x2="378" y2="64" stroke="#302f2c"/>
+  <g transform="translate(720 28)" font-family="Manrope, Arial, sans-serif">
+    <rect width="420" height="574" rx="34" fill="#0b0c0d" stroke="#47443f"/>
+    <text x="28" y="48" fill="#f1ebdd" font-size="22" font-weight="800" letter-spacing="-1">FlashForge</text>
+    <text x="332" y="46" fill="#b0a99d" font-size="11" font-weight="700" letter-spacing="1.4">17 AUG</text>
+    <path d="M384 35h16M384 41h16M384 47h16" stroke="#b0a99d" stroke-linecap="round"/>
+    <circle cx="389" cy="35" r="2" fill="#f1ebdd"/><circle cx="396" cy="41" r="2" fill="#f1ebdd"/><circle cx="391" cy="47" r="2" fill="#f1ebdd"/>
 
-    <text x="32" y="136" fill="#f1ebdd" font-family="Manrope, Arial, sans-serif" font-size="68" font-weight="800" letter-spacing="-4">12</text>
-    <text x="120" y="126" fill="#b0a99d" font-family="Manrope, Arial, sans-serif" font-size="13" font-weight="500">cards due today</text>
+    <text x="28" y="150" fill="#f1ebdd" font-size="84" font-weight="800" letter-spacing="-5">12</text>
+    <text x="30" y="174" fill="#b0a99d" font-size="13" font-weight="500">cards due today</text>
+    <path d="M210 76V174" stroke="#302f2c"/>
+    <text x="230" y="103" fill="#f1ebdd" font-size="25" font-weight="800">3</text>
+    <text x="230" y="119" fill="#b0a99d" font-size="9" font-weight="700" letter-spacing="1">LEARNING</text>
+    <path d="M230 130H392" stroke="#302f2c"/>
+    <text x="230" y="157" fill="#f1ebdd" font-size="25" font-weight="800">9</text>
+    <text x="230" y="173" fill="#b0a99d" font-size="9" font-weight="700" letter-spacing="1">REVIEW</text>
 
-    <rect x="32" y="160" width="346" height="40" rx="11" fill="#202123" stroke="#302f2c"/>
-    <text x="48" y="185" fill="#f1ebdd" font-family="Manrope, Arial, sans-serif" font-size="13" font-weight="600">Science &amp; Environment</text>
-    <path d="M350 177l5 6 5-6" fill="none" stroke="#b0a99d" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="28" y="214" fill="#f1ebdd" font-size="13" font-weight="600">Science &amp; Environment</text>
+    <path d="M28 229H392" stroke="#302f2c"/>
+    <path d="M382 207l6 6-6 6" fill="none" stroke="#b0a99d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 
-    <rect x="50" y="225" width="310" height="232" rx="22" fill="#202123" stroke="#302f2c"/>
-    <rect x="40" y="235" width="330" height="232" rx="22" fill="#191a1b" stroke="#47443f"/>
-    <text x="64" y="269" fill="#d96b45" font-family="Manrope, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="2">REVIEW</text>
-    <text x="316" y="269" fill="#b0a99d" font-family="Manrope, Arial, sans-serif" font-size="11" font-weight="700">3 / 12</text>
-    <text x="64" y="326" fill="#f1ebdd" font-family="Manrope, Arial, sans-serif" font-size="23" font-weight="750">
-      <tspan x="64" dy="0">Which layer protects Earth</tspan>
-      <tspan x="64" dy="31">from harmful solar radiation?</tspan>
-    </text>
-    <text x="64" y="406" fill="#b0a99d" font-family="Manrope, Arial, sans-serif" font-size="12">Tap the card to reveal the answer.</text>
-    <rect x="64" y="425" width="282" height="28" rx="9" fill="#d96b45"/>
-    <text x="205" y="444" text-anchor="middle" fill="#fff8ef" font-family="Manrope, Arial, sans-serif" font-size="11" font-weight="700">Reveal answer</text>
+    <rect x="62" y="251" width="296" height="282" rx="24" fill="#c9baa1" stroke="#9f9078"/>
+    <rect x="46" y="263" width="328" height="282" rx="24" fill="#dfd2ba" stroke="#aa9b83"/>
+    <rect x="28" y="276" width="364" height="282" rx="24" fill="#f4ecd9" stroke="#b8aa92"/>
+    <rect x="52" y="301" width="3" height="17" rx="1.5" fill="#d96b45"/>
+    <text x="65" y="314" fill="#d96b45" font-size="10" font-weight="800" letter-spacing="1.5">REVIEW</text>
+    <text x="52" y="350" fill="#5b5348" font-size="11" font-weight="600">Science &amp; Environment · Atmosphere</text>
+    <text x="52" y="389" fill="#111214" font-size="19" font-weight="800" letter-spacing="-0.7">Which layer protects Earth</text>
+    <text x="52" y="416" fill="#111214" font-size="19" font-weight="800" letter-spacing="-0.7">from harmful solar radiation?</text>
+    <text x="52" y="463" fill="#5b5348" font-size="11">Tap card to reveal the answer.</text>
+    <path d="M28 500H392V534Q392 558 368 558H52Q28 558 28 534Z" fill="#d96b45"/>
+    <text x="210" y="535" text-anchor="middle" fill="#fff8ef" font-size="12" font-weight="750">Reveal answer</text>
   </g>
 </svg>

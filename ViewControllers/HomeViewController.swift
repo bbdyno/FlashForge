@@ -18,11 +18,22 @@ final class HomeViewController: UIViewController {
     private let brandRow = UIStackView()
     private let brandMarkView = UIImageView()
     private let brandLabel = UILabel()
+    private let headerSpacer = UIView()
+    private let dateLabel = UILabel()
+    private let settingsButton = UIButton(type: .system)
     private let titleLabel = UILabel()
     private let deckButton = UIButton(type: .system)
+    private let deckChevronView = UIImageView()
+    private let deckRuleView = UIView()
     private let dueSummaryContainer = UIView()
     private let dueSummaryIconView = UIImageView()
     private let dueSummaryTextLabel = UILabel()
+    private let learningCountLabel = UILabel()
+    private let learningCaptionLabel = UILabel()
+    private let reviewCountLabel = UILabel()
+    private let reviewCaptionLabel = UILabel()
+    private let statsSeparatorView = UIView()
+    private let cardSecondBackdropView = UIView()
     private let cardBackdropView = UIView()
     private let glassCardView = GlassCardView()
     private let revealAnswerButton = UIButton(type: .system)
@@ -129,13 +140,23 @@ final class HomeViewController: UIViewController {
         view.addSubview(topGlowView)
         view.addSubview(bottomGlowView)
         view.addSubview(brandRow)
-        brandRow.addArrangedSubview(brandMarkView)
         brandRow.addArrangedSubview(brandLabel)
+        brandRow.addArrangedSubview(headerSpacer)
+        brandRow.addArrangedSubview(dateLabel)
+        brandRow.addArrangedSubview(settingsButton)
         view.addSubview(titleLabel)
         view.addSubview(deckButton)
+        view.addSubview(deckChevronView)
+        view.addSubview(deckRuleView)
         view.addSubview(dueSummaryContainer)
         dueSummaryContainer.addSubview(dueSummaryIconView)
-        dueSummaryContainer.addSubview(dueSummaryTextLabel)
+        dueSummaryContainer.addSubview(learningCountLabel)
+        dueSummaryContainer.addSubview(learningCaptionLabel)
+        dueSummaryContainer.addSubview(reviewCountLabel)
+        dueSummaryContainer.addSubview(reviewCaptionLabel)
+        dueSummaryContainer.addSubview(statsSeparatorView)
+        view.addSubview(dueSummaryTextLabel)
+        view.addSubview(cardSecondBackdropView)
         view.addSubview(cardBackdropView)
         view.addSubview(glassCardView)
         view.addSubview(revealAnswerButton)
@@ -156,49 +177,62 @@ final class HomeViewController: UIViewController {
 
         brandRow.axis = .horizontal
         brandRow.alignment = .center
-        brandRow.spacing = 8
+        brandRow.spacing = 12
 
-        brandMarkView.image = UIImage(systemName: "circle.fill")
-        brandMarkView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 13, weight: .bold)
-        brandMarkView.tintColor = AppTheme.accent
-        brandMarkView.contentMode = .scaleAspectFit
+        brandLabel.text = "FlashForge"
+        brandLabel.font = AppTypography.font(size: 24, weight: .bold, textStyle: .title2)
+        brandLabel.textColor = AppTheme.textPrimary
 
-        brandLabel.text = FlashForgeStrings.Home.eyebrow
-        brandLabel.font = AppTypography.font(size: 12, weight: .bold, textStyle: .caption1)
-        brandLabel.textColor = AppTheme.textSecondary
-        AppTypography.applyTracking(1.6, to: brandLabel)
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = .autoupdatingCurrent
+        dateFormatter.setLocalizedDateFormatFromTemplate("MMM d")
+        dateLabel.text = dateFormatter.string(from: .now).uppercased(with: .autoupdatingCurrent)
+        dateLabel.font = AppTypography.font(size: 11, weight: .bold, textStyle: .caption1)
+        dateLabel.textColor = AppTheme.textSecondary
+        AppTypography.applyTracking(1.2, to: dateLabel)
 
-        titleLabel.text = FlashForgeStrings.Home.title
+        settingsButton.setImage(UIImage(systemName: "slider.horizontal.3"), for: .normal)
+        settingsButton.setPreferredSymbolConfiguration(
+            UIImage.SymbolConfiguration(pointSize: 17, weight: .medium),
+            forImageIn: .normal
+        )
+        settingsButton.tintColor = AppTheme.textPrimary
+        settingsButton.accessibilityLabel = FlashForgeStrings.More.title
+        settingsButton.addTarget(self, action: #selector(didTapSettings), for: .touchUpInside)
+
+        titleLabel.text = "0"
         titleLabel.font = AppTypography.font(
-            size: 34,
+            size: 82,
             weight: .bold,
             textStyle: .largeTitle,
-            maximumPointSize: 42
+            maximumPointSize: 92
         )
         titleLabel.adjustsFontForContentSizeCategory = true
         titleLabel.textColor = AppTheme.textPrimary
-        titleLabel.numberOfLines = 2
+        titleLabel.numberOfLines = 1
 
         var deckButtonConfiguration = UIButton.Configuration.plain()
-        deckButtonConfiguration.image = UIImage(systemName: "chevron.down")
-        deckButtonConfiguration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 10, weight: .bold)
-        deckButtonConfiguration.imagePlacement = .trailing
-        deckButtonConfiguration.imagePadding = 5
         deckButtonConfiguration.baseForegroundColor = AppTheme.textPrimary
-        deckButtonConfiguration.contentInsets = NSDirectionalEdgeInsets(top: 7, leading: 11, bottom: 7, trailing: 9)
+        deckButtonConfiguration.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 1, bottom: 8, trailing: 1)
         deckButtonConfiguration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attributes in
             var updated = attributes
             updated.font = AppTypography.font(size: 13, weight: .semibold, textStyle: .subheadline)
             return updated
         }
         deckButton.configuration = deckButtonConfiguration
-        deckButton.layer.cornerRadius = 12
-        deckButton.layer.cornerCurve = .continuous
+        deckButton.contentHorizontalAlignment = .leading
+        deckButton.layer.cornerRadius = 0
         deckButton.layer.borderWidth = 0
-        deckButton.backgroundColor = AppTheme.inputBackground
+        deckButton.backgroundColor = .clear
         deckButton.showsMenuAsPrimaryAction = true
         deckButton.accessibilityIdentifier = "home.deckButton"
         setDeckButtonTitle(FlashForgeStrings.Home.Deck.select)
+        deckChevronView.image = UIImage(systemName: "chevron.right")
+        deckChevronView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 11, weight: .bold)
+        deckChevronView.tintColor = AppTheme.textSecondary
+        deckChevronView.contentMode = .scaleAspectFit
+        deckChevronView.isUserInteractionEnabled = false
+        deckRuleView.backgroundColor = AppTheme.cardBorder
 
         dueSummaryContainer.backgroundColor = .clear
         dueSummaryContainer.layer.cornerRadius = 0
@@ -206,11 +240,9 @@ final class HomeViewController: UIViewController {
         dueSummaryContainer.layer.borderWidth = 0
         dueSummaryContainer.isUserInteractionEnabled = false
 
-        dueSummaryIconView.image = UIImage(systemName: "clock.fill")
-        dueSummaryIconView.tintColor = AppTheme.textSecondary
-        dueSummaryIconView.contentMode = .scaleAspectFit
+        dueSummaryIconView.backgroundColor = AppTheme.cardBorder
 
-        dueSummaryTextLabel.font = AppTypography.font(size: 12, weight: .semibold, textStyle: .caption1)
+        dueSummaryTextLabel.font = AppTypography.font(size: 13, weight: .medium, textStyle: .footnote)
         dueSummaryTextLabel.adjustsFontForContentSizeCategory = true
         dueSummaryTextLabel.textColor = AppTheme.textSecondary
         dueSummaryTextLabel.textAlignment = .left
@@ -218,27 +250,47 @@ final class HomeViewController: UIViewController {
         dueSummaryTextLabel.lineBreakMode = .byTruncatingTail
         dueSummaryTextLabel.adjustsFontSizeToFitWidth = true
         dueSummaryTextLabel.minimumScaleFactor = 0.85
-        dueSummaryTextLabel.text = FlashForgeStrings.Home.Due.none
+        dueSummaryTextLabel.text = FlashForgeStrings.Home.Due.caption
         dueSummaryTextLabel.isUserInteractionEnabled = false
 
-        cardBackdropView.backgroundColor = AppTheme.inputBackground
-        cardBackdropView.layer.cornerRadius = 20
-        cardBackdropView.layer.cornerCurve = .continuous
-        cardBackdropView.layer.borderWidth = 1.0 / UIScreen.main.scale
-        cardBackdropView.layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
-        cardBackdropView.layer.shadowOpacity = 0
-        cardBackdropView.isUserInteractionEnabled = false
+        [learningCountLabel, reviewCountLabel].forEach { label in
+            label.font = AppTypography.font(size: 25, weight: .bold, textStyle: .title2)
+            label.textColor = AppTheme.textPrimary
+            label.textAlignment = .left
+        }
+        [learningCaptionLabel, reviewCaptionLabel].forEach { label in
+            label.font = AppTypography.font(size: 10, weight: .bold, textStyle: .caption2)
+            label.textColor = AppTheme.textSecondary
+            label.textAlignment = .left
+        }
+        learningCountLabel.text = "0"
+        reviewCountLabel.text = "0"
+        learningCaptionLabel.text = FlashForgeStrings.StudyCard.Badge.learning
+        reviewCaptionLabel.text = FlashForgeStrings.StudyCard.Badge.review
+        statsSeparatorView.backgroundColor = AppTheme.cardBorder
+
+        [(cardSecondBackdropView, AppTheme.studyPaperTertiary), (cardBackdropView, AppTheme.studyPaperSecondary)].forEach { view, color in
+            view.backgroundColor = color
+            view.layer.cornerRadius = 22
+            view.layer.cornerCurve = .continuous
+            view.layer.borderWidth = 1.0 / UIScreen.main.scale
+            view.layer.borderColor = AppTheme.studyLine.withAlphaComponent(0.45).cgColor
+            view.layer.shadowOpacity = 0
+            view.isUserInteractionEnabled = false
+        }
 
         revealAnswerButton.setTitle(FlashForgeStrings.Home.reveal, for: .normal)
         revealAnswerButton.setTitleColor(.white, for: .normal)
         revealAnswerButton.titleLabel?.font = AppTypography.font(size: 16, weight: .bold, textStyle: .headline)
         revealAnswerButton.titleLabel?.adjustsFontForContentSizeCategory = true
         revealAnswerButton.backgroundColor = AppTheme.buttonFill(from: AppTheme.accent, for: traitCollection)
-        revealAnswerButton.layer.cornerRadius = 14
+        revealAnswerButton.layer.cornerRadius = 22
         revealAnswerButton.layer.cornerCurve = .continuous
+        revealAnswerButton.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         revealAnswerButton.layer.borderWidth = 0
         revealAnswerButton.layer.shadowOpacity = 0
         revealAnswerButton.addTarget(self, action: #selector(didTapRevealAnswer), for: .touchUpInside)
+        revealAnswerButton.accessibilityIdentifier = "home.revealButton"
         revealAnswerButton.isHidden = true
 
         gradePromptLabel.text = FlashForgeStrings.Home.Grade.prompt
@@ -255,13 +307,18 @@ final class HomeViewController: UIViewController {
         gradeStackView.spacing = 10
         gradeStackView.isHidden = true
 
-        AppTheme.styleSurface(emptyStateContainer, radius: 18)
+        emptyStateContainer.backgroundColor = AppTheme.studyPaper
+        emptyStateContainer.layer.cornerRadius = 22
+        emptyStateContainer.layer.cornerCurve = .continuous
+        emptyStateContainer.layer.borderWidth = 1.0 / UIScreen.main.scale
+        emptyStateContainer.layer.borderColor = AppTheme.studyLine.withAlphaComponent(0.45).cgColor
+        emptyStateContainer.clipsToBounds = true
         emptyStateContainer.isHidden = true
 
         emptyStateIconView.image = UIImage(systemName: "checkmark")
         emptyStateIconView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 22, weight: .semibold)
         emptyStateIconView.tintColor = AppTheme.accent
-        emptyStateIconView.backgroundColor = AppTheme.accentSoft
+        emptyStateIconView.backgroundColor = AppTheme.accent.withAlphaComponent(0.12)
         emptyStateIconView.contentMode = .center
         emptyStateIconView.layer.cornerRadius = 20
         emptyStateIconView.layer.cornerCurve = .continuous
@@ -270,7 +327,7 @@ final class HomeViewController: UIViewController {
         emptyStateLabel.numberOfLines = 4
         emptyStateLabel.font = AppTypography.font(size: 20, weight: .bold, textStyle: .title3)
         emptyStateLabel.adjustsFontForContentSizeCategory = true
-        emptyStateLabel.textColor = AppTheme.textPrimary
+        emptyStateLabel.textColor = AppTheme.studyInk
         emptyStateLabel.isHidden = true
 
         reloadButton.setTitle(FlashForgeStrings.Home.reload, for: .normal)
@@ -278,8 +335,9 @@ final class HomeViewController: UIViewController {
         reloadButton.titleLabel?.adjustsFontForContentSizeCategory = true
         reloadButton.setTitleColor(.white, for: .normal)
         reloadButton.backgroundColor = AppTheme.accent
-        reloadButton.layer.cornerRadius = 14
+        reloadButton.layer.cornerRadius = 22
         reloadButton.layer.cornerCurve = .continuous
+        reloadButton.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         reloadButton.layer.borderWidth = 0
         reloadButton.isHidden = true
         reloadButton.addTarget(self, action: #selector(didTapReloadButton), for: .touchUpInside)
@@ -293,31 +351,41 @@ final class HomeViewController: UIViewController {
     private func applyTheme() {
         AppTheme.applyGradient(to: backgroundGradientLayer, traitCollection: traitCollection)
 
-        brandMarkView.tintColor = AppTheme.accent
-        brandLabel.textColor = AppTheme.textSecondary
+        brandLabel.textColor = AppTheme.textPrimary
+        dateLabel.textColor = AppTheme.textSecondary
+        settingsButton.tintColor = AppTheme.textPrimary
         titleLabel.textColor = AppTheme.textPrimary
 
         if var configuration = deckButton.configuration {
             configuration.baseForegroundColor = AppTheme.textPrimary
             deckButton.configuration = configuration
         }
-        deckButton.backgroundColor = AppTheme.inputBackground
+        deckButton.backgroundColor = .clear
+        deckRuleView.backgroundColor = AppTheme.cardBorder
+        deckChevronView.tintColor = AppTheme.textSecondary
 
-        dueSummaryIconView.tintColor = AppTheme.textSecondary
+        dueSummaryIconView.backgroundColor = AppTheme.cardBorder
         dueSummaryTextLabel.textColor = AppTheme.textSecondary
+        learningCountLabel.textColor = AppTheme.textPrimary
+        reviewCountLabel.textColor = AppTheme.textPrimary
+        learningCaptionLabel.textColor = AppTheme.textSecondary
+        reviewCaptionLabel.textColor = AppTheme.textSecondary
+        statsSeparatorView.backgroundColor = AppTheme.cardBorder
 
         dueSummaryContainer.backgroundColor = .clear
-        cardBackdropView.backgroundColor = AppTheme.inputBackground
-        cardBackdropView.layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
+        cardSecondBackdropView.backgroundColor = AppTheme.studyPaperTertiary
+        cardSecondBackdropView.layer.borderColor = AppTheme.studyLine.withAlphaComponent(0.45).cgColor
+        cardBackdropView.backgroundColor = AppTheme.studyPaperSecondary
+        cardBackdropView.layer.borderColor = AppTheme.studyLine.withAlphaComponent(0.45).cgColor
 
         revealAnswerButton.setTitleColor(.white, for: .normal)
         revealAnswerButton.backgroundColor = AppTheme.buttonFill(from: AppTheme.accent, for: traitCollection)
 
         gradePromptLabel.textColor = AppTheme.textSecondary
-        emptyStateLabel.textColor = AppTheme.textPrimary
-        emptyStateContainer.backgroundColor = AppTheme.cardBackground
-        emptyStateContainer.layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
-        emptyStateIconView.backgroundColor = AppTheme.accentSoft
+        emptyStateLabel.textColor = AppTheme.studyInk
+        emptyStateContainer.backgroundColor = AppTheme.studyPaper
+        emptyStateContainer.layer.borderColor = AppTheme.studyLine.withAlphaComponent(0.45).cgColor
+        emptyStateIconView.backgroundColor = AppTheme.accent.withAlphaComponent(0.12)
         emptyStateIconView.tintColor = AppTheme.accent
 
         reloadButton.setTitleColor(.white, for: .normal)
@@ -341,52 +409,94 @@ final class HomeViewController: UIViewController {
         }
 
         brandRow.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(14)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(16)
             make.leading.equalToSuperview().inset(24)
-            make.trailing.lessThanOrEqualToSuperview().inset(24)
+            make.trailing.equalToSuperview().inset(20)
+            make.height.greaterThanOrEqualTo(32)
         }
 
-        brandMarkView.snp.makeConstraints { make in
-            make.size.equalTo(7)
+        settingsButton.snp.makeConstraints { make in
+            make.size.equalTo(32)
         }
 
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(brandRow.snp.bottom).offset(7)
+            make.top.equalTo(brandRow.snp.bottom).offset(10)
             make.leading.equalToSuperview().inset(24)
-            make.trailing.lessThanOrEqualToSuperview().inset(24)
+            make.width.greaterThanOrEqualTo(118)
+            make.height.equalTo(92)
         }
 
-        deckButton.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(14)
+        dueSummaryTextLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(-9)
             make.leading.equalToSuperview().inset(24)
-            make.height.equalTo(36)
-            make.width.greaterThanOrEqualTo(120)
-            make.trailing.lessThanOrEqualToSuperview().inset(24)
+            make.trailing.lessThanOrEqualTo(dueSummaryContainer.snp.leading).offset(-16)
         }
 
         dueSummaryContainer.snp.makeConstraints { make in
-            make.top.equalTo(deckButton.snp.bottom).offset(10)
-            make.leading.equalToSuperview().inset(24)
-            make.trailing.lessThanOrEqualToSuperview().inset(24)
-            make.height.equalTo(20)
+            make.top.equalTo(titleLabel.snp.top).offset(5)
+            make.leading.equalTo(view.snp.centerX).offset(14)
+            make.trailing.equalToSuperview().inset(24)
+            make.height.equalTo(92)
         }
 
         dueSummaryIconView.snp.makeConstraints { make in
             make.leading.equalToSuperview()
-            make.centerY.equalToSuperview()
-            make.width.height.equalTo(11)
+            make.top.bottom.equalToSuperview()
+            make.width.equalTo(1.0 / UIScreen.main.scale)
         }
 
-        dueSummaryTextLabel.snp.makeConstraints { make in
-            make.leading.equalTo(dueSummaryIconView.snp.trailing).offset(6)
+        learningCountLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.equalTo(dueSummaryIconView.snp.trailing).offset(18)
+        }
+
+        learningCaptionLabel.snp.makeConstraints { make in
+            make.leading.equalTo(learningCountLabel)
+            make.top.equalTo(learningCountLabel.snp.bottom).offset(-1)
+        }
+
+        statsSeparatorView.snp.makeConstraints { make in
+            make.leading.equalTo(dueSummaryIconView.snp.trailing).offset(18)
             make.trailing.equalToSuperview()
-            make.centerY.equalTo(dueSummaryIconView.snp.centerY)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(1.0 / UIScreen.main.scale)
+        }
+
+        reviewCountLabel.snp.makeConstraints { make in
+            make.top.equalTo(statsSeparatorView.snp.bottom).offset(7)
+            make.leading.equalTo(learningCountLabel)
+        }
+
+        reviewCaptionLabel.snp.makeConstraints { make in
+            make.leading.equalTo(reviewCountLabel)
+            make.top.equalTo(reviewCountLabel.snp.bottom).offset(-1)
+        }
+
+        deckButton.snp.makeConstraints { make in
+            make.top.equalTo(dueSummaryContainer.snp.bottom).offset(14)
+            make.leading.trailing.equalToSuperview().inset(24)
+            make.height.equalTo(44)
+        }
+
+        deckRuleView.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalTo(deckButton)
+            make.height.equalTo(1.0 / UIScreen.main.scale)
+        }
+
+        deckChevronView.snp.makeConstraints { make in
+            make.trailing.equalTo(deckButton)
+            make.centerY.equalTo(deckButton)
+            make.size.equalTo(18)
         }
 
         glassCardView.snp.makeConstraints { make in
-            make.top.equalTo(dueSummaryContainer.snp.bottom).offset(18)
+            make.top.equalTo(deckButton.snp.bottom).offset(34)
             make.leading.trailing.equalToSuperview().inset(24)
-            cardHeightConstraint = make.height.equalTo(280).constraint
+            cardHeightConstraint = make.height.equalTo(292).constraint
+        }
+
+        cardSecondBackdropView.snp.makeConstraints { make in
+            make.edges.equalTo(glassCardView)
         }
 
         cardBackdropView.snp.makeConstraints { make in
@@ -394,9 +504,8 @@ final class HomeViewController: UIViewController {
         }
 
         revealAnswerButton.snp.makeConstraints { make in
-            make.top.equalTo(glassCardView.snp.bottom).offset(16)
-            make.leading.trailing.equalToSuperview().inset(24)
-            make.height.equalTo(52)
+            make.leading.trailing.bottom.equalTo(glassCardView)
+            make.height.equalTo(56)
         }
 
         gradeStackView.snp.makeConstraints { make in
@@ -407,14 +516,12 @@ final class HomeViewController: UIViewController {
         }
 
         gradePromptLabel.snp.makeConstraints { make in
-            make.top.equalTo(revealAnswerButton.snp.bottom).offset(12)
+            make.top.equalTo(glassCardView.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(24)
         }
 
         emptyStateContainer.snp.makeConstraints { make in
-            make.top.equalTo(dueSummaryContainer.snp.bottom).offset(28)
-            make.leading.trailing.equalToSuperview().inset(24)
-            make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide).inset(24)
+            make.edges.equalTo(glassCardView)
         }
 
         emptyStateIconView.snp.makeConstraints { make in
@@ -428,9 +535,9 @@ final class HomeViewController: UIViewController {
         }
 
         reloadButton.snp.makeConstraints { make in
-            make.top.equalTo(emptyStateLabel.snp.bottom).offset(20)
-            make.leading.trailing.bottom.equalToSuperview().inset(20)
-            make.height.equalTo(48)
+            make.top.greaterThanOrEqualTo(emptyStateLabel.snp.bottom).offset(20)
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(56)
         }
 
         loadingIndicator.snp.makeConstraints { make in
@@ -490,6 +597,7 @@ final class HomeViewController: UIViewController {
             buttonConfig.background.strokeColor = UIColor.white.withAlphaComponent(0.16)
             button.configuration = buttonConfig
             button.tag = config.grade.rawValue
+            button.accessibilityIdentifier = "home.grade.\(config.grade.rawValue)"
             button.addTarget(self, action: #selector(didTapGradeButton(_:)), for: .touchUpInside)
             if config.grade == .again || config.grade == .hard {
                 topRow.addArrangedSubview(button)
@@ -517,8 +625,8 @@ final class HomeViewController: UIViewController {
     private func updateCardHeightIfNeeded(animated: Bool = false) {
         let availableHeight = view.safeAreaLayoutGuide.layoutFrame.height
         let cardWidth = max(220, view.bounds.width - 48)
-        let widthBased = cardWidth * (isAnswerRevealed ? 0.95 : 0.86)
-        let heightCap = max(isAnswerRevealed ? 292 : 250, availableHeight * (isAnswerRevealed ? 0.56 : 0.44))
+        let widthBased = cardWidth * (isAnswerRevealed ? 0.96 : 0.86)
+        let heightCap = max(isAnswerRevealed ? 314 : 286, availableHeight * (isAnswerRevealed ? 0.45 : 0.39))
         let targetHeight = min(widthBased, heightCap)
         cardHeightConstraint?.update(offset: targetHeight)
 
@@ -584,6 +692,7 @@ final class HomeViewController: UIViewController {
         updateCardHeightIfNeeded()
 
         cardBackdropView.isHidden = false
+        cardSecondBackdropView.isHidden = false
         glassCardView.isHidden = false
         revealAnswerButton.isHidden = false
         revealAnswerButton.alpha = 1
@@ -595,9 +704,13 @@ final class HomeViewController: UIViewController {
         emptyStateLabel.isHidden = true
         reloadButton.isHidden = true
 
+        cardSecondBackdropView.alpha = 0
         cardBackdropView.alpha = 0
-        let restingBackdropTransform = CGAffineTransform(translationX: 0, y: 10)
-            .scaledBy(x: 0.96, y: 1)
+        let secondBackdropTransform = CGAffineTransform(translationX: 0, y: -22)
+            .scaledBy(x: 0.88, y: 1)
+        let restingBackdropTransform = CGAffineTransform(translationX: 0, y: -11)
+            .scaledBy(x: 0.94, y: 1)
+        cardSecondBackdropView.transform = secondBackdropTransform.scaledBy(x: 0.98, y: 0.98)
         cardBackdropView.transform = restingBackdropTransform.scaledBy(x: 0.98, y: 0.98)
         glassCardView.alpha = 0
         glassCardView.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
@@ -610,6 +723,8 @@ final class HomeViewController: UIViewController {
             initialSpringVelocity: 0.9,
             options: [.allowUserInteraction, .beginFromCurrentState]
         ) { [weak self] in
+            self?.cardSecondBackdropView.alpha = 1
+            self?.cardSecondBackdropView.transform = secondBackdropTransform
             self?.cardBackdropView.alpha = 1
             self?.cardBackdropView.transform = restingBackdropTransform
             self?.glassCardView.alpha = 1
@@ -618,7 +733,16 @@ final class HomeViewController: UIViewController {
     }
 
     private func showEmptyState(_ message: String) {
-        cardBackdropView.isHidden = true
+        let secondBackdropTransform = CGAffineTransform(translationX: 0, y: -22)
+            .scaledBy(x: 0.88, y: 1)
+        let firstBackdropTransform = CGAffineTransform(translationX: 0, y: -11)
+            .scaledBy(x: 0.94, y: 1)
+        cardSecondBackdropView.isHidden = false
+        cardSecondBackdropView.alpha = 1
+        cardSecondBackdropView.transform = secondBackdropTransform
+        cardBackdropView.isHidden = false
+        cardBackdropView.alpha = 1
+        cardBackdropView.transform = firstBackdropTransform
         glassCardView.isHidden = true
         revealAnswerButton.isHidden = true
         gradeStackView.isHidden = true
@@ -662,27 +786,10 @@ final class HomeViewController: UIViewController {
     }
 
     private func updateDueSummaryDisplay(with counts: QueueDueCounts) {
-        dueSummaryIconView.image = UIImage(systemName: counts.total == 0 ? "checkmark.circle.fill" : "clock.fill")
-        dueSummaryIconView.tintColor = counts.total == 0 ? AppTheme.accentTeal.withAlphaComponent(0.9) : AppTheme.textSecondary
-
-        if counts.total == 0 {
-            dueSummaryTextLabel.text = FlashForgeStrings.Home.Due.none
-            return
-        }
-
-        if view.bounds.width <= 360 {
-            dueSummaryTextLabel.text = FlashForgeStrings.Home.Due.Inline.compact(
-                counts.total,
-                counts.learning,
-                counts.review
-            )
-        } else {
-            dueSummaryTextLabel.text = FlashForgeStrings.Home.Due.inline(
-                counts.total,
-                counts.learning,
-                counts.review
-            )
-        }
+        titleLabel.text = String(counts.total)
+        dueSummaryTextLabel.text = FlashForgeStrings.Home.Due.caption
+        learningCountLabel.text = String(counts.learning)
+        reviewCountLabel.text = String(counts.review)
     }
 
     private func presentErrorAlert(message: String) {
@@ -711,6 +818,24 @@ final class HomeViewController: UIViewController {
             guard let self else { return }
             await self.viewModel.send(.didTapReload)
         }
+    }
+
+    @objc
+    private func didTapSettings() {
+        let settings = MoreViewController(repository: repository)
+        let navigationController = UINavigationController(rootViewController: settings)
+        let navigationAppearance = AppTheme.makeNavigationAppearance()
+        navigationController.navigationBar.standardAppearance = navigationAppearance
+        navigationController.navigationBar.scrollEdgeAppearance = navigationAppearance
+        navigationController.navigationBar.tintColor = AppTheme.textPrimary
+        settings.navigationItem.leftBarButtonItem = UIBarButtonItem(
+            systemItem: .close,
+            primaryAction: UIAction { [weak navigationController] _ in
+                navigationController?.dismiss(animated: true)
+            }
+        )
+        navigationController.modalPresentationStyle = .pageSheet
+        present(navigationController, animated: true)
     }
 
     @objc

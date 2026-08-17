@@ -25,7 +25,17 @@ final class MoreViewController: UIViewController {
     private let appearanceCard = UIView()
     private let appearanceTitleLabel = UILabel()
     private let appearanceDescriptionLabel = UILabel()
-    private let appearanceControl = UISegmentedControl()
+    private let appearanceOptionsStack = UIStackView()
+    private lazy var appearanceControls: [AppearanceOptionControl] = {
+        let titles = [
+            FlashForgeStrings.More.Appearance.Option.system,
+            FlashForgeStrings.More.Appearance.Option.light,
+            FlashForgeStrings.More.Appearance.Option.dark
+        ]
+        return zip(AppAppearance.allCases, titles).map { appearance, title in
+            AppearanceOptionControl(appearance: appearance, title: title)
+        }
+    }()
 
     private let reminderCard = UIView()
     private let reminderTitleLabel = UILabel()
@@ -178,9 +188,8 @@ final class MoreViewController: UIViewController {
     }
 
     private func configureAppearanceCard() {
-        appearanceCard.layer.cornerRadius = 18
-        appearanceCard.layer.cornerCurve = .continuous
-        appearanceCard.layer.borderWidth = 1.0 / UIScreen.main.scale
+        appearanceCard.layer.cornerRadius = 0
+        appearanceCard.layer.borderWidth = 0
 
         appearanceTitleLabel.text = FlashForgeStrings.More.Appearance.title
         appearanceTitleLabel.font = AppTypography.font(size: 19, weight: .bold, textStyle: .headline)
@@ -191,23 +200,21 @@ final class MoreViewController: UIViewController {
         appearanceDescriptionLabel.adjustsFontForContentSizeCategory = true
         appearanceDescriptionLabel.numberOfLines = 0
 
-        [
-            FlashForgeStrings.More.Appearance.Option.system,
-            FlashForgeStrings.More.Appearance.Option.light,
-            FlashForgeStrings.More.Appearance.Option.dark
-        ].enumerated().forEach { index, title in
-            appearanceControl.insertSegment(withTitle: title, at: index, animated: false)
+        appearanceOptionsStack.axis = .horizontal
+        appearanceOptionsStack.alignment = .fill
+        appearanceOptionsStack.distribution = .fillEqually
+        appearanceOptionsStack.spacing = 10
+        appearanceOptionsStack.accessibilityIdentifier = "more.appearanceControl"
+        appearanceControls.forEach { control in
+            control.addTarget(self, action: #selector(didChangeAppearance(_:)), for: .touchUpInside)
+            appearanceOptionsStack.addArrangedSubview(control)
         }
-        appearanceControl.selectedSegmentIndex = AppAppearance.allCases.firstIndex(
-            of: AppAppearanceService.shared.current
-        ) ?? 0
-        appearanceControl.accessibilityIdentifier = "more.appearanceControl"
-        appearanceControl.addTarget(self, action: #selector(didChangeAppearance(_:)), for: .valueChanged)
+        updateAppearanceSelection()
 
         let stack = UIStackView(arrangedSubviews: [
             appearanceTitleLabel,
             appearanceDescriptionLabel,
-            appearanceControl
+            appearanceOptionsStack
         ])
         stack.axis = .vertical
         stack.spacing = 12
@@ -217,8 +224,8 @@ final class MoreViewController: UIViewController {
         stack.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(16)
         }
-        appearanceControl.snp.makeConstraints { make in
-            make.height.equalTo(38)
+        appearanceOptionsStack.snp.makeConstraints { make in
+            make.height.equalTo(110)
         }
     }
 
@@ -553,6 +560,7 @@ final class MoreViewController: UIViewController {
         developerTitleLabel.textColor = AppTheme.textPrimary
 
         configureActionButton(generateSamplesButton, title: FlashForgeStrings.More.Developer.generateSamples, tint: AppTheme.accentTeal)
+        generateSamplesButton.accessibilityIdentifier = "more.generateSamplesButton"
         generateSamplesButton.addTarget(self, action: #selector(didTapGenerateSamples), for: .touchUpInside)
 
         developerStatusLabel.font = AppTypography.font(size: 13, weight: .medium, textStyle: .footnote)
@@ -609,26 +617,10 @@ final class MoreViewController: UIViewController {
 
         let cardBorderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
 
-        appearanceCard.backgroundColor = AppTheme.cardBackground
-        appearanceCard.layer.borderColor = cardBorderColor
+        appearanceCard.backgroundColor = .clear
         appearanceTitleLabel.textColor = AppTheme.textPrimary
         appearanceDescriptionLabel.textColor = AppTheme.textSecondary
-        appearanceControl.backgroundColor = AppTheme.inputBackground
-        appearanceControl.selectedSegmentTintColor = AppTheme.accent
-        appearanceControl.setTitleTextAttributes(
-            [
-                .foregroundColor: AppTheme.textSecondary,
-                .font: AppTypography.font(size: 13, weight: .semibold, textStyle: .subheadline)
-            ],
-            for: .normal
-        )
-        appearanceControl.setTitleTextAttributes(
-            [
-                .foregroundColor: UIColor.white,
-                .font: AppTypography.font(size: 13, weight: .bold, textStyle: .subheadline)
-            ],
-            for: .selected
-        )
+        updateAppearanceSelection()
 
         reminderCard.backgroundColor = AppTheme.cardBackground
         reminderCard.layer.borderColor = cardBorderColor
@@ -717,12 +709,14 @@ final class MoreViewController: UIViewController {
     }
 
     @objc
-    private func didChangeAppearance(_ sender: UISegmentedControl) {
-        guard AppAppearance.allCases.indices.contains(sender.selectedSegmentIndex) else {
-            return
-        }
-        let appearance = AppAppearance.allCases[sender.selectedSegmentIndex]
-        AppAppearanceService.shared.set(appearance, on: view.window)
+    private func didChangeAppearance(_ sender: AppearanceOptionControl) {
+        AppAppearanceService.shared.set(sender.appearance, on: view.window)
+        updateAppearanceSelection()
+    }
+
+    private func updateAppearanceSelection() {
+        let current = AppAppearanceService.shared.current
+        appearanceControls.forEach { $0.isSelected = $0.appearance == current }
     }
 
     @objc
