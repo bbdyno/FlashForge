@@ -45,6 +45,8 @@ final class HomeViewController: UIViewController {
     private var completedToday = 0
     private var cardHeightConstraint: Constraint?
     private var progressFillConstraint: Constraint?
+    private let contentGuide = UILayoutGuide()
+    private static let maximumContentWidth: CGFloat = 620
 
     init(repository: CardRepository) {
         self.repository = repository
@@ -291,9 +293,18 @@ final class HomeViewController: UIViewController {
     }
 
     private func configureLayout() {
+        // On iPad the study column keeps a phone-like measure instead of
+        // stretching the card across the whole screen.
+        view.addLayoutGuide(contentGuide)
+        contentGuide.snp.makeConstraints { make in
+            make.top.bottom.centerX.equalToSuperview()
+            make.width.lessThanOrEqualTo(Self.maximumContentWidth)
+            make.width.equalToSuperview().priority(.high)
+        }
+
         headerRow.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(12)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.trailing.equalTo(contentGuide).inset(20)
             make.height.equalTo(40)
         }
 
@@ -303,23 +314,23 @@ final class HomeViewController: UIViewController {
 
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(headerRow.snp.bottom).offset(18)
-            make.leading.equalToSuperview().inset(22)
+            make.leading.equalTo(contentGuide).inset(22)
         }
 
         dueSummaryTextLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(-6)
-            make.leading.equalToSuperview().inset(24)
+            make.leading.equalTo(contentGuide).inset(24)
         }
 
         queueSummaryLabel.snp.makeConstraints { make in
             make.firstBaseline.equalTo(dueSummaryTextLabel)
-            make.trailing.equalToSuperview().inset(24)
+            make.trailing.equalTo(contentGuide).inset(24)
             make.leading.greaterThanOrEqualTo(dueSummaryTextLabel.snp.trailing).offset(12)
         }
 
         progressTrackView.snp.makeConstraints { make in
             make.top.equalTo(dueSummaryTextLabel.snp.bottom).offset(12)
-            make.leading.trailing.equalToSuperview().inset(22)
+            make.leading.trailing.equalTo(contentGuide).inset(22)
             make.height.equalTo(10)
         }
 
@@ -330,7 +341,7 @@ final class HomeViewController: UIViewController {
 
         glassCardView.snp.makeConstraints { make in
             make.top.equalTo(progressTrackView.snp.bottom).offset(34)
-            make.leading.trailing.equalToSuperview().inset(24)
+            make.leading.trailing.equalTo(contentGuide).inset(24)
             cardHeightConstraint = make.height.equalTo(292).constraint
         }
 
@@ -344,18 +355,18 @@ final class HomeViewController: UIViewController {
 
         revealAnswerButton.snp.makeConstraints { make in
             make.top.equalTo(glassCardView.snp.bottom).offset(22)
-            make.leading.trailing.equalToSuperview().inset(24)
+            make.leading.trailing.equalTo(contentGuide).inset(24)
             make.height.equalTo(54)
         }
 
         gradePromptLabel.snp.makeConstraints { make in
             make.top.equalTo(glassCardView.snp.bottom).offset(12)
-            make.leading.trailing.equalToSuperview().inset(24)
+            make.leading.trailing.equalTo(contentGuide).inset(24)
         }
 
         gradeStackView.snp.makeConstraints { make in
             make.top.equalTo(gradePromptLabel.snp.bottom).offset(8)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.trailing.equalTo(contentGuide).inset(20)
             make.height.equalTo(60)
             make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide).inset(8)
         }
@@ -479,7 +490,7 @@ final class HomeViewController: UIViewController {
 
     private func updateCardHeightIfNeeded(animated: Bool = false) {
         let availableHeight = view.safeAreaLayoutGuide.layoutFrame.height
-        let cardWidth = max(220, view.bounds.width - 48)
+        let cardWidth = max(220, min(view.bounds.width, Self.maximumContentWidth) - 48)
         let widthBased = cardWidth * (isAnswerRevealed ? 0.96 : 0.86)
         let heightCap = max(isAnswerRevealed ? 314 : 286, availableHeight * (isAnswerRevealed ? 0.45 : 0.39))
         let targetHeight = min(widthBased, heightCap)
