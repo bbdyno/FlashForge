@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title description">
   <title id="title">FlashForge</title>
   <desc id="description">A flashcard on a loose pile of two pastel sheets.</desc>
-  <rect width="1024" height="1024" fill="#E0EE9C"/>
+  <rect width="1024" height="1024" fill="#FBF8F1"/>
   <g stroke="#161513" stroke-width="22" stroke-linejoin="round">
-    <rect x="202" y="324" width="620" height="448" rx="88" fill="#E6D6FA" transform="rotate(12 512 548) translate(14 -86)"/>
-    <rect x="202" y="324" width="620" height="448" rx="88" fill="#FFD0B0" transform="rotate(-8 512 548) translate(-8 -44)"/>
+    <rect x="202" y="324" width="620" height="448" rx="88" fill="#E0EE9C" transform="rotate(12 512 548) translate(14 -86)"/>
+    <rect x="202" y="324" width="620" height="448" rx="88" fill="#E6D6FA" transform="rotate(-8 512 548) translate(-8 -44)"/>
     <rect x="224" y="346" width="620" height="448" rx="88" fill="#161513"/>
     <rect x="202" y="324" width="620" height="448" rx="88" fill="#FFFDF8"/>
   </g>

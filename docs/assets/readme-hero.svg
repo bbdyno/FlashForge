@@ -1,56 +1,39 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
-  <title id="title">FlashForge 1.2</title>
-  <desc id="description">FlashForge's dark editorial Today screen with warm stacked study cards.</desc>
-  <rect width="1200" height="630" fill="#0b0c0d"/>
-  <path d="M0 80H1200M0 550H1200" stroke="#302f2c"/>
-  <path d="M80 0V630M1120 0V630" stroke="#302f2c"/>
+  <title id="title">FlashForge 2.0</title>
+  <desc id="description">FlashForge's Colour Field design: a study card on a loose pile of pastel sheets, with the line "Remember what matters."</desc>
+  <rect width="1200" height="630" fill="#E6D6FA"/>
+  <rect x="0.75" y="0.75" width="1198.5" height="628.5" fill="none" stroke="#161513" stroke-width="1.5"/>
 
-  <g transform="translate(80 78)" font-family="Manrope, Arial, sans-serif">
-    <circle cx="5" cy="5" r="5" fill="#d96b45"/>
-    <text x="22" y="10" fill="#b0a99d" font-size="14" font-weight="700" letter-spacing="2.8">FLASHFORGE 1.2</text>
-    <text x="0" y="128" fill="#f1ebdd" font-size="76" font-weight="800" letter-spacing="-5">Remember</text>
-    <text x="0" y="204" fill="#d96b45" font-size="76" font-weight="800" letter-spacing="-5">what matters.</text>
-    <text x="0" y="260" fill="#b0a99d" font-size="21" font-weight="500">Private, adaptive flashcards without the clutter.</text>
-    <g transform="translate(0 332)">
-      <path d="M0 0H118" stroke="#47443f"/>
-      <circle cx="5" cy="19" r="4" fill="#d96b45"/>
-      <text x="19" y="24" fill="#f1ebdd" font-size="13" font-weight="650">OFFLINE-FIRST</text>
-      <path d="M140 0H228" stroke="#47443f"/>
-      <circle cx="145" cy="19" r="4" fill="#74a98e"/>
-      <text x="159" y="24" fill="#f1ebdd" font-size="13" font-weight="650">PRIVATE</text>
+  <g font-family="Georgia, 'Times New Roman', serif" fill="#161513">
+    <rect x="80" y="92" width="318" height="40" rx="20" fill="#FFFDF8" stroke="#161513" stroke-width="1.5"/>
+    <text x="100" y="118" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="700">Private flashcards for iPhone and iPad</text>
+    <text x="76" y="256" font-size="104" letter-spacing="-3">Remember</text>
+    <text x="76" y="358" font-size="104" letter-spacing="-3">what matters.</text>
+    <text x="80" y="424" font-family="Helvetica, Arial, sans-serif" font-size="23" font-weight="600">Spaced repetition that fits your memory.</text>
+    <g font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="700">
+      <rect x="80" y="476" width="118" height="36" rx="18" fill="none" stroke="#161513" stroke-width="1.5"/><text x="99" y="499">No account</text>
+      <rect x="208" y="476" width="130" height="36" rx="18" fill="none" stroke="#161513" stroke-width="1.5"/><text x="227" y="499">Works offline</text>
+      <rect x="348" y="476" width="122" height="36" rx="18" fill="none" stroke="#161513" stroke-width="1.5"/><text x="367" y="499">Free to start</text>
     </g>
   </g>
 
-  <g transform="translate(720 28)" font-family="Manrope, Arial, sans-serif">
-    <rect width="420" height="574" rx="34" fill="#0b0c0d" stroke="#47443f"/>
-    <text x="28" y="48" fill="#f1ebdd" font-size="22" font-weight="800" letter-spacing="-1">FlashForge</text>
-    <text x="332" y="46" fill="#b0a99d" font-size="11" font-weight="700" letter-spacing="1.4">17 AUG</text>
-    <path d="M384 35h16M384 41h16M384 47h16" stroke="#b0a99d" stroke-linecap="round"/>
-    <circle cx="389" cy="35" r="2" fill="#f1ebdd"/><circle cx="396" cy="41" r="2" fill="#f1ebdd"/><circle cx="391" cy="47" r="2" fill="#f1ebdd"/>
-
-    <text x="28" y="150" fill="#f1ebdd" font-size="84" font-weight="800" letter-spacing="-5">12</text>
-    <text x="30" y="174" fill="#b0a99d" font-size="13" font-weight="500">cards due today</text>
-    <path d="M210 76V174" stroke="#302f2c"/>
-    <text x="230" y="103" fill="#f1ebdd" font-size="25" font-weight="800">3</text>
-    <text x="230" y="119" fill="#b0a99d" font-size="9" font-weight="700" letter-spacing="1">LEARNING</text>
-    <path d="M230 130H392" stroke="#302f2c"/>
-    <text x="230" y="157" fill="#f1ebdd" font-size="25" font-weight="800">9</text>
-    <text x="230" y="173" fill="#b0a99d" font-size="9" font-weight="700" letter-spacing="1">REVIEW</text>
-
-    <text x="28" y="214" fill="#f1ebdd" font-size="13" font-weight="600">Science &amp; Environment</text>
-    <path d="M28 229H392" stroke="#302f2c"/>
-    <path d="M382 207l6 6-6 6" fill="none" stroke="#b0a99d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-
-    <rect x="62" y="251" width="296" height="282" rx="24" fill="#c9baa1" stroke="#9f9078"/>
-    <rect x="46" y="263" width="328" height="282" rx="24" fill="#dfd2ba" stroke="#aa9b83"/>
-    <rect x="28" y="276" width="364" height="282" rx="24" fill="#f4ecd9" stroke="#b8aa92"/>
-    <rect x="52" y="301" width="3" height="17" rx="1.5" fill="#d96b45"/>
-    <text x="65" y="314" fill="#d96b45" font-size="10" font-weight="800" letter-spacing="1.5">REVIEW</text>
-    <text x="52" y="350" fill="#5b5348" font-size="11" font-weight="600">Science &amp; Environment · Atmosphere</text>
-    <text x="52" y="389" fill="#111214" font-size="19" font-weight="800" letter-spacing="-0.7">Which layer protects Earth</text>
-    <text x="52" y="416" fill="#111214" font-size="19" font-weight="800" letter-spacing="-0.7">from harmful solar radiation?</text>
-    <text x="52" y="463" fill="#5b5348" font-size="11">Tap card to reveal the answer.</text>
-    <path d="M28 500H392V534Q392 558 368 558H52Q28 558 28 534Z" fill="#d96b45"/>
-    <text x="210" y="535" text-anchor="middle" fill="#fff8ef" font-size="12" font-weight="750">Reveal answer</text>
+  <g transform="translate(770 120)" stroke="#161513" stroke-width="1.5">
+    <rect width="340" height="330" rx="26" fill="#E0EE9C" transform="rotate(4 170 165) translate(0 -12)"/>
+    <rect width="340" height="330" rx="26" fill="#FFD0B0" transform="rotate(-3 170 165) translate(0 -7)"/>
+    <rect width="340" height="330" rx="26" fill="#FFFDF8"/>
+    <rect x="24" y="24" width="58" height="26" rx="13" fill="none"/>
+    <text x="37" y="42" stroke="none" fill="#161513" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="700">NEW</text>
+    <text x="24" y="92" stroke="none" fill="#5F5A52" font-family="Georgia, serif" font-style="italic" font-size="18">English Vocabulary · adjective</text>
+    <text x="24" y="146" stroke="none" fill="#161513" font-family="Georgia, serif" font-size="46" letter-spacing="-1">ubiquitous</text>
+    <text x="24" y="188" stroke="none" fill="#161513" font-family="Helvetica, Arial, sans-serif" font-size="19" font-weight="500">present or found everywhere</text>
+    <g transform="translate(0 360)">
+      <rect x="0" width="79" height="50" rx="16" fill="#FFFDF8"/>
+      <rect x="87" width="79" height="50" rx="16" fill="#FFFDF8"/>
+      <rect x="174" width="79" height="50" rx="16" fill="#161513"/>
+      <rect x="261" width="79" height="50" rx="16" fill="#FFFDF8"/>
+      <g stroke="none" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700" text-anchor="middle">
+        <text x="39.5" y="30" fill="#161513">Again</text><text x="126.5" y="30" fill="#161513">Hard</text><text x="213.5" y="30" fill="#FFFDF8">Good</text><text x="300.5" y="30" fill="#161513">Easy</text>
+      </g>
+    </g>
   </g>
 </svg>
