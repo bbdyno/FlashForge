@@ -96,9 +96,9 @@
 
 ## Design Preview / 디자인 미리보기
 
-The repository artwork and the [product website](https://bbdyno.github.io/FlashForge/) still show the Soft Editorial look of version 1.2.0. The app itself moved to the Colour Field design in 2.0; the artwork and website have not been updated yet.
+The repository artwork and the [product website](https://bbdyno.github.io/FlashForge/) use the same Colour Field design as the 2.0 app: flat pastel fields, one ink for outlines and text, and serif display type.
 
-저장소 이미지와 [제품 웹사이트](https://bbdyno.github.io/FlashForge/)는 아직 버전 1.2.0의 소프트 에디토리얼 디자인을 보여 줍니다. 앱은 2.0에서 컬러 필드 디자인으로 바뀌었고, 이미지와 웹사이트는 아직 갱신하지 않았습니다.
+저장소 이미지와 [제품 웹사이트](https://bbdyno.github.io/FlashForge/)는 2.0 앱과 같은 컬러 필드 디자인을 사용합니다. 파스텔 색면, 외곽선과 글자를 그리는 하나의 잉크색, 세리프 제목 서체로 구성했습니다.
 
 <br>
 
