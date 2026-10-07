@@ -140,11 +140,11 @@ final class AppWalkthroughViewController: UIViewController {
     private func applyTheme() {
         AppTheme.applyGradient(to: backgroundGradientLayer, traitCollection: traitCollection)
 
-        pageControl.currentPageIndicatorTintColor = AppTheme.accent
+        pageControl.currentPageIndicatorTintColor = AppTheme.textPrimary
         pageControl.pageIndicatorTintColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection)
 
-        primaryButton.setTitleColor(.white, for: .normal)
-        primaryButton.backgroundColor = AppTheme.buttonFill(from: AppTheme.accent, for: traitCollection)
+        primaryButton.setTitleColor(AppTheme.onEmphasis, for: .normal)
+        primaryButton.backgroundColor = AppTheme.emphasisFill
         primaryButton.layer.borderWidth = 0
 
         skipButton.setTitleColor(AppTheme.textSecondary, for: .normal)
@@ -295,7 +295,7 @@ private final class WalkthroughPageContentViewController: UIViewController {
         cardView.addSubview(descriptionLabel)
 
         titleLabel.text = page.title
-        titleLabel.font = AppTypography.font(size: 32, weight: .bold, textStyle: .title1)
+        titleLabel.font = AppTypography.display(size: 34, textStyle: .title1)
         titleLabel.textAlignment = .left
         titleLabel.numberOfLines = 2
 

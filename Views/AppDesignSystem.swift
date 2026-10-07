@@ -12,118 +12,98 @@ enum AppTheme {
         }
     }
 
-    // Soft Editorial: parchment in light mode, obsidian in dark mode, and one
-    // warm copper accent. The palette stays tactile without turning the UI into
-    // a retro terminal or a collection of glossy cards.
-    static let backgroundTop = dynamic(
-        UIColor(red: 0.949, green: 0.933, blue: 0.902, alpha: 1),
-        UIColor(red: 0.043, green: 0.047, blue: 0.051, alpha: 1)
-    )
-    static let backgroundMid = dynamic(
-        UIColor(red: 0.949, green: 0.933, blue: 0.902, alpha: 1),
-        UIColor(red: 0.043, green: 0.047, blue: 0.051, alpha: 1)
-    )
-    static let backgroundBottom = dynamic(
-        UIColor(red: 0.949, green: 0.933, blue: 0.902, alpha: 1),
-        UIColor(red: 0.043, green: 0.047, blue: 0.051, alpha: 1)
-    )
+    private static func hex(_ value: UInt32) -> UIColor {
+        UIColor(
+            red: CGFloat((value >> 16) & 0xFF) / 255,
+            green: CGFloat((value >> 8) & 0xFF) / 255,
+            blue: CGFloat(value & 0xFF) / 255,
+            alpha: 1
+        )
+    }
 
-    static let cardBackground = dynamic(
-        UIColor(red: 0.985, green: 0.973, blue: 0.945, alpha: 1),
-        UIColor(red: 0.078, green: 0.082, blue: 0.086, alpha: 1)
-    )
-    static let cardBorder = dynamic(
-        UIColor(red: 0.808, green: 0.776, blue: 0.718, alpha: 1),
-        UIColor(red: 0.190, green: 0.190, blue: 0.184, alpha: 1)
-    )
-    static let textPrimary = dynamic(
-        UIColor(red: 0.090, green: 0.086, blue: 0.078, alpha: 1),
-        UIColor(red: 0.945, green: 0.922, blue: 0.875, alpha: 1)
-    )
-    static let textSecondary = dynamic(
-        UIColor(red: 0.390, green: 0.370, blue: 0.335, alpha: 1),
-        UIColor(red: 0.635, green: 0.608, blue: 0.558, alpha: 1)
-    )
+    // Colour Field: flat paper, one ink for every outline and label, and a
+    // small set of pastel fields that carry the colour. Nothing is tinted,
+    // blurred or softly shadowed.
+    static let outlineWidth: CGFloat = 1.5
 
-    // Study cards stay paper-like in both modes. In dark mode this creates the
-    // deliberate editorial contrast used by the approved concept instead of
-    // turning every surface into another dark panel.
-    static let studyPaper = UIColor(red: 0.957, green: 0.925, blue: 0.855, alpha: 1)
-    static let studyPaperSecondary = UIColor(red: 0.875, green: 0.831, blue: 0.748, alpha: 1)
-    static let studyPaperTertiary = UIColor(red: 0.792, green: 0.745, blue: 0.663, alpha: 1)
-    static let studyInk = UIColor(red: 0.075, green: 0.071, blue: 0.064, alpha: 1)
-    static let studyMuted = UIColor(red: 0.337, green: 0.310, blue: 0.270, alpha: 1)
-    static let studyLine = UIColor(red: 0.720, green: 0.667, blue: 0.580, alpha: 1)
+    static let lilac = hex(0xE6D6FA)
+    static let lime = hex(0xE0EE9C)
+    static let peach = hex(0xFFD0B0)
+    static let sky = hex(0xCDE4F7)
+    static let butter = hex(0xF6E3A1)
+    static let tomato = hex(0xE8553A)
+    static let fieldColors = [lilac, lime, peach, sky, butter]
 
-    static let ink = dynamic(
-        UIColor(red: 0.090, green: 0.086, blue: 0.078, alpha: 1),
-        UIColor(red: 0.945, green: 0.922, blue: 0.875, alpha: 1)
-    )
-    static let inkSurface = dynamic(
-        UIColor(red: 0.090, green: 0.086, blue: 0.078, alpha: 1),
-        UIColor(red: 0.145, green: 0.137, blue: 0.126, alpha: 1)
-    )
-    static let onInk = UIColor(red: 0.965, green: 0.945, blue: 0.905, alpha: 1)
-    static let accent = dynamic(
-        UIColor(red: 0.680, green: 0.298, blue: 0.180, alpha: 1),
-        UIColor(red: 0.855, green: 0.424, blue: 0.267, alpha: 1)
-    )
-    static let accentSoft = dynamic(
-        UIColor(red: 0.938, green: 0.855, blue: 0.790, alpha: 1),
-        UIColor(red: 0.190, green: 0.118, blue: 0.090, alpha: 1)
-    )
-    static let accentTeal = dynamic(
-        UIColor(red: 0.220, green: 0.430, blue: 0.350, alpha: 1),
-        UIColor(red: 0.405, green: 0.675, blue: 0.555, alpha: 1)
-    )
-    static let tealSoft = dynamic(
-        UIColor(red: 0.888, green: 0.895, blue: 0.850, alpha: 1),
-        UIColor(red: 0.090, green: 0.122, blue: 0.110, alpha: 1)
-    )
-    static let infoBlue = dynamic(
-        UIColor(red: 0.285, green: 0.355, blue: 0.500, alpha: 1),
-        UIColor(red: 0.480, green: 0.590, blue: 0.770, alpha: 1)
-    )
-    static let dangerRed = dynamic(.systemRed, UIColor(red: 1, green: 0.38, blue: 0.37, alpha: 1))
+    static let backgroundTop = dynamic(hex(0xFBF8F1), hex(0x161513))
+    static let backgroundMid = backgroundTop
+    static let backgroundBottom = backgroundTop
 
-    static let gradeAgain = dynamic(
-        UIColor(red: 0.78, green: 0.20, blue: 0.18, alpha: 1),
-        UIColor(red: 0.92, green: 0.32, blue: 0.29, alpha: 1)
-    )
-    static let gradeHard = dynamic(
-        UIColor(red: 0.83, green: 0.44, blue: 0.08, alpha: 1),
-        UIColor(red: 0.94, green: 0.56, blue: 0.18, alpha: 1)
-    )
-    static let gradeGood = dynamic(
-        UIColor(red: 0.12, green: 0.43, blue: 0.68, alpha: 1),
-        UIColor(red: 0.30, green: 0.61, blue: 0.87, alpha: 1)
-    )
-    static let gradeEasy = dynamic(
-        UIColor(red: 0.08, green: 0.50, blue: 0.38, alpha: 1),
-        UIColor(red: 0.23, green: 0.69, blue: 0.54, alpha: 1)
-    )
+    static let cardBackground = dynamic(hex(0xFFFDF8), hex(0x211F1C))
+    static let cardBorder = dynamic(hex(0x161513), hex(0xF1EBDD))
+    static let textPrimary = dynamic(hex(0x161513), hex(0xF6F1E6))
+    static let textSecondary = dynamic(hex(0x6B665E), hex(0xA8A195))
 
-    static let inputBackground = dynamic(
-        UIColor(red: 0.900, green: 0.875, blue: 0.825, alpha: 1),
-        UIColor(red: 0.105, green: 0.110, blue: 0.114, alpha: 1)
-    )
+    // Study cards and colour fields look the same in both modes, so anything
+    // drawn on them uses these fixed inks rather than the dynamic text colours.
+    static let studyPaper = hex(0xFFFDF8)
+    static let studyPaperSecondary = peach
+    static let studyPaperTertiary = lime
+    static let studyInk = hex(0x161513)
+    static let studyMuted = hex(0x6B665E)
+    static let studyLine = hex(0x161513)
+
+    static let ink = textPrimary
+    static let inkSurface = dynamic(hex(0x161513), hex(0x2B2823))
+    static let onInk = hex(0xFFFDF8)
+    // The one filled control on a screen: ink on paper, lime on the dark canvas.
+    static let emphasisFill = dynamic(hex(0x161513), lime)
+    static let onEmphasis = dynamic(hex(0xFFFDF8), hex(0x161513))
+    static let accent = dynamic(hex(0xD9472B), hex(0xF0694D))
+    static let accentSoft = dynamic(peach, hex(0x4A2A1E))
+    static let accentTeal = dynamic(hex(0x2F6B4F), hex(0xB5D67A))
+    static let tealSoft = dynamic(lime, hex(0x2F3618))
+    static let infoBlue = dynamic(hex(0x2F5F8A), hex(0x8DBBE6))
+    static let dangerRed = dynamic(hex(0xC8321C), hex(0xFF6A5B))
+
+    static let gradeAgain = dynamic(hex(0xC8321C), hex(0xEB524A))
+    static let gradeHard = dynamic(hex(0xD47014), hex(0xF08F2E))
+    static let gradeGood = dynamic(hex(0x1F6EAD), hex(0x4D9CDE))
+    static let gradeEasy = dynamic(hex(0x148061), hex(0x3BB08A))
+
+    static let inputBackground = dynamic(hex(0xF1ECE1), hex(0x26231F))
     static let glassBorder = cardBorder
     static let glassFill = cardBackground
-    static let glassHighlightStart = dynamic(
-        UIColor.white.withAlphaComponent(0.18),
-        UIColor.white.withAlphaComponent(0.025)
-    )
+    static let glassHighlightStart = UIColor.clear
     static let glassHighlightMid = UIColor.clear
     static let badgeBackground = accentSoft
-    static let badgeBorder = accent.withAlphaComponent(0.28)
-    static let shadowColor = dynamic(
-        UIColor(red: 0.08, green: 0.07, blue: 0.06, alpha: 0.10),
-        UIColor.black.withAlphaComponent(0.38)
-    )
-    static let tabBarBackground = dynamic(
-        UIColor(red: 0.965, green: 0.945, blue: 0.905, alpha: 0.98),
-        UIColor(red: 0.047, green: 0.051, blue: 0.055, alpha: 0.98)
-    )
+    static let badgeBorder = cardBorder
+    static let shadowColor = cardBorder
+    static let tabBarBackground = backgroundTop
+
+    // Deck colours are derived, not stored: each deck hashes to a field colour,
+    // and a deck that would repeat its neighbour's colour takes the next one.
+    // Pass decks in the order the Library lists them.
+    static func fieldColors(for orderedIDs: [UUID]) -> [UUID: UIColor] {
+        var result: [UUID: UIColor] = [:]
+        var previousIndex: Int?
+        for id in orderedIDs {
+            let seed = withUnsafeBytes(of: id.uuid) { $0.reduce(0) { ($0 &* 31) &+ Int($1) } }
+            var index = abs(seed) % fieldColors.count
+            if index == previousIndex {
+                index = (index + 1) % fieldColors.count
+            }
+            result[id] = fieldColors[index]
+            previousIndex = index
+        }
+        return result
+    }
+
+    static func canvasColor(for field: UIColor?) -> UIColor {
+        guard let field else {
+            return backgroundTop
+        }
+        return dynamic(field, hex(0x161513))
+    }
 
     static func resolved(_ color: UIColor, for traitCollection: UITraitCollection) -> UIColor {
         color.resolvedColor(with: traitCollection)
@@ -150,13 +130,26 @@ enum AppTheme {
         view.backgroundColor = cardBackground
         view.layer.cornerRadius = radius
         view.layer.cornerCurve = .continuous
-        view.layer.borderWidth = 1.0 / UIScreen.main.scale
+        view.layer.borderWidth = outlineWidth
         view.layer.borderColor = resolved(cardBorder, for: view.traitCollection).cgColor
         guard shadow else { return }
+        applyHardShadow(to: view)
+    }
+
+    @MainActor
+    static func applyHardShadow(to view: UIView, offset: CGFloat = 3) {
         view.layer.shadowColor = resolved(shadowColor, for: view.traitCollection).cgColor
-        view.layer.shadowOpacity = 0.05
-        view.layer.shadowRadius = 18
-        view.layer.shadowOffset = CGSize(width: 0, height: 10)
+        view.layer.shadowOpacity = 1
+        view.layer.shadowRadius = 0
+        view.layer.shadowOffset = CGSize(width: offset, height: offset)
+    }
+
+    @MainActor
+    static func styleOutline(_ view: UIView, radius: CGFloat, color: UIColor = cardBorder) {
+        view.layer.cornerRadius = radius
+        view.layer.cornerCurve = .continuous
+        view.layer.borderWidth = outlineWidth
+        view.layer.borderColor = resolved(color, for: view.traitCollection).cgColor
     }
 
     @MainActor
@@ -164,14 +157,14 @@ enum AppTheme {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = backgroundTop
-        appearance.shadowColor = cardBorder.withAlphaComponent(0.45)
+        appearance.shadowColor = .clear
         appearance.titleTextAttributes = [
             .foregroundColor: textPrimary,
             .font: AppTypography.font(size: 17, weight: .semibold, textStyle: .headline)
         ]
         appearance.largeTitleTextAttributes = [
             .foregroundColor: textPrimary,
-            .font: AppTypography.font(size: 32, weight: .bold, textStyle: .largeTitle)
+            .font: AppTypography.display(size: 34, textStyle: .largeTitle)
         ]
         return appearance
     }
@@ -226,6 +219,34 @@ enum AppTypography {
         return metrics.scaledFont(for: base)
     }
 
+    // Newsreader for Latin and numerals, falling back to Noto Serif KR for
+    // Hangul so mixed-language titles stay in one serif voice.
+    static func display(
+        size: CGFloat,
+        textStyle: UIFont.TextStyle = .title1,
+        maximumPointSize: CGFloat? = nil
+    ) -> UIFont {
+        let descriptor = UIFontDescriptor(fontAttributes: [
+            .name: "NewsreaderDisplay-Medium",
+            .cascadeList: [UIFontDescriptor(fontAttributes: [.name: "NotoSerifKR-SemiBold"])]
+        ])
+        let base = UIFont(descriptor: descriptor, size: size)
+        let metrics = UIFontMetrics(forTextStyle: textStyle)
+        if let maximumPointSize {
+            return metrics.scaledFont(for: base, maximumPointSize: maximumPointSize)
+        }
+        return metrics.scaledFont(for: base)
+    }
+
+    static func displayItalic(size: CGFloat, textStyle: UIFont.TextStyle = .subheadline) -> UIFont {
+        let descriptor = UIFontDescriptor(fontAttributes: [
+            .name: "NewsreaderText-Italic",
+            .cascadeList: [UIFontDescriptor(fontAttributes: [.name: "NotoSerifKR-SemiBold"])]
+        ])
+        let base = UIFont(descriptor: descriptor, size: size)
+        return UIFontMetrics(forTextStyle: textStyle).scaledFont(for: base)
+    }
+
     @MainActor
     static func applyTracking(_ tracking: CGFloat, to label: UILabel) {
         guard let text = label.text else { return }
@@ -233,5 +254,28 @@ enum AppTypography {
             string: text,
             attributes: [.kern: tracking]
         )
+    }
+}
+
+// Phosphor icons (MIT). The catalog stores them as 256pt vectors, so they are
+// redrawn at the requested point size and tinted like SF Symbols.
+enum AppIcon {
+    private static let cache = NSCache<NSString, UIImage>()
+
+    static func image(_ name: String, size: CGFloat = 20) -> UIImage? {
+        let key = "\(name)@\(size)" as NSString
+        if let cached = cache.object(forKey: key) {
+            return cached
+        }
+        guard let source = UIImage(named: "Icons/\(name)") else {
+            return nil
+        }
+        let target = CGSize(width: size, height: size)
+        let image = UIGraphicsImageRenderer(size: target).image { _ in
+            source.draw(in: CGRect(origin: .zero, size: target))
+        }
+        .withRenderingMode(.alwaysTemplate)
+        cache.setObject(image, forKey: key)
+        return image
     }
 }

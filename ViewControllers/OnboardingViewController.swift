@@ -72,7 +72,7 @@ final class OnboardingViewController: UIViewController {
         titleLabel.text = FlashForgeStrings.Onboarding.title
         titleLabel.textColor = AppTheme.textPrimary
         titleLabel.numberOfLines = 2
-        titleLabel.font = AppTypography.font(size: 30, weight: .bold, textStyle: .title1)
+        titleLabel.font = AppTypography.display(size: 32, textStyle: .title1)
 
         subtitleLabel.text = FlashForgeStrings.Onboarding.subtitle
         subtitleLabel.textColor = AppTheme.textSecondary
@@ -85,7 +85,7 @@ final class OnboardingViewController: UIViewController {
             field.font = AppTypography.font(size: 16, weight: .medium, textStyle: .body)
             field.autocapitalizationType = .sentences
             field.clearButtonMode = .whileEditing
-            field.layer.borderWidth = 0.5
+            field.layer.borderWidth = AppTheme.outlineWidth
             field.layer.borderColor = AppTheme.cardBorder.cgColor
             field.layer.cornerRadius = 12
             field.layer.cornerCurve = .continuous
@@ -106,9 +106,9 @@ final class OnboardingViewController: UIViewController {
         }
 
         startButton.setTitle(FlashForgeStrings.Onboarding.start, for: .normal)
-        startButton.setTitleColor(.white, for: .normal)
+        startButton.setTitleColor(AppTheme.onEmphasis, for: .normal)
         startButton.titleLabel?.font = AppTypography.font(size: 16, weight: .bold, textStyle: .headline)
-        startButton.backgroundColor = AppTheme.buttonFill(from: AppTheme.accent, for: traitCollection)
+        startButton.backgroundColor = AppTheme.emphasisFill
         startButton.layer.cornerRadius = 14
         startButton.layer.cornerCurve = .continuous
         startButton.addTarget(self, action: #selector(didTapStart), for: .touchUpInside)
@@ -119,7 +119,7 @@ final class OnboardingViewController: UIViewController {
         importButton.backgroundColor = AppTheme.inputBackground
         importButton.layer.cornerRadius = 12
         importButton.layer.cornerCurve = .continuous
-        importButton.layer.borderWidth = 0.5
+        importButton.layer.borderWidth = AppTheme.outlineWidth
         importButton.layer.borderColor = AppTheme.cardBorder.cgColor
         importButton.addTarget(self, action: #selector(didTapImportBackup), for: .touchUpInside)
 
@@ -203,8 +203,8 @@ final class OnboardingViewController: UIViewController {
             )
         }
 
-        startButton.setTitleColor(.white, for: .normal)
-        startButton.backgroundColor = AppTheme.buttonFill(from: AppTheme.accent, for: traitCollection)
+        startButton.setTitleColor(AppTheme.onEmphasis, for: .normal)
+        startButton.backgroundColor = AppTheme.emphasisFill
 
         importButton.setTitleColor(AppTheme.textPrimary, for: .normal)
         importButton.backgroundColor = AppTheme.inputBackground

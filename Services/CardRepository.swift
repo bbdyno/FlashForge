@@ -42,24 +42,29 @@ actor CardRepository {
     private struct PersistedStore: Codable, Sendable {
         var decks: [Deck]
         var schedulerMode: SchedulerMode
+        var fsrsProfile: FSRSProfile?
 
         init(
             decks: [Deck] = [],
-            schedulerMode: SchedulerMode = .fsrs
+            schedulerMode: SchedulerMode = .fsrs,
+            fsrsProfile: FSRSProfile? = nil
         ) {
             self.decks = decks
             self.schedulerMode = schedulerMode
+            self.fsrsProfile = fsrsProfile
         }
 
         private enum CodingKeys: String, CodingKey {
             case decks
             case schedulerMode
+            case fsrsProfile
         }
 
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             decks = try container.decodeIfPresent([Deck].self, forKey: .decks) ?? []
             schedulerMode = try container.decodeIfPresent(SchedulerMode.self, forKey: .schedulerMode) ?? .fsrs
+            fsrsProfile = try container.decodeIfPresent(FSRSProfile.self, forKey: .fsrsProfile)
         }
     }
 
@@ -129,6 +134,10 @@ actor CardRepository {
 
     private let sm2Scheduler: SM2Scheduler
     private let fsrsScheduler: FSRSScheduler
+    // Personalised weights and target retention apply only while Pro is active;
+    // the stored profile is kept either way.
+    private var isPersonalizationEnabled = false
+    private var personalizedScheduler: FSRSScheduler?
     private let calendar: Calendar
     private let fileManager: FileManager
     private let appSupportDirectoryOverride: URL?
@@ -196,9 +205,52 @@ actor CardRepository {
         try save(context: context)
     }
 
+    func setPersonalizationEnabled(_ isEnabled: Bool) {
+        isPersonalizationEnabled = isEnabled
+    }
+
+    func fsrsPersonalizationStatus() throws -> FSRSPersonalizationStatus {
+        try ensurePrepared()
+        let context = try makeContext()
+        return FSRSPersonalizationStatus(
+            profile: try storedFSRSProfile(context: context),
+            usableReviewCount: FSRSOptimizer.usableReviewCount(in: try reviewLogs(context: context))
+        )
+    }
+
+    // One graded log per card, for FSRSOptimizer to run outside this actor.
+    func fsrsTrainingLogs() throws -> [[ReviewLogEntry]] {
+        try ensurePrepared()
+        return try reviewLogs(context: try makeContext())
+    }
+
+    func saveFSRSOptimization(_ outcome: FSRSOptimizer.Outcome, now: Date = .now) throws -> FSRSProfile {
+        try ensurePrepared()
+        let context = try makeContext()
+        var profile = try storedFSRSProfile(context: context)
+        profile.parameters = FSRSParameters(w: outcome.weights, requestRetention: profile.parameters.requestRetention)
+        profile.optimizedAt = now
+        profile.trainedReviewCount = outcome.reviewCount
+        profile.baselineLoss = outcome.baselineLoss
+        profile.optimizedLoss = outcome.optimizedLoss
+        try storeFSRSProfile(profile, context: context)
+        return profile
+    }
+
+    func updateDesiredRetention(_ retention: Double) throws -> FSRSProfile {
+        try ensurePrepared()
+        let context = try makeContext()
+        var profile = try storedFSRSProfile(context: context)
+        let clamped = min(max(retention, FSRSParameters.retentionRange.lowerBound), FSRSParameters.retentionRange.upperBound)
+        profile.parameters = FSRSParameters(w: profile.parameters.w, requestRetention: clamped)
+        try storeFSRSProfile(profile, context: context)
+        return profile
+    }
+
     func resetAllData() throws {
         try ensurePrepared()
         let context = try makeContext()
+        personalizedScheduler = nil
         try deleteAllData(context: context)
         context.insert(AppSettingsEntity(key: Self.settingsKey, schedulerModeRaw: SchedulerMode.fsrs.rawValue))
         try save(context: context)
@@ -263,6 +315,49 @@ actor CardRepository {
 
         try save(context: context)
         return domainDeck(from: deckEntity)
+    }
+
+    // Adds decks read by DeckImportService. Cards whose text does not pass
+    // normalisation are skipped rather than failing the whole import.
+    @discardableResult
+    func importDecks(_ imported: [ImportedDeck]) throws -> (decks: Int, cards: Int) {
+        try ensurePrepared()
+        let context = try makeContext()
+        var deckCount = 0
+        var cardCount = 0
+
+        for deck in imported {
+            let title = deck.title.trimmingCharacters(in: .whitespacesAndNewlines)
+            let deckEntity = DeckEntity(title: title.isEmpty ? "Imported" : title)
+            var added = 0
+            for card in deck.cards {
+                guard let normalized = try? normalizedCardContent(front: card.front, back: card.back, note: card.note) else {
+                    continue
+                }
+                let content = FlashCard(
+                    title: normalized.front,
+                    subtitle: normalized.note,
+                    detail: normalized.back,
+                    imageName: suggestedImageName(from: normalized.front)
+                )
+                let cardEntity = makeCardEntity(from: DeckCard(content: content))
+                cardEntity.deck = deckEntity
+                deckEntity.cards.append(cardEntity)
+                added += 1
+            }
+            guard added > 0 else {
+                continue
+            }
+            context.insert(deckEntity)
+            deckCount += 1
+            cardCount += added
+        }
+
+        guard deckCount > 0 else {
+            throw RepositoryError.invalidDeckImportFile
+        }
+        try save(context: context)
+        return (deckCount, cardCount)
     }
 
     @discardableResult
@@ -546,7 +641,20 @@ actor CardRepository {
             throw RepositoryError.cardNotFound
         }
 
+        if isPersonalizationEnabled, personalizedScheduler == nil {
+            personalizedScheduler = FSRSScheduler(parameters: try storedFSRSProfile(context: context).parameters)
+        }
+
         var card = domainCard(from: cardEntity)
+        card.schedule.reviewLog.append(
+            ReviewLogEntry(
+                date: now,
+                grade: grade,
+                stateBefore: card.schedule.state,
+                elapsedDays: card.schedule.reviewHistory.last.map { daysBetween($0, and: now) } ?? 0,
+                scheduledDays: card.schedule.interval
+            )
+        )
         card.schedule.reviewHistory.append(now)
         card.schedule = scheduleCard(card.schedule, grade: grade, now: now)
         applySchedule(card.schedule, to: cardEntity)
@@ -579,6 +687,13 @@ actor CardRepository {
             summary[date, default: 0] += 0
         }
         return summary
+    }
+
+    func advancedInsights(now: Date = .now) throws -> AdvancedInsights {
+        try ensurePrepared()
+        let context = try makeContext()
+        let decks = try fetchDecks(context: context).map(domainDeck(from:))
+        return AdvancedInsights.build(decks: decks, now: now, calendar: calendar)
     }
 
     func insightsSnapshot(
@@ -751,9 +866,11 @@ actor CardRepository {
     private func snapshotStore(context: ModelContext) throws -> PersistedStore {
         let decks = try fetchDecks(context: context).map(domainDeck(from:))
         let mode = try schedulerModeRawValue(context: context)
+        let profile = try storedFSRSProfile(context: context)
         return PersistedStore(
             decks: decks,
-            schedulerMode: SchedulerMode(rawValue: mode) ?? .fsrs
+            schedulerMode: SchedulerMode(rawValue: mode) ?? .fsrs,
+            fsrsProfile: profile == .default ? nil : profile
         )
     }
 
@@ -776,8 +893,37 @@ actor CardRepository {
         }
 
         let mode = SchedulerMode.fsrs.rawValue
-        context.insert(AppSettingsEntity(key: Self.settingsKey, schedulerModeRaw: mode))
+        context.insert(
+            AppSettingsEntity(
+                key: Self.settingsKey,
+                schedulerModeRaw: mode,
+                fsrsProfileData: store.fsrsProfile.flatMap { try? payloadEncoder.encode($0) }
+            )
+        )
+        personalizedScheduler = nil
         try save(context: context)
+    }
+
+    private func storedFSRSProfile(context: ModelContext) throws -> FSRSProfile {
+        guard let data = try fetchSettings(context: context)?.fsrsProfileData,
+              let profile = try? payloadDecoder.decode(FSRSProfile.self, from: data)
+        else {
+            return .default
+        }
+        return profile
+    }
+
+    private func storeFSRSProfile(_ profile: FSRSProfile, context: ModelContext) throws {
+        let settings = try fetchOrCreateSettings(context: context)
+        settings.fsrsProfileData = try? payloadEncoder.encode(profile)
+        personalizedScheduler = nil
+        try save(context: context)
+    }
+
+    private func reviewLogs(context: ModelContext) throws -> [[ReviewLogEntry]] {
+        try context.fetch(FetchDescriptor<CardEntryEntity>())
+            .map { decodeReviewLog(from: $0.scheduleReviewLogData) }
+            .filter { !$0.isEmpty }
     }
 
     private func deleteAllData(context: ModelContext) throws {
@@ -875,6 +1021,7 @@ actor CardRepository {
             interval: entity.scheduleInterval,
             dueDate: entity.scheduleDueDate,
             reviewHistory: decodeReviewHistory(from: entity.scheduleReviewHistoryData),
+            reviewLog: decodeReviewLog(from: entity.scheduleReviewLogData),
             fsrsState: decodeFSRSState(from: entity.scheduleFSRSStateData)
         )
         return DeckCard(id: entity.id, content: content, schedule: schedule)
@@ -894,7 +1041,8 @@ actor CardRepository {
             scheduleInterval: card.schedule.interval,
             scheduleDueDate: card.schedule.dueDate,
             scheduleReviewHistoryData: encodeReviewHistory(card.schedule.reviewHistory),
-            scheduleFSRSStateData: encodeFSRSState(card.schedule.fsrsState)
+            scheduleFSRSStateData: encodeFSRSState(card.schedule.fsrsState),
+            scheduleReviewLogData: encodeReviewLog(card.schedule.reviewLog)
         )
     }
 
@@ -906,6 +1054,7 @@ actor CardRepository {
         entity.scheduleDueDate = schedule.dueDate
         entity.scheduleReviewHistoryData = encodeReviewHistory(schedule.reviewHistory)
         entity.scheduleFSRSStateData = encodeFSRSState(schedule.fsrsState)
+        entity.scheduleReviewLogData = encodeReviewLog(schedule.reviewLog)
     }
 
     private func decodeReviewHistory(from data: Data) -> [Date] {
@@ -914,6 +1063,20 @@ actor CardRepository {
 
     private func encodeReviewHistory(_ history: [Date]) -> Data {
         (try? payloadEncoder.encode(history)) ?? Data("[]".utf8)
+    }
+
+    private func decodeReviewLog(from data: Data?) -> [ReviewLogEntry] {
+        guard let data else {
+            return []
+        }
+        return (try? payloadDecoder.decode([ReviewLogEntry].self, from: data)) ?? []
+    }
+
+    private func encodeReviewLog(_ log: [ReviewLogEntry]) -> Data? {
+        guard !log.isEmpty else {
+            return nil
+        }
+        return try? payloadEncoder.encode(log)
     }
 
     private func decodeFSRSState(from data: Data?) -> FSRSReviewState? {
@@ -939,7 +1102,15 @@ actor CardRepository {
         case .new, .learning, .relearning:
             var next = sm2Scheduler.schedule(card: card, grade: grade, now: now)
             if next.state == .review {
-                next.fsrsState = seededFSRSState(from: next, now: now)
+                if var relearned = card.fsrsState {
+                    // A lapsed card keeps the difficulty and post-lapse
+                    // stability FSRS already worked out for it.
+                    relearned.scheduledDays = max(0, next.interval)
+                    relearned.lastReview = now
+                    next.fsrsState = relearned
+                } else {
+                    next.fsrsState = seededFSRSState(from: next, now: now)
+                }
             }
             return next
         case .review:
@@ -949,7 +1120,8 @@ actor CardRepository {
 
     private func scheduleReviewWithFSRS(card: Card, grade: UserGrade, now: Date) -> Card {
         let fsrsInput = makeFSRSCard(from: card, now: now)
-        let fsrsOutput = fsrsScheduler.schedule(card: fsrsInput, grade: grade)
+        let scheduler = (isPersonalizationEnabled ? personalizedScheduler : nil) ?? fsrsScheduler
+        let fsrsOutput = scheduler.schedule(card: fsrsInput, grade: grade)
 
         if grade == .again {
             var relearning = sm2Scheduler.schedule(card: card, grade: grade, now: now)

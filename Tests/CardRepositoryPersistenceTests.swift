@@ -168,4 +168,31 @@ final class CardRepositoryPersistenceTests: XCTestCase {
             }
         }
     }
+
+    func testReviewRecordsGradedLogThatSurvivesBackupRoundTrip() async throws {
+        let sourceURL = sandboxRootURL.appendingPathComponent("log-source", isDirectory: true)
+        let targetURL = sandboxRootURL.appendingPathComponent("log-target", isDirectory: true)
+        let repository = CardRepository(appSupportDirectoryOverride: sourceURL)
+        try await repository.prepare()
+
+        let deck = try await repository.createDeck(title: "Chemistry")
+        let card = try await repository.addCard(to: deck.id, front: "H2O", back: "Water", note: "")
+        let firstReview = Date(timeIntervalSince1970: 1_780_000_000)
+        let secondReview = firstReview.addingTimeInterval(3 * 24 * 60 * 60)
+
+        try await repository.review(deckID: deck.id, cardID: card.id, grade: .good, now: firstReview)
+        let reviewed = try await repository.review(deckID: deck.id, cardID: card.id, grade: .again, now: secondReview)
+
+        XCTAssertEqual(reviewed.reviewLog.map(\.grade), [.good, .again])
+        XCTAssertEqual(reviewed.reviewLog.first?.stateBefore, .new)
+        XCTAssertEqual(reviewed.reviewLog.first?.elapsedDays, 0)
+        XCTAssertEqual(reviewed.reviewLog.last?.elapsedDays, 3)
+        XCTAssertEqual(reviewed.reviewHistory.count, 2)
+
+        let target = CardRepository(appSupportDirectoryOverride: targetURL)
+        try await target.prepare()
+        try await target.importBackupData(try await repository.exportBackupData())
+        let restored = try await target.cards(in: deck.id)
+        XCTAssertEqual(restored.first?.schedule.reviewLog, reviewed.reviewLog)
+    }
 }

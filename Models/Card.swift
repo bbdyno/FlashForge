@@ -46,6 +46,14 @@ struct FSRSReviewState: Sendable, Identifiable, Codable {
     }
 }
 
+struct ReviewLogEntry: Sendable, Hashable, Codable {
+    let date: Date
+    let grade: UserGrade
+    let stateBefore: CardState
+    let elapsedDays: Int
+    let scheduledDays: Int
+}
+
 struct Card: Sendable, Identifiable, Codable {
     let id: UUID
     var state: CardState
@@ -54,6 +62,9 @@ struct Card: Sendable, Identifiable, Codable {
     var interval: Int
     var dueDate: Date
     var reviewHistory: [Date]
+    // Graded log, recorded from 2.0 onward. Older reviews exist only as dates in
+    // `reviewHistory`, so this can be shorter than the history.
+    var reviewLog: [ReviewLogEntry]
     var fsrsState: FSRSReviewState?
 
     init(
@@ -64,6 +75,7 @@ struct Card: Sendable, Identifiable, Codable {
         interval: Int = 0,
         dueDate: Date = Date(),
         reviewHistory: [Date] = [],
+        reviewLog: [ReviewLogEntry] = [],
         fsrsState: FSRSReviewState? = nil
     ) {
         self.id = id
@@ -73,6 +85,20 @@ struct Card: Sendable, Identifiable, Codable {
         self.interval = interval
         self.dueDate = dueDate
         self.reviewHistory = reviewHistory
+        self.reviewLog = reviewLog
         self.fsrsState = fsrsState
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(UUID.self, forKey: .id)
+        state = try container.decode(CardState.self, forKey: .state)
+        stepIndex = try container.decodeIfPresent(Int.self, forKey: .stepIndex)
+        easeFactor = try container.decode(Double.self, forKey: .easeFactor)
+        interval = try container.decode(Int.self, forKey: .interval)
+        dueDate = try container.decode(Date.self, forKey: .dueDate)
+        reviewHistory = try container.decode([Date].self, forKey: .reviewHistory)
+        reviewLog = try container.decodeIfPresent([ReviewLogEntry].self, forKey: .reviewLog) ?? []
+        fsrsState = try container.decodeIfPresent(FSRSReviewState.self, forKey: .fsrsState)
     }
 }
