@@ -11,15 +11,17 @@ let provisioningProfileUUID = "b8ee75c0-3572-4788-ad21-a75a79de7904"
 let widgetProvisioningProfileName = "FlashForge Widget Distribution Provisioning"
 let widgetProvisioningProfileUUID = "24312bb1-92d0-419e-bb25-064eb8dd7643"
 let marketingVersion = "2.0.0"
-let buildNumber = "2026.10.07.1"
+let buildNumber = "2026.10.07.2"
 // Newest build that was sold as a paid download. Anyone whose first download is
 // this build or older owns Core. Raise it only if another paid build ships
 // before the app goes free; never change it after that.
 let lastPaidBuild = "2026.08.18.1"
-// Custom offer code (App Store Connect > Subscriptions > Offer Codes) that gives
-// buyers of the paid app their first-year Pro discount. Leave empty until the
-// code exists; the app hides the offer while it is empty.
-let legacyOfferCode = ""
+// Custom offer code (App Store Connect > Pro Yearly > Offer Codes > "Early Buyer
+// First Year 50") that gives buyers of the paid app their first-year Pro
+// discount. App Store Connect only lets the code be created once the
+// subscription is approved, so create it under exactly this name before
+// releasing. An empty string hides the offer in the app.
+let legacyOfferCode = "EARLY50"
 
 let project = Project(
     name: appName,

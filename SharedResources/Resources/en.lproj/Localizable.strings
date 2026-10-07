@@ -240,7 +240,6 @@
 "paywall.cta.core" = "Buy Core";
 "paywall.legacy.note" = "You already own Core. Everything you use today stays free.";
 "paywall.legacy.redeem" = "Use early-buyer code %@";
-"paywall.legacy.copied" = "Code copied. Paste it on the next screen.";
 "paywall.restore" = "Restore purchases";
 "paywall.terms" = "Terms";
 "paywall.privacy" = "Privacy";

@@ -15,9 +15,9 @@
 	<key>provisioningProfiles</key>
 	<dict>
 		<key>com.bbdyno.app.flashFlow</key>
-		<string>FlashForge App Store 20260818</string>
+		<string>FlashForge iOS Distribution Provisioning</string>
 		<key>com.bbdyno.app.flashFlow.widget</key>
-		<string>FlashForge Widget App Store 20260818</string>
+		<string>FlashForge Widget Distribution Provisioning</string>
 	</dict>
 	<key>teamID</key>
 	<string>M79H9K226Y</string>

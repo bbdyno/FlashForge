@@ -240,7 +240,6 @@
 "paywall.cta.core" = "Core 구매";
 "paywall.legacy.note" = "Core는 이미 보유 중입니다. 지금 쓰는 기능은 계속 무료입니다.";
 "paywall.legacy.redeem" = "기존 구매자 코드 %@ 사용";
-"paywall.legacy.copied" = "코드를 복사했습니다. 다음 화면에 붙여 넣으세요.";
 "paywall.restore" = "구매 복원";
 "paywall.terms" = "이용약관";
 "paywall.privacy" = "개인정보 처리방침";
