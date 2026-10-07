@@ -64,7 +64,7 @@ final class AppearanceOptionControl: UIControl {
     private func updateSelection() {
         previewView.isSelected = isSelected
         titleLabel.textColor = isSelected ? AppTheme.textPrimary : AppTheme.textSecondary
-        selectionMark.backgroundColor = isSelected ? AppTheme.accent : .clear
+        selectionMark.backgroundColor = isSelected ? AppTheme.textPrimary : .clear
         accessibilityTraits = isSelected ? [.button, .selected] : .button
     }
 }
@@ -121,7 +121,7 @@ private final class AppearancePreviewView: UIView {
         innerLine.lineWidth = 2
         innerLine.stroke()
 
-        let borderColor = isSelected ? AppTheme.accent : AppTheme.cardBorder
+        let borderColor = isSelected ? AppTheme.textPrimary : AppTheme.cardBorder
         borderColor.setStroke()
         path.lineWidth = isSelected ? 2.5 : 1
         path.stroke()

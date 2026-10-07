@@ -21,6 +21,10 @@ final class InsightsViewController: UIViewController {
     private let heatmapView = ReviewHeatmapView()
     private let stateBreakdownView = CardStateBreakdownView()
     private let dueForecastView = DueForecastView()
+    private let daypartBlock = ProInsightBlockView(title: FlashForgeStrings.Insights.Pro.Daypart.title, color: AppTheme.sky)
+    private let deckBlock = ProInsightBlockView(title: FlashForgeStrings.Insights.Pro.Decks.title, color: AppTheme.peach)
+    private let forecastBlock = ProInsightBlockView(title: FlashForgeStrings.Insights.Pro.Forecast.title, color: AppTheme.lilac)
+    private var advancedInsights: AdvancedInsights?
     private let loadingIndicator = UIActivityIndicatorView(style: .medium)
     private let errorLabel = UILabel()
 
@@ -53,7 +57,6 @@ final class InsightsViewController: UIViewController {
             return
         }
         AppTheme.applyGradient(to: backgroundGradientLayer, traitCollection: traitCollection)
-        metricRow.layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
     }
 
     deinit {
@@ -64,12 +67,12 @@ final class InsightsViewController: UIViewController {
         title = FlashForgeStrings.Insights.title
         navigationItem.largeTitleDisplayMode = .always
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "gearshape"),
+            image: AppIcon.image("gear-six", size: 22),
             style: .plain,
             target: self,
             action: #selector(didTapSettings)
         )
-        navigationItem.rightBarButtonItem?.tintColor = AppTheme.accent
+        navigationItem.rightBarButtonItem?.tintColor = AppTheme.textPrimary
         navigationItem.rightBarButtonItem?.accessibilityLabel =
             FlashForgeStrings.Insights.Settings.accessibility
         navigationItem.rightBarButtonItem?.accessibilityIdentifier = "insights.settingsButton"
@@ -95,7 +98,7 @@ final class InsightsViewController: UIViewController {
         errorLabel.text = FlashForgeStrings.Insights.error
         errorLabel.isHidden = true
 
-        loadingIndicator.color = AppTheme.accent
+        loadingIndicator.color = AppTheme.textPrimary
         loadingIndicator.hidesWhenStopped = true
 
         view.addSubview(scrollView)
@@ -109,8 +112,19 @@ final class InsightsViewController: UIViewController {
             heatmapView,
             stateBreakdownView,
             dueForecastView,
+            daypartBlock,
+            deckBlock,
+            forecastBlock,
             errorLabel
         ].forEach(stackView.addArrangedSubview)
+        stackView.setCustomSpacing(20, after: heroView)
+        stackView.setCustomSpacing(20, after: metricRow)
+
+        [daypartBlock, deckBlock, forecastBlock].forEach { block in
+            block.addAction(UIAction { [weak self] _ in
+                self?.present(PaywallViewController(context: .proFeature), animated: true)
+            }, for: .touchUpInside)
+        }
 
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -130,31 +144,16 @@ final class InsightsViewController: UIViewController {
     }
 
     private func configureMetricRow() {
-        reviewedTodayCard.configure(
-            title: FlashForgeStrings.Insights.Metric.reviewedToday,
-            symbolName: "checkmark",
-            tint: AppTheme.accent,
-            fill: AppTheme.accentSoft
-        )
-        streakCard.configure(
-            title: FlashForgeStrings.Insights.Metric.currentStreak,
-            symbolName: "flame.fill",
-            tint: AppTheme.accent,
-            fill: AppTheme.accentSoft
-        )
-        retentionCard.configure(
-            title: FlashForgeStrings.Insights.Metric.retention,
-            symbolName: "brain.head.profile",
-            tint: AppTheme.accent,
-            fill: AppTheme.accentSoft
-        )
+        reviewedTodayCard.configure(title: FlashForgeStrings.Insights.Metric.reviewedToday, icon: "check.bold")
+        streakCard.configure(title: FlashForgeStrings.Insights.Metric.currentStreak, icon: "fire")
+        retentionCard.configure(title: FlashForgeStrings.Insights.Metric.lastSevenDays, icon: "clock")
 
         metricRow.axis = .horizontal
         metricRow.distribution = .fillEqually
         metricRow.alignment = .fill
         metricRow.spacing = 0
-        AppTheme.styleSurface(metricRow, radius: 18)
         [reviewedTodayCard, streakCard, retentionCard].forEach(metricRow.addArrangedSubview)
+        reviewedTodayCard.showsLeadingRule = false
     }
 
     private func configureNotifications() {
@@ -164,6 +163,17 @@ final class InsightsViewController: UIViewController {
             name: .deckDataDidChange,
             object: nil
         )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleEntitlementDidChange),
+            name: .entitlementDidChange,
+            object: nil
+        )
+    }
+
+    @objc
+    private func handleEntitlementDidChange() {
+        renderAdvancedInsights()
     }
 
     @objc
@@ -192,7 +202,9 @@ final class InsightsViewController: UIViewController {
             do {
                 try await self.repository.prepare()
                 let snapshot = try await self.repository.insightsSnapshot()
+                self.advancedInsights = try await self.repository.advancedInsights()
                 self.render(snapshot)
+                self.renderAdvancedInsights()
             } catch {
                 CrashReporter.record(error: error, context: "InsightsViewController.loadInsights")
                 self.errorLabel.isHidden = false
@@ -202,7 +214,7 @@ final class InsightsViewController: UIViewController {
 
     private func render(_ snapshot: InsightsSnapshot) {
         heroView.render(
-            reviewCount: snapshot.reviewedLastSevenDaysCount,
+            retention: snapshot.estimatedRetention,
             summary: FlashForgeStrings.Insights.summary(
                 snapshot.deckCount,
                 snapshot.cardCount,
@@ -210,31 +222,98 @@ final class InsightsViewController: UIViewController {
             )
         )
         reviewedTodayCard.setValue("\(snapshot.reviewedTodayCount)")
-        streakCard.setValue(
-            FlashForgeStrings.Insights.Value.days(snapshot.currentStreakDays)
-        )
-
-        if let retention = snapshot.estimatedRetention {
-            retentionCard.setValue(
-                FlashForgeStrings.Insights.Value.percent(Int((retention * 100).rounded()))
-            )
-        } else {
-            retentionCard.setValue(FlashForgeStrings.Insights.Value.unavailable)
-        }
+        streakCard.setValue(FlashForgeStrings.Insights.Value.days(snapshot.currentStreakDays))
+        retentionCard.setValue("\(snapshot.reviewedLastSevenDaysCount)")
 
         heatmapView.update(reviewCountByDate: snapshot.reviewCountByDate)
         stateBreakdownView.render(snapshot.stateCounts)
         dueForecastView.render(snapshot.dueForecast)
     }
+
+    // Without Pro the blocks chart fixed sample shapes, never the customer's
+    // own numbers, so nothing real sits under the blur.
+    private func renderAdvancedInsights() {
+        let isLocked = EntitlementService.shared.snapshot.tier != .pro
+        let insights = isLocked ? Self.sampleInsights : advancedInsights
+        guard let insights else {
+            return
+        }
+        let window = FlashForgeStrings.Insights.Pro.window
+        let collecting = FlashForgeStrings.Insights.Pro.collecting
+
+        let daypartBars = insights.dayparts.map { item in
+            InsightBarChartView.Bar(
+                label: Self.title(for: item.daypart),
+                value: item.recallRate ?? 0,
+                caption: item.recallRate.map { FlashForgeStrings.Insights.Value.percent(Int(($0 * 100).rounded())) }
+                    ?? FlashForgeStrings.Insights.Value.unavailable
+            )
+        }
+        daypartBlock.render(
+            content: InsightBarChartView(bars: daypartBars, height: 64),
+            caption: window,
+            isLocked: isLocked,
+            message: insights.dayparts.contains { $0.recallRate != nil } ? nil : collecting
+        )
+
+        let deckRows = insights.decks.map { deck in
+            InsightDeckListView.Row(
+                title: deck.title,
+                value: deck.recallRate.map { FlashForgeStrings.Insights.Value.percent(Int(($0 * 100).rounded())) }
+                    ?? FlashForgeStrings.Insights.Value.unavailable,
+                detail: FlashForgeStrings.Insights.Pro.Decks.row(deck.reviewCount),
+                fraction: deck.recallRate
+            )
+        }
+        deckBlock.render(
+            content: InsightDeckListView(rows: deckRows),
+            caption: window,
+            isLocked: isLocked,
+            message: insights.decks.contains { $0.recallRate != nil } ? nil : collecting
+        )
+
+        let labelled: Set<Int> = [0, 6, AdvancedInsights.forecastWeeks - 1]
+        let forecastBars = insights.forecast.enumerated().map { index, week in
+            InsightBarChartView.Bar(
+                label: labelled.contains(index) ? FlashForgeStrings.Insights.Pro.Forecast.week(index + 1) : nil,
+                value: Double(week.count),
+                caption: nil
+            )
+        }
+        forecastBlock.render(
+            content: InsightBarChartView(bars: forecastBars, height: 72),
+            caption: isLocked ? nil : FlashForgeStrings.Insights.Pro.Forecast.caption(insights.forecastTotal),
+            isLocked: isLocked
+        )
+    }
+
+    private static func title(for daypart: Daypart) -> String {
+        switch daypart {
+        case .morning:
+            return FlashForgeStrings.Insights.Pro.Daypart.morning
+        case .afternoon:
+            return FlashForgeStrings.Insights.Pro.Daypart.afternoon
+        case .evening:
+            return FlashForgeStrings.Insights.Pro.Daypart.evening
+        case .night:
+            return FlashForgeStrings.Insights.Pro.Daypart.night
+        }
+    }
+
+    private static let sampleInsights = AdvancedInsights(
+        dayparts: zip(Daypart.allCases, [0.91, 0.84, 0.88, 0.72]).map {
+            DaypartPerformance(daypart: $0, reviewCount: 40, recallRate: $1)
+        },
+        decks: [0.9, 0.78].map { DeckPerformance(id: UUID(), title: "————————", reviewCount: 40, recallRate: $0) },
+        forecast: [9, 14, 6, 11, 8, 5, 12, 7, 4, 9, 6, 3, 5].map { ForecastWeek(startDate: .distantPast, count: $0) }
+    )
 }
 
 private final class InsightsHeroView: UIView {
-    private let eyebrowLabel = UILabel()
     private let valueLabel = UILabel()
     private let unitLabel = UILabel()
+    private let captionLabel = UILabel()
     private let summaryLabel = UILabel()
-    private let markContainer = UIView()
-    private let markView = UIImageView(image: UIImage(systemName: "chart.line.uptrend.xyaxis"))
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -246,93 +325,69 @@ private final class InsightsHeroView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func render(reviewCount: Int, summary: String) {
-        valueLabel.text = "\(reviewCount)"
+    func render(retention: Double?, summary: String) {
+        if let retention {
+            valueLabel.text = "\(Int((retention * 100).rounded()))"
+            unitLabel.isHidden = false
+        } else {
+            valueLabel.text = FlashForgeStrings.Insights.Value.unavailable
+            unitLabel.isHidden = true
+        }
         summaryLabel.text = summary
-        accessibilityValue = "\(reviewCount), \(summary)"
+        accessibilityLabel = [captionLabel.text, valueLabel.text.map { $0 + (unitLabel.isHidden ? "" : "%") }, summary]
+            .compactMap { $0 }
+            .joined(separator: ", ")
     }
 
     private func configureUI() {
-        backgroundColor = AppTheme.cardBackground
-        layer.cornerRadius = 18
-        layer.cornerCurve = .continuous
-        layer.borderWidth = 0.5
-        layer.borderColor = AppTheme.cardBorder.cgColor
         isAccessibilityElement = true
-        accessibilityLabel = FlashForgeStrings.Insights.Metric.lastSevenDays
 
-        eyebrowLabel.text = FlashForgeStrings.Insights.Metric.lastSevenDays.uppercased()
-        eyebrowLabel.font = AppTypography.font(size: 11, weight: .bold, textStyle: .caption1)
-        eyebrowLabel.textColor = AppTheme.textSecondary
-        AppTypography.applyTracking(1.4, to: eyebrowLabel)
-
-        valueLabel.text = "—"
-        valueLabel.font = AppTypography.font(
-            size: 50,
-            weight: .bold,
-            textStyle: .largeTitle,
-            maximumPointSize: 60
-        )
+        valueLabel.font = AppTypography.display(size: 84, textStyle: .largeTitle, maximumPointSize: 96)
         valueLabel.textColor = AppTheme.textPrimary
+        unitLabel.text = "%"
+        unitLabel.font = AppTypography.display(size: 34, textStyle: .title1, maximumPointSize: 40)
+        unitLabel.textColor = AppTheme.textPrimary
 
-        unitLabel.text = FlashForgeStrings.Insights.Hero.reviews
-        unitLabel.font = AppTypography.font(size: 14, weight: .semibold, textStyle: .subheadline)
-        unitLabel.textColor = AppTheme.textSecondary
-
-        summaryLabel.font = AppTypography.font(size: 13, weight: .medium, textStyle: .footnote)
+        captionLabel.text = FlashForgeStrings.Insights.Metric.retention
+        captionLabel.font = AppTypography.font(size: 14, weight: .bold, textStyle: .subheadline)
+        captionLabel.textColor = AppTheme.textPrimary
+        summaryLabel.font = AppTypography.font(size: 13, weight: .semibold, textStyle: .footnote)
         summaryLabel.textColor = AppTheme.textSecondary
-        summaryLabel.numberOfLines = 2
+        summaryLabel.numberOfLines = 0
 
-        markContainer.backgroundColor = AppTheme.accentSoft
-        markContainer.layer.cornerRadius = 18
-        markContainer.layer.cornerCurve = .continuous
-        markView.tintColor = AppTheme.accent
-        markView.contentMode = .scaleAspectFit
-        markView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 21, weight: .bold)
-
-        addSubview(eyebrowLabel)
-        addSubview(valueLabel)
-        addSubview(unitLabel)
-        addSubview(summaryLabel)
-        addSubview(markContainer)
-        markContainer.addSubview(markView)
-
-        eyebrowLabel.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().inset(20)
-            make.trailing.lessThanOrEqualTo(markContainer.snp.leading).offset(-12)
-        }
-        markContainer.snp.makeConstraints { make in
-            make.top.trailing.equalToSuperview().inset(18)
-            make.size.equalTo(36)
-        }
-        markView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.size.equalTo(18)
-        }
+        [valueLabel, unitLabel, captionLabel, summaryLabel].forEach(addSubview)
         valueLabel.snp.makeConstraints { make in
-            make.top.equalTo(eyebrowLabel.snp.bottom).offset(8)
-            make.leading.equalTo(eyebrowLabel)
+            make.top.equalToSuperview().offset(-10)
+            make.leading.equalToSuperview()
         }
         unitLabel.snp.makeConstraints { make in
-            make.leading.equalTo(valueLabel.snp.trailing).offset(8)
-            make.firstBaseline.equalTo(valueLabel).offset(-3)
-            make.trailing.lessThanOrEqualToSuperview().inset(20)
+            make.leading.equalTo(valueLabel.snp.trailing).offset(2)
+            make.lastBaseline.equalTo(valueLabel)
+        }
+        captionLabel.snp.makeConstraints { make in
+            make.top.equalTo(valueLabel.snp.bottom).offset(-10)
+            make.leading.trailing.equalToSuperview()
         }
         summaryLabel.snp.makeConstraints { make in
-            make.top.equalTo(valueLabel.snp.bottom).offset(6)
-            make.leading.trailing.bottom.equalToSuperview().inset(20)
-        }
-        snp.makeConstraints { make in
-            make.height.greaterThanOrEqualTo(168)
+            make.top.equalTo(captionLabel.snp.bottom).offset(3)
+            make.leading.trailing.bottom.equalToSuperview()
         }
     }
 }
 
+// One column of the stats strip: ruled above and below, divided by hairlines,
+// with no card around it.
 private final class InsightMetricCardView: UIView {
-    private let iconContainer = UIView()
-    private let iconView = UIImageView()
+    var showsLeadingRule = true {
+        didSet { leadingRule.isHidden = !showsLeadingRule }
+    }
+
     private let valueLabel = UILabel()
+    private let iconView = UIImageView()
     private let titleLabel = UILabel()
+    private let topRule = UIView()
+    private let bottomRule = UIView()
+    private let leadingRule = UIView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -344,61 +399,55 @@ private final class InsightMetricCardView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(title: String, symbolName: String, tint: UIColor, fill: UIColor) {
+    func configure(title: String, icon: String) {
         titleLabel.text = title
-        iconView.image = UIImage(systemName: symbolName)
-        iconView.tintColor = tint
-        iconContainer.backgroundColor = fill
-        accessibilityLabel = title
+        iconView.image = AppIcon.image(icon, size: 14)
     }
 
     func setValue(_ value: String) {
         valueLabel.text = value
-        accessibilityValue = value
+        accessibilityLabel = [titleLabel.text, value].compactMap { $0 }.joined(separator: ", ")
     }
 
     private func configureUI() {
-        backgroundColor = .clear
         isAccessibilityElement = true
 
-        iconContainer.layer.cornerRadius = 11
-        iconContainer.layer.cornerCurve = .continuous
-        iconView.contentMode = .scaleAspectFit
-        iconView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 13, weight: .bold)
-
-        valueLabel.font = AppTypography.font(size: 22, weight: .bold, textStyle: .title2)
+        valueLabel.font = AppTypography.display(size: 28, textStyle: .title2, maximumPointSize: 34)
         valueLabel.textColor = AppTheme.textPrimary
-        valueLabel.text = "—"
         valueLabel.adjustsFontSizeToFitWidth = true
-        valueLabel.minimumScaleFactor = 0.72
-
-        titleLabel.font = AppTypography.font(size: 10.5, weight: .medium, textStyle: .caption2)
+        valueLabel.minimumScaleFactor = 0.7
+        iconView.tintColor = AppTheme.textSecondary
+        iconView.setContentHuggingPriority(.required, for: .horizontal)
+        titleLabel.font = AppTypography.font(size: 12, weight: .semibold, textStyle: .caption1)
         titleLabel.textColor = AppTheme.textSecondary
         titleLabel.numberOfLines = 2
+        [topRule, bottomRule, leadingRule].forEach { $0.backgroundColor = AppTheme.cardBorder }
 
-        addSubview(iconContainer)
-        iconContainer.addSubview(iconView)
-        addSubview(valueLabel)
-        addSubview(titleLabel)
+        let captionRow = UIStackView(arrangedSubviews: [iconView, titleLabel])
+        captionRow.alignment = .top
+        captionRow.spacing = 4
 
-        iconContainer.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().inset(12)
-            make.size.equalTo(24)
+        [valueLabel, captionRow, topRule, bottomRule, leadingRule].forEach(addSubview)
+        topRule.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalTo(AppTheme.outlineWidth)
         }
-        iconView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.size.equalTo(12)
+        bottomRule.snp.makeConstraints { make in
+            make.bottom.leading.trailing.equalToSuperview()
+            make.height.equalTo(AppTheme.outlineWidth)
+        }
+        leadingRule.snp.makeConstraints { make in
+            make.leading.top.bottom.equalToSuperview()
+            make.width.equalTo(AppTheme.outlineWidth)
         }
         valueLabel.snp.makeConstraints { make in
-            make.top.equalTo(iconContainer.snp.bottom).offset(12)
+            make.top.equalToSuperview().inset(12)
             make.leading.trailing.equalToSuperview().inset(12)
         }
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(valueLabel.snp.bottom).offset(4)
-            make.leading.trailing.bottom.equalToSuperview().inset(12)
-        }
-        snp.makeConstraints { make in
-            make.height.greaterThanOrEqualTo(116)
+        captionRow.snp.makeConstraints { make in
+            make.top.equalTo(valueLabel.snp.bottom).offset(2)
+            make.leading.trailing.equalToSuperview().inset(12)
+            make.bottom.equalToSuperview().inset(12)
         }
     }
 }
@@ -628,7 +677,7 @@ private final class DueForecastColumn: UIView {
         barContainer.backgroundColor = AppTheme.inputBackground
         barContainer.layer.cornerRadius = 5
         barContainer.clipsToBounds = true
-        barView.backgroundColor = AppTheme.accent
+        barView.backgroundColor = AppTheme.textPrimary
         barView.layer.cornerRadius = 5
         barView.layer.cornerCurve = .continuous
 

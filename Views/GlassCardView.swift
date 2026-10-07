@@ -18,7 +18,7 @@ final class GlassCardView: UIView {
     private let blurView = UIVisualEffectView(effect: nil)
     private let highlightView = GradientOverlayView()
     private let accentRuleView = UIView()
-    private let stateBadgeLabel = UILabel()
+    private let stateBadgeLabel = BadgeLabel()
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
     private let detailLabel = UILabel()
@@ -143,15 +143,9 @@ final class GlassCardView: UIView {
     }
 
     private func configureStyle() {
-        layer.shadowColor = AppTheme.resolved(AppTheme.shadowColor, for: traitCollection).cgColor
-        layer.shadowOpacity = 0.18
-        layer.shadowRadius = 24
-        layer.shadowOffset = CGSize(width: 0, height: 14)
+        layer.shadowOpacity = 0
 
-        glassContainer.layer.cornerRadius = 22
-        glassContainer.layer.cornerCurve = .continuous
-        glassContainer.layer.borderWidth = 1.0 / UIScreen.main.scale
-        glassContainer.layer.borderColor = AppTheme.studyLine.withAlphaComponent(0.45).cgColor
+        AppTheme.styleOutline(glassContainer, radius: 24, color: AppTheme.studyLine)
         glassContainer.clipsToBounds = true
 
         blurView.contentView.backgroundColor = AppTheme.studyPaper
@@ -163,24 +157,23 @@ final class GlassCardView: UIView {
         highlightView.gradientLayer.endPoint = CGPoint(x: 1, y: 1)
         highlightView.isUserInteractionEnabled = false
 
-        accentRuleView.backgroundColor = AppTheme.accent
-        accentRuleView.layer.cornerRadius = 1.5
+        accentRuleView.isHidden = true
 
-        stateBadgeLabel.font = AppTypography.font(size: 11, weight: .bold, textStyle: .caption1)
-        stateBadgeLabel.textColor = AppTheme.accent
+        stateBadgeLabel.font = AppTypography.font(size: 10.5, weight: .bold, textStyle: .caption2)
+        stateBadgeLabel.textColor = AppTheme.studyInk
         stateBadgeLabel.backgroundColor = .clear
-        stateBadgeLabel.layer.borderWidth = 0
+        AppTheme.styleOutline(stateBadgeLabel, radius: 11, color: AppTheme.studyLine)
         stateBadgeLabel.clipsToBounds = true
-        stateBadgeLabel.textAlignment = .left
+        stateBadgeLabel.textAlignment = .center
 
-        titleLabel.font = AppTypography.font(size: 29, weight: .bold, textStyle: .title1)
+        titleLabel.font = AppTypography.display(size: 36, textStyle: .title1)
         titleLabel.textColor = AppTheme.studyInk
         titleLabel.numberOfLines = 0
         titleLabel.lineBreakMode = .byWordWrapping
         titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
 
-        subtitleLabel.font = AppTypography.font(size: 13, weight: .medium, textStyle: .subheadline)
+        subtitleLabel.font = AppTypography.displayItalic(size: 15)
         subtitleLabel.textColor = AppTheme.studyMuted
         subtitleLabel.numberOfLines = 1
         subtitleLabel.lineBreakMode = .byTruncatingTail
@@ -205,14 +198,13 @@ final class GlassCardView: UIView {
     }
 
     private func applyTheme() {
-        layer.shadowColor = AppTheme.resolved(AppTheme.shadowColor, for: traitCollection).cgColor
-        glassContainer.layer.borderColor = AppTheme.studyLine.withAlphaComponent(0.45).cgColor
+        glassContainer.layer.borderColor = AppTheme.studyLine.cgColor
         blurView.contentView.backgroundColor = AppTheme.studyPaper
 
         highlightView.gradientLayer.colors = [UIColor.clear.cgColor, UIColor.clear.cgColor]
 
-        stateBadgeLabel.textColor = AppTheme.accent
-        stateBadgeLabel.backgroundColor = .clear
+        stateBadgeLabel.textColor = AppTheme.studyInk
+        stateBadgeLabel.layer.borderColor = AppTheme.studyLine.cgColor
 
         titleLabel.textColor = AppTheme.studyInk
         subtitleLabel.textColor = AppTheme.studyMuted
@@ -241,8 +233,8 @@ final class GlassCardView: UIView {
         }
 
         stateBadgeLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(accentRuleView)
-            make.leading.equalTo(accentRuleView.snp.trailing).offset(9)
+            make.top.equalToSuperview().inset(20)
+            make.leading.equalToSuperview().inset(20)
             make.trailing.lessThanOrEqualToSuperview().inset(22)
             make.height.equalTo(22)
         }
@@ -305,18 +297,18 @@ final class GlassCardView: UIView {
         } else if lines >= 3 || length >= 80 {
             size = 25
         } else if lines >= 2 || length >= 50 {
-            size = 27
-        } else {
             size = 30
+        } else {
+            size = 38
         }
 
-        return AppTypography.font(size: size, weight: .bold, textStyle: .title1)
+        return AppTypography.display(size: size, textStyle: .title1)
     }
 
     private func subtitleFont(for text: String) -> UIFont {
         let length = text.count
         let size: CGFloat = length >= 55 ? 14 : 15
-        return AppTypography.font(size: size, weight: .semibold, textStyle: .subheadline)
+        return AppTypography.displayItalic(size: size + 1)
     }
 
     private func detailFont(for text: String) -> UIFont {
@@ -352,5 +344,12 @@ private final class GradientOverlayView: UIView {
             fatalError("Unexpected layer type: \(type(of: layer))")
         }
         return gradientLayer
+    }
+}
+
+private final class BadgeLabel: UILabel {
+    override var intrinsicContentSize: CGSize {
+        let size = super.intrinsicContentSize
+        return CGSize(width: size.width + 18, height: size.height)
     }
 }

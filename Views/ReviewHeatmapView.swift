@@ -62,16 +62,14 @@ final class ReviewHeatmapView: UIView {
     }
 
     private func configureStyle() {
-        layer.cornerRadius = 18
-        layer.cornerCurve = .continuous
-        layer.borderWidth = 0.5
-        layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
-        backgroundColor = AppTheme.cardBackground
+        // A lime colour field in both appearances, so it uses the fixed inks.
+        AppTheme.styleOutline(self, radius: 22, color: AppTheme.studyLine)
+        backgroundColor = AppTheme.lime
 
         titleLabel.text = FlashForgeStrings.Insights.Activity.title
-        titleLabel.font = AppTypography.font(size: 17, weight: .bold, textStyle: .headline)
+        titleLabel.font = AppTypography.display(size: 20, textStyle: .headline)
         titleLabel.adjustsFontForContentSizeCategory = true
-        titleLabel.textColor = AppTheme.textPrimary
+        titleLabel.textColor = AppTheme.studyInk
 
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
@@ -83,9 +81,9 @@ final class ReviewHeatmapView: UIView {
     }
 
     private func applyTheme() {
-        layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
-        backgroundColor = AppTheme.cardBackground
-        titleLabel.textColor = AppTheme.textPrimary
+        layer.borderColor = AppTheme.studyLine.cgColor
+        backgroundColor = AppTheme.lime
+        titleLabel.textColor = AppTheme.studyInk
     }
 
     private func configureLayout() {
@@ -193,10 +191,11 @@ private final class ReviewHeatmapCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.layer.cornerRadius = 3
-        contentView.layer.cornerCurve = .continuous
-        contentView.layer.borderWidth = 0.5
-        contentView.layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.layer.cornerRadius = min(contentView.bounds.width, contentView.bounds.height) / 2
     }
 
     required init?(coder: NSCoder) {
@@ -208,7 +207,6 @@ private final class ReviewHeatmapCell: UICollectionViewCell {
         guard previousTraitCollection?.hasDifferentColorAppearance(comparedTo: traitCollection) == true else {
             return
         }
-        contentView.layer.borderColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
         configure(count: lastCount)
     }
 
@@ -216,13 +214,13 @@ private final class ReviewHeatmapCell: UICollectionViewCell {
         lastCount = count
         switch count {
         case ...0:
-            contentView.backgroundColor = AppTheme.inputBackground
+            contentView.backgroundColor = AppTheme.studyInk.withAlphaComponent(0.09)
         case 1...10:
-            contentView.backgroundColor = AppTheme.accent.withAlphaComponent(0.40)
+            contentView.backgroundColor = AppTheme.studyInk.withAlphaComponent(0.35)
         case 11...50:
-            contentView.backgroundColor = AppTheme.accent.withAlphaComponent(0.68)
+            contentView.backgroundColor = AppTheme.studyInk.withAlphaComponent(0.65)
         default:
-            contentView.backgroundColor = AppTheme.accent
+            contentView.backgroundColor = AppTheme.studyInk
         }
     }
 }

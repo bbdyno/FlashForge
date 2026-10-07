@@ -98,7 +98,7 @@ final class DeckDetailViewController: UIViewController {
         view.addSubview(bottomGlowView)
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "plus"),
+            image: AppIcon.image("plus.bold", size: 20),
             style: .plain,
             target: self,
             action: #selector(didTapAddCard)
@@ -108,7 +108,7 @@ final class DeckDetailViewController: UIViewController {
         tableView.register(DeckCardCell.self, forCellReuseIdentifier: DeckCardCell.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = 96
+        tableView.rowHeight = 110
         tableView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 20, right: 0)
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
@@ -166,6 +166,14 @@ final class DeckDetailViewController: UIViewController {
 
     @objc
     private func didTapAddCard() {
+        guard FeatureGate.canAddCard(
+            existingCardCount: cards.count,
+            tier: EntitlementService.shared.snapshot.tier
+        ) else {
+            present(PaywallViewController(context: .cardLimit), animated: true)
+            return
+        }
+
         let editor = CardEditorViewController(mode: .create) { [weak self] draft in
             Task { @MainActor [weak self] in
                 guard let self else { return }
@@ -300,7 +308,7 @@ private final class DeckCardCell: UITableViewCell {
     private let backLabel = UILabel()
     private let statePillLabel = UILabel()
     private let dueLabel = UILabel()
-    private let chevronImageView = UIImageView(image: UIImage(systemName: "chevron.right"))
+    private let chevronImageView = UIImageView(image: AppIcon.image("caret-right.bold", size: 14))
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -334,12 +342,12 @@ private final class DeckCardCell: UITableViewCell {
         selectionStyle = .none
 
         cardView.backgroundColor = AppTheme.cardBackground
-        cardView.layer.borderWidth = 0.5
+        cardView.layer.borderWidth = AppTheme.outlineWidth
         cardView.layer.borderColor = AppTheme.cardBorder.cgColor
-        cardView.layer.cornerRadius = 14
+        cardView.layer.cornerRadius = 18
         cardView.layer.cornerCurve = .continuous
 
-        frontLabel.font = AppTypography.font(size: 16, weight: .semibold, textStyle: .headline)
+        frontLabel.font = AppTypography.display(size: 19, textStyle: .headline)
         frontLabel.textColor = AppTheme.textPrimary
         frontLabel.numberOfLines = 1
 
@@ -349,7 +357,7 @@ private final class DeckCardCell: UITableViewCell {
 
         statePillLabel.font = AppTypography.font(size: 11, weight: .bold, textStyle: .caption1)
         statePillLabel.textColor = AppTheme.textPrimary
-        statePillLabel.backgroundColor = UIColor.white.withAlphaComponent(0.14)
+        statePillLabel.backgroundColor = AppTheme.tealSoft
         statePillLabel.layer.cornerRadius = 10
         statePillLabel.layer.cornerCurve = .continuous
         statePillLabel.layer.borderWidth = 0
@@ -390,7 +398,7 @@ private final class DeckCardCell: UITableViewCell {
     private func configureLayout() {
         cardView.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview().inset(5)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.trailing.equalToSuperview()
         }
 
         chevronImageView.snp.makeConstraints { make in
@@ -402,7 +410,7 @@ private final class DeckCardCell: UITableViewCell {
 
         frontLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(12)
-            make.leading.equalToSuperview().inset(14)
+            make.leading.equalToSuperview().inset(16)
             make.trailing.lessThanOrEqualTo(chevronImageView.snp.leading).offset(-10)
         }
 

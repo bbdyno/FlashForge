@@ -11,6 +11,7 @@ extension Notification.Name {
     static let deckDataDidChange = Notification.Name("FlashForge.deckDataDidChange")
     static let iCloudSyncManualRequested = Notification.Name("FlashForge.iCloudSyncManualRequested")
     static let iCloudSyncStatusDidChange = Notification.Name("FlashForge.iCloudSyncStatusDidChange")
+    static let entitlementDidChange = Notification.Name("FlashForge.entitlementDidChange")
 }
 
 enum ICloudSyncNotificationKey {

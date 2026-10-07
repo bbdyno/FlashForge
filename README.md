@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.2.0-d96b45" alt="Version 1.2.0">
+  <img src="https://img.shields.io/badge/version-2.0.0-d96b45" alt="Version 2.0.0">
   <img src="https://img.shields.io/badge/iOS-17.0%2B-111214?logo=apple" alt="iOS 17 or later">
   <img src="https://img.shields.io/badge/Swift-5.9-F05138?logo=swift&logoColor=white" alt="Swift 5.9">
   <img src="https://img.shields.io/badge/Privacy-First-4f8169" alt="Privacy first">
@@ -31,12 +31,20 @@
 ## ✨ Key Features / 주요 기능
 
 ### 🧠 Hybrid Spaced Repetition (하이브리드 간격 반복)
-- **Dual Algorithm Engine:** Combines classic Anki SM-2 with modern FSRS for scientifically optimized review scheduling.
-- **Adaptive Scheduling:** 17-parameter FSRS model dynamically adjusts to your learning patterns.
-- **4-Grade Feedback:** Rate each card as Again, Hard, Good, or Easy for precise scheduling.
-- **이중 알고리즘 엔진:** 클래식 SM-2와 최신 FSRS를 결합한 과학적 복습 스케줄링.
-- **적응형 스케줄링:** 17개 매개변수 FSRS 모델이 학습 패턴에 맞춰 자동 조정됩니다.
-- **4단계 피드백:** Again, Hard, Good, Easy로 세밀한 스케줄링이 가능합니다.
+- **Dual Algorithm Engine:** SM-2 learning steps hand over to FSRS v4 once a card graduates to review.
+- **Intervals That Grow:** Each successful review lengthens the next gap; lapses shorten it and keep the card's difficulty.
+- **4-Grade Feedback:** Rate each card as Again, Hard, Good, or Easy. Every graded review is logged.
+- **이중 알고리즘 엔진:** 학습 단계는 SM-2, 복습 단계로 넘어가면 FSRS v4가 간격을 정합니다.
+- **늘어나는 간격:** 맞힐수록 다음 간격이 길어지고, 틀리면 짧아지며 카드의 난이도는 유지됩니다.
+- **4단계 피드백:** Again, Hard, Good, Easy로 평가하며 모든 등급 복습이 기록됩니다.
+
+### 💳 Plans (요금제)
+- **Free:** Up to 3 decks with 50 cards each.
+- **Core (one-time purchase):** Unlimited decks and cards. Included automatically for everyone who bought FlashForge 1.x.
+- **Pro (monthly or yearly):** Personalised FSRS tuned to your own review log, target retention, recall by deck and time of day, a 90-day forecast, and CSV and Anki (.apkg) import.
+- **Free:** 덱 3개, 덱당 카드 50장까지.
+- **Core (일회성 구매):** 덱과 카드 무제한. FlashForge 1.x 구매자에게는 자동으로 포함됩니다.
+- **Pro (월간·연간 구독):** 내 복습 기록에 맞춘 개인화 FSRS, 목표 기억률, 덱별·시간대별 정답률, 90일 예측, CSV·Anki(.apkg) 가져오기.
 
 ### 🃏 Deck & Card Management (덱 & 카드 관리)
 - **Unlimited Decks:** Organize flashcards into topic-based decks.
@@ -46,15 +54,15 @@
 - **풍부한 카드 콘텐츠:** 질문, 답변, 메모를 각 카드에 기록할 수 있습니다.
 - **스마트 큐:** 학습(Learning)과 복습(Review) 큐를 분리하여 집중 학습이 가능합니다.
 
-### 🎨 Soft Editorial UI (소프트 에디토리얼 디자인)
-- **Familiar Usability:** Today, Library, and Insights keep their existing navigation and study behavior.
+### 🎨 Colour Field UI (컬러 필드 디자인)
+- **Flat Colour Fields:** Each deck carries a pastel field colour; one ink draws every outline and label.
+- **Serif Display Type:** Newsreader with Noto Serif KR for titles and numbers, Manrope for body text.
 - **User-controlled Appearance:** Follow the system or explicitly select Light or Dark in Settings.
-- **Tactile Visual Language:** Obsidian, warm paper, precise rules, and copper accents replace glossy or pixel-inspired decoration.
-- **Custom Onboarding Art:** Theme-aware vector illustrations are drawn directly in UIKit rather than relying on generated or stock artwork.
-- **익숙한 사용성:** Today, Library, Insights의 기존 탐색 구조와 학습 동작을 그대로 유지합니다.
+- **Open Icons:** Phosphor Icons (MIT) throughout the app.
+- **색면 구성:** 덱마다 파스텔 색면을 갖고, 외곽선과 글자는 하나의 잉크색으로 그립니다.
+- **세리프 제목:** 제목과 숫자는 Newsreader와 Noto Serif KR, 본문은 Manrope입니다.
 - **사용자 선택 화면 모드:** 설정에서 시스템, 라이트, 다크 모드를 직접 선택할 수 있습니다.
-- **절제된 시각 언어:** 흑요석색, 따뜻한 종이색, 얇은 구획선과 구리색 포인트로 화면을 구성했습니다.
-- **직접 그린 온보딩:** 생성형·스톡 이미지 대신 UIKit 벡터 패스로 테마 대응 일러스트를 직접 그립니다.
+- **오픈 아이콘:** 앱 전체에 Phosphor Icons(MIT)를 사용합니다.
 
 ### 📊 Study Analytics (학습 분석)
 - **140-Day Heatmap:** Visual review activity calendar to track study consistency.
@@ -88,9 +96,9 @@
 
 ## Design Preview / 디자인 미리보기
 
-The repository artwork and the [product website](https://bbdyno.github.io/FlashForge/) use the same Soft Editorial system as version 1.2.0: dark-first presentation, theme-aware surfaces, restrained motion, and a single warm accent.
+The repository artwork and the [product website](https://bbdyno.github.io/FlashForge/) still show the Soft Editorial look of version 1.2.0. The app itself moved to the Colour Field design in 2.0; the artwork and website have not been updated yet.
 
-저장소 이미지와 [제품 웹사이트](https://bbdyno.github.io/FlashForge/)는 버전 1.2.0 앱과 동일한 소프트 에디토리얼 디자인 시스템을 사용합니다. 다크 중심 화면, 테마 대응 표면, 절제된 모션과 하나의 따뜻한 포인트 색을 일관되게 적용했습니다.
+저장소 이미지와 [제품 웹사이트](https://bbdyno.github.io/FlashForge/)는 아직 버전 1.2.0의 소프트 에디토리얼 디자인을 보여 줍니다. 앱은 2.0에서 컬러 필드 디자인으로 바뀌었고, 이미지와 웹사이트는 아직 갱신하지 않았습니다.
 
 <br>
 
@@ -105,7 +113,9 @@ The repository artwork and the [product website](https://bbdyno.github.io/FlashF
 | **Architecture** | MVVM |
 | **Local Storage** | SwiftData |
 | **Layout** | SnapKit |
-| **Typography** | Manrope (SIL Open Font License 1.1) |
+| **Typography** | Manrope, Newsreader, Noto Serif KR (SIL Open Font License 1.1) |
+| **Icons** | Phosphor Icons (MIT) |
+| **Purchases** | StoreKit 2 |
 | **Concurrency** | Swift Concurrency (async/await, Actor) |
 | **Scheduling** | SM-2 (Anki) + FSRS Hybrid |
 | **Project Management** | Tuist |

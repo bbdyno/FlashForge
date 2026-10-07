@@ -14,6 +14,14 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private var deckDataObserver: NSObjectProtocol?
     private var manualSyncObserver: NSObjectProtocol?
     private var syncStatusObserver: NSObjectProtocol?
+    private var entitlementObserver: NSObjectProtocol?
+
+    private func applyEntitlementToRepository() {
+        let isPro = EntitlementService.shared.snapshot.tier == .pro
+        Task {
+            await repository.setPersonalizationEnabled(isPro)
+        }
+    }
 
     func scene(
         _ scene: UIScene,
@@ -72,6 +80,20 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         lastSyncedAt: lastSyncedAt,
                         hasError: hasError
                     )
+                }
+            }
+        }
+
+        EntitlementService.shared.start()
+        applyEntitlementToRepository()
+        if entitlementObserver == nil {
+            entitlementObserver = NotificationCenter.default.addObserver(
+                forName: .entitlementDidChange,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                Task { @MainActor [weak self] in
+                    self?.applyEntitlementToRepository()
                 }
             }
         }

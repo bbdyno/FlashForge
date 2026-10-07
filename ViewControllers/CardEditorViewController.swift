@@ -89,7 +89,7 @@ final class CardEditorViewController: UIViewController {
             target: self,
             action: #selector(didTapSave)
         )
-        navigationItem.rightBarButtonItem?.tintColor = AppTheme.accent
+        navigationItem.rightBarButtonItem?.tintColor = AppTheme.textPrimary
 
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
@@ -119,7 +119,7 @@ final class CardEditorViewController: UIViewController {
         backTextView.textColor = AppTheme.textPrimary
         backTextView.backgroundColor = AppTheme.inputBackground
         backTextView.layer.borderColor = AppTheme.cardBorder.cgColor
-        backTextView.layer.borderWidth = 0.5
+        backTextView.layer.borderWidth = AppTheme.outlineWidth
         backTextView.layer.cornerRadius = 12
         backTextView.layer.cornerCurve = .continuous
         backTextView.textContainerInset = UIEdgeInsets(top: 12, left: 10, bottom: 12, right: 10)
@@ -275,9 +275,9 @@ final class CardEditorViewController: UIViewController {
 
     private func configureCard(_ view: UIView) {
         view.backgroundColor = AppTheme.cardBackground
-        view.layer.borderWidth = 0.5
+        view.layer.borderWidth = AppTheme.outlineWidth
         view.layer.borderColor = AppTheme.cardBorder.cgColor
-        view.layer.cornerRadius = 18
+        view.layer.cornerRadius = 22
         view.layer.cornerCurve = .continuous
     }
 
@@ -296,7 +296,7 @@ final class CardEditorViewController: UIViewController {
         field.font = AppTypography.font(size: 16, weight: .medium, textStyle: .body)
         field.textColor = AppTheme.textPrimary
         field.backgroundColor = AppTheme.inputBackground
-        field.layer.borderWidth = 0.5
+        field.layer.borderWidth = AppTheme.outlineWidth
         field.layer.borderColor = AppTheme.cardBorder.cgColor
         field.layer.cornerRadius = 12
         field.layer.cornerCurve = .continuous
@@ -311,7 +311,7 @@ final class CardEditorViewController: UIViewController {
     private func applyTheme() {
         AppTheme.applyGradient(to: backgroundGradientLayer, traitCollection: traitCollection)
 
-        navigationItem.rightBarButtonItem?.tintColor = AppTheme.accent
+        navigationItem.rightBarButtonItem?.tintColor = AppTheme.textPrimary
 
         [introCard, frontCard, backCard, noteCard].forEach { card in
             card.backgroundColor = AppTheme.cardBackground

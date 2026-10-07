@@ -21,6 +21,7 @@ final class HomeViewModel {
         var didChangeLoading: @MainActor (Bool) -> Void
         var didUpdateDeckSummaries: @MainActor ([DeckSummary], UUID?) -> Void
         var didUpdateQueueCounts: @MainActor (QueueDueCounts) -> Void
+        var didUpdateCompletedToday: @MainActor (Int) -> Void
         var didUpdateCard: @MainActor (StudyCard) -> Void
         var didShowEmptyState: @MainActor (String) -> Void
         var didReceiveError: @MainActor (String) -> Void
@@ -29,6 +30,7 @@ final class HomeViewModel {
             didChangeLoading: @escaping @MainActor (Bool) -> Void = { _ in },
             didUpdateDeckSummaries: @escaping @MainActor ([DeckSummary], UUID?) -> Void = { _, _ in },
             didUpdateQueueCounts: @escaping @MainActor (QueueDueCounts) -> Void = { _ in },
+            didUpdateCompletedToday: @escaping @MainActor (Int) -> Void = { _ in },
             didUpdateCard: @escaping @MainActor (StudyCard) -> Void = { _ in },
             didShowEmptyState: @escaping @MainActor (String) -> Void = { _ in },
             didReceiveError: @escaping @MainActor (String) -> Void = { _ in }
@@ -36,6 +38,7 @@ final class HomeViewModel {
             self.didChangeLoading = didChangeLoading
             self.didUpdateDeckSummaries = didUpdateDeckSummaries
             self.didUpdateQueueCounts = didUpdateQueueCounts
+            self.didUpdateCompletedToday = didUpdateCompletedToday
             self.didUpdateCard = didUpdateCard
             self.didShowEmptyState = didShowEmptyState
             self.didReceiveError = didReceiveError
@@ -149,6 +152,7 @@ final class HomeViewModel {
             let completedToday = try await repository.reviewCountToday(deckID: selectedDeckID)
 
             output.didUpdateQueueCounts(counts)
+            output.didUpdateCompletedToday(completedToday)
 
             if let nextCard {
                 currentCardID = nextCard.id

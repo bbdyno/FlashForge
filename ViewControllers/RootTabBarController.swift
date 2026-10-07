@@ -19,9 +19,9 @@ final class RootTabBarController: UITabBarController {
     private let repository: CardRepository
     private lazy var editorialTabBar = EditorialTabBarView(
         items: [
-            (FlashForgeStrings.Tab.study, "square.grid.2x2", "tab.study"),
-            (FlashForgeStrings.Tab.decks, "rectangle.stack", "tab.decks"),
-            (FlashForgeStrings.Tab.insights, "chart.bar", "tab.insights")
+            (FlashForgeStrings.Tab.study, "cards", "tab.study"),
+            (FlashForgeStrings.Tab.decks, "stack", "tab.decks"),
+            (FlashForgeStrings.Tab.insights, "chart-bar", "tab.insights")
         ]
     )
     private var hasCheckedInitialFlow = false
@@ -116,7 +116,7 @@ final class RootTabBarController: UITabBarController {
         tabBar.isUserInteractionEnabled = false
         tabBar.isAccessibilityElement = false
         tabBar.accessibilityElementsHidden = true
-        viewControllers?.forEach { $0.additionalSafeAreaInsets.bottom = 58 }
+        viewControllers?.forEach { $0.additionalSafeAreaInsets.bottom = EditorialTabBarView.reservedHeight }
 
         view.addSubview(editorialTabBar)
         editorialTabBar.translatesAutoresizingMaskIntoConstraints = false
@@ -124,7 +124,7 @@ final class RootTabBarController: UITabBarController {
             editorialTabBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             editorialTabBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             editorialTabBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            editorialTabBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -58)
+            editorialTabBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -EditorialTabBarView.reservedHeight)
         ])
         editorialTabBar.onSelect = { [weak self] index in
             guard let self else { return }
@@ -143,7 +143,7 @@ final class RootTabBarController: UITabBarController {
     ) {
         let shouldHide = viewController?.hidesBottomBarWhenPushed == true
         editorialTabBar.isHidden = shouldHide
-        navigationController.additionalSafeAreaInsets.bottom = shouldHide ? 0 : 58
+        navigationController.additionalSafeAreaInsets.bottom = shouldHide ? 0 : EditorialTabBarView.reservedHeight
     }
 
     private func applyChromeAppearance() {
@@ -282,12 +282,15 @@ extension RootTabBarController: UINavigationControllerDelegate {
 }
 
 private final class EditorialTabBarView: UIView {
+    static let reservedHeight: CGFloat = 68
+
     var onSelect: ((Int) -> Void)?
     var selectedIndex = 0 {
-        didSet { updateSelection() }
+        didSet { updateSelection(animated: oldValue != selectedIndex) }
     }
 
-    private let separatorView = UIView()
+    private let pillView = UIView()
+    private let stack = UIStackView()
     private let items: [EditorialTabItemControl]
 
     init(items: [(title: String, symbol: String, accessibilityIdentifier: String)]) {
@@ -301,24 +304,25 @@ private final class EditorialTabBarView: UIView {
         }
         super.init(frame: .zero)
 
-        addSubview(separatorView)
-        let stack = UIStackView(arrangedSubviews: self.items)
+        addSubview(pillView)
+        self.items.forEach(stack.addArrangedSubview)
         stack.axis = .horizontal
         stack.alignment = .fill
-        stack.distribution = .fillEqually
-        addSubview(stack)
+        stack.spacing = 4
+        pillView.addSubview(stack)
+        pillView.layer.cornerRadius = 27
+        pillView.layer.cornerCurve = .continuous
 
-        separatorView.translatesAutoresizingMaskIntoConstraints = false
+        pillView.translatesAutoresizingMaskIntoConstraints = false
         stack.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            separatorView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            separatorView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            separatorView.topAnchor.constraint(equalTo: topAnchor),
-            separatorView.heightAnchor.constraint(equalToConstant: 1.0 / UIScreen.main.scale),
-            stack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 18),
-            stack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -18),
-            stack.topAnchor.constraint(equalTo: topAnchor),
-            stack.heightAnchor.constraint(equalToConstant: 58)
+            pillView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            pillView.topAnchor.constraint(equalTo: topAnchor, constant: 6),
+            pillView.heightAnchor.constraint(equalToConstant: 54),
+            stack.leadingAnchor.constraint(equalTo: pillView.leadingAnchor, constant: 5),
+            stack.trailingAnchor.constraint(equalTo: pillView.trailingAnchor, constant: -5),
+            stack.topAnchor.constraint(equalTo: pillView.topAnchor, constant: 5),
+            stack.bottomAnchor.constraint(equalTo: pillView.bottomAnchor, constant: -5)
         ])
 
         self.items.forEach { item in
@@ -327,7 +331,7 @@ private final class EditorialTabBarView: UIView {
             }, for: .touchUpInside)
         }
         applyTheme()
-        updateSelection()
+        updateSelection(animated: false)
     }
 
     @available(*, unavailable)
@@ -335,56 +339,77 @@ private final class EditorialTabBarView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func applyTheme() {
-        backgroundColor = AppTheme.tabBarBackground
-        separatorView.backgroundColor = AppTheme.cardBorder
-        updateSelection()
+    // The bar floats over content; only the pill itself takes touches.
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        pillView.frame.contains(point)
     }
 
-    private func updateSelection() {
+    func applyTheme() {
+        backgroundColor = .clear
+        pillView.backgroundColor = AppTheme.inkSurface
         items.forEach { $0.setSelected($0.index == selectedIndex) }
+    }
+
+    private func updateSelection(animated: Bool) {
+        let changes = { [self] in
+            items.forEach { $0.setSelected($0.index == selectedIndex) }
+            layoutIfNeeded()
+        }
+        guard animated, !UIAccessibility.isReduceMotionEnabled else {
+            changes()
+            return
+        }
+        UIView.animate(
+            withDuration: 0.32,
+            delay: 0,
+            usingSpringWithDamping: 0.82,
+            initialSpringVelocity: 0.4,
+            options: [.allowUserInteraction, .beginFromCurrentState],
+            animations: changes
+        )
     }
 }
 
 private final class EditorialTabItemControl: UIControl {
     let index: Int
 
+    private let symbol: String
     private let imageView = UIImageView()
     private let titleLabel = UILabel()
-    private let selectionLine = UIView()
+    private let contentStack = UIStackView()
 
     init(index: Int, title: String, symbol: String, accessibilityIdentifier: String) {
         self.index = index
+        self.symbol = symbol
         super.init(frame: .zero)
 
         self.accessibilityIdentifier = accessibilityIdentifier
+        isAccessibilityElement = true
         accessibilityLabel = title
         accessibilityTraits = .button
 
-        imageView.image = UIImage(systemName: symbol)
-        imageView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 18, weight: .medium)
-        imageView.contentMode = .scaleAspectFit
-
+        imageView.contentMode = .center
         titleLabel.text = title
-        titleLabel.font = AppTypography.font(size: 10, weight: .semibold, textStyle: .caption2)
-        titleLabel.textAlignment = .center
+        titleLabel.font = AppTypography.font(size: 13, weight: .bold, textStyle: .footnote, maximumPointSize: 16)
 
-        addSubview(imageView)
-        addSubview(titleLabel)
-        addSubview(selectionLine)
-        [imageView, titleLabel, selectionLine].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        contentStack.axis = .horizontal
+        contentStack.alignment = .center
+        contentStack.spacing = 6
+        contentStack.isUserInteractionEnabled = false
+        contentStack.addArrangedSubview(imageView)
+        contentStack.addArrangedSubview(titleLabel)
+        addSubview(contentStack)
+
+        layer.cornerRadius = 22
+        layer.cornerCurve = .continuous
+
+        contentStack.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            selectionLine.topAnchor.constraint(equalTo: topAnchor),
-            selectionLine.centerXAnchor.constraint(equalTo: centerXAnchor),
-            selectionLine.widthAnchor.constraint(equalToConstant: 34),
-            selectionLine.heightAnchor.constraint(equalToConstant: 2),
-            imageView.topAnchor.constraint(equalTo: topAnchor, constant: 9),
-            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: 24),
-            imageView.heightAnchor.constraint(equalToConstant: 22),
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 2),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 4),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -4)
+            contentStack.centerYAnchor.constraint(equalTo: centerYAnchor),
+            contentStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            contentStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
+            widthAnchor.constraint(greaterThanOrEqualToConstant: 52),
+            imageView.widthAnchor.constraint(equalToConstant: 22)
         ])
     }
 
@@ -394,10 +419,11 @@ private final class EditorialTabItemControl: UIControl {
     }
 
     func setSelected(_ isSelected: Bool) {
-        let color = isSelected ? AppTheme.accent : AppTheme.textSecondary
-        imageView.tintColor = color
-        titleLabel.textColor = color
-        selectionLine.backgroundColor = isSelected ? AppTheme.accent : .clear
+        imageView.image = AppIcon.image(isSelected ? "\(symbol).fill" : symbol, size: 22)
+        imageView.tintColor = isSelected ? AppTheme.studyInk : AppTheme.onInk.withAlphaComponent(0.72)
+        titleLabel.textColor = AppTheme.studyInk
+        titleLabel.isHidden = !isSelected
+        backgroundColor = isSelected ? AppTheme.lime : .clear
         accessibilityTraits = isSelected ? [.button, .selected] : .button
     }
 }

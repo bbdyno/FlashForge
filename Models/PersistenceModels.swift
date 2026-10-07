@@ -45,6 +45,7 @@ final class CardEntryEntity {
     var scheduleDueDate: Date
     var scheduleReviewHistoryData: Data
     var scheduleFSRSStateData: Data?
+    var scheduleReviewLogData: Data?
 
     var deck: DeckEntity?
 
@@ -62,6 +63,7 @@ final class CardEntryEntity {
         scheduleDueDate: Date,
         scheduleReviewHistoryData: Data,
         scheduleFSRSStateData: Data?,
+        scheduleReviewLogData: Data? = nil,
         deck: DeckEntity? = nil
     ) {
         self.id = id
@@ -77,6 +79,7 @@ final class CardEntryEntity {
         self.scheduleDueDate = scheduleDueDate
         self.scheduleReviewHistoryData = scheduleReviewHistoryData
         self.scheduleFSRSStateData = scheduleFSRSStateData
+        self.scheduleReviewLogData = scheduleReviewLogData
         self.deck = deck
     }
 }
@@ -85,9 +88,11 @@ final class CardEntryEntity {
 final class AppSettingsEntity {
     @Attribute(.unique) var key: String
     var schedulerModeRaw: String
+    var fsrsProfileData: Data?
 
-    init(key: String, schedulerModeRaw: String) {
+    init(key: String, schedulerModeRaw: String, fsrsProfileData: Data? = nil) {
         self.key = key
         self.schedulerModeRaw = schedulerModeRaw
+        self.fsrsProfileData = fsrsProfileData
     }
 }

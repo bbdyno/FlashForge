@@ -142,12 +142,11 @@ final class FSRSScheduler: @unchecked Sendable {
         return next
     }
 
+    // Parameter numbering follows FSRS v4: w0...w16, zero-based.
     private func updatedDifficulty(currentDifficulty: Double, grade: UserGrade) -> Double {
-        // D' = D - w6 * (grade - 3), D' = w5 * D0 + (1 - w5) * D'
-        let d0 = 5.0
-        let delta = -w(6) * (Double(grade.rawValue) - 3.0)
-        let updated = currentDifficulty + delta
-        let blended = w(5) * d0 + (1.0 - w(5)) * updated
+        // D' = w7 * D0(Good) + (1 - w7) * (D - w6 * (grade - 3))
+        let updated = currentDifficulty - w(6) * (Double(grade.rawValue) - 3.0)
+        let blended = w(7) * w(4) + (1.0 - w(7)) * updated
         return blended.clamped(to: Constant.minimumDifficulty...Constant.maximumDifficulty)
     }
 
@@ -162,56 +161,41 @@ final class FSRSScheduler: @unchecked Sendable {
         let r = retrievability.clamped(to: 0.0...1.0)
 
         if grade == .again {
-            // S' = w11 * D^-w12 * ((S+1)^w13 - 1) * exp(w14 * (1 - R))
+            // S' = w11 * D^-w12 * ((S+1)^w13 - 1) * exp(w14 * (1 - R)), never above S
             let raw = w(11) * pow(d, -w(12)) * (pow(s + 1.0, w(13)) - 1.0) * exp(w(14) * (1.0 - r))
-            return max(Constant.minimumStability, raw)
+            return min(s, max(Constant.minimumStability, raw))
         }
 
-        // S' = S * (1 + exp(w8) * (11-D) * S^-w9 * (exp(w10 * (1-R)) - 1))
-        let growth = exp(w(8)) * (11.0 - d) * pow(s, -w(9)) * (exp(w(10) * (1.0 - r)) - 1.0)
-        let raw = s * (1.0 + growth)
-        return max(Constant.minimumStability, raw)
+        // S' = S * (1 + exp(w8) * (11-D) * S^-w9 * (exp(w10 * (1-R)) - 1) * hardPenalty * easyBonus)
+        let hardPenalty = grade == .hard ? w(15) : 1.0
+        let easyBonus = grade == .easy ? w(16) : 1.0
+        let growth = exp(w(8)) * (11.0 - d) * pow(s, -w(9)) * (exp(w(10) * (1.0 - r)) - 1.0) * hardPenalty * easyBonus
+        return max(Constant.minimumStability, s * (1.0 + growth))
     }
 
     private func nextIntervalDays(stability: Double, requestRetention: Double) -> Int {
         let s = max(Constant.minimumStability, stability)
-        let retention = requestRetention.clamped(to: 0.7...0.99)
+        let retention = requestRetention.clamped(to: FSRSParameters.retentionRange)
 
-        // R = (1 + factor * t / S)^decay 를 t에 대해 풀어 next interval 계산
+        // Solve R = (1 + factor * t / S)^decay for t.
         let t = (s / Constant.factor) * (pow(retention, 1.0 / Constant.decay) - 1.0)
         return max(1, Int(t.rounded()))
     }
 
     private func initialDifficulty(for grade: UserGrade) -> Double {
-        switch grade {
-        case .again:
-            return 7.5
-        case .hard:
-            return 6.5
-        case .good:
-            return 5.0
-        case .easy:
-            return 3.8
-        }
+        // D0(G) = w4 - (G - 3) * w5
+        (w(4) - (Double(grade.rawValue) - 3.0) * w(5))
+            .clamped(to: Constant.minimumDifficulty...Constant.maximumDifficulty)
     }
 
     private func initialStability(for grade: UserGrade) -> Double {
-        switch grade {
-        case .again:
-            return 0.4
-        case .hard:
-            return 1.2
-        case .good:
-            return 2.4
-        case .easy:
-            return 3.6
-        }
+        // S0(G) = w(G - 1)
+        max(Constant.minimumStability, w(grade.rawValue - 1))
     }
 
-    private func w(_ index1Based: Int) -> Double {
-        let index = max(1, index1Based) - 1
-        guard index < parameters.w.count else {
-            return 1.0
+    private func w(_ index: Int) -> Double {
+        guard parameters.w.indices.contains(index) else {
+            return FSRSParameters.defaultWeights[index]
         }
         return parameters.w[index]
     }

@@ -45,6 +45,9 @@ final class MoreViewController: UIViewController {
     private let reminderStatusLabel = UILabel()
     private var reminderTimePickerHeightConstraint: Constraint?
 
+    private let personalizationCard = PersonalizationCardView()
+    private var isPersonalizationBusy = false
+    private var entitlementObserver: NSObjectProtocol?
     private let privacyCard = UIView()
     private let privacyTitleLabel = UILabel()
     private let privacyDescriptionLabel = UILabel()
@@ -111,6 +114,9 @@ final class MoreViewController: UIViewController {
 
     deinit {
         NotificationCenter.default.removeObserver(self, name: .iCloudSyncStatusDidChange, object: nil)
+        if let entitlementObserver {
+            NotificationCenter.default.removeObserver(entitlementObserver)
+        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -155,6 +161,7 @@ final class MoreViewController: UIViewController {
 
         stackView.addArrangedSubview(appearanceCard)
         stackView.addArrangedSubview(reminderCard)
+        stackView.addArrangedSubview(personalizationCard)
         stackView.addArrangedSubview(privacyCard)
         stackView.addArrangedSubview(dataCard)
 #if DEBUG
@@ -185,6 +192,72 @@ final class MoreViewController: UIViewController {
 
         applyTheme()
         applyPrivacySettings()
+        configurePersonalization()
+    }
+
+    private func configurePersonalization() {
+        personalizationCard.onLockedTap = { [weak self] in
+            self?.present(PaywallViewController(context: .proFeature), animated: true)
+        }
+        personalizationCard.onOptimize = { [weak self] in
+            self?.runPersonalization()
+        }
+        personalizationCard.onRetentionChanged = { [weak self] retention in
+            guard let self else { return }
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                _ = try? await self.repository.updateDesiredRetention(retention)
+                await self.reloadPersonalization()
+            }
+        }
+        entitlementObserver = NotificationCenter.default.addObserver(
+            forName: .entitlementDidChange,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                await self?.reloadPersonalization()
+            }
+        }
+        Task { @MainActor [weak self] in
+            await self?.reloadPersonalization()
+        }
+    }
+
+    private func reloadPersonalization() async {
+        guard let status = try? await repository.fsrsPersonalizationStatus() else {
+            return
+        }
+        personalizationCard.render(
+            status: status,
+            isPro: EntitlementService.shared.snapshot.tier == .pro,
+            isBusy: isPersonalizationBusy
+        )
+    }
+
+    private func runPersonalization() {
+        guard !isPersonalizationBusy else {
+            return
+        }
+        isPersonalizationBusy = true
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            await self.reloadPersonalization()
+            do {
+                let logs = try await self.repository.fsrsTrainingLogs()
+                let outcome = await Task.detached(priority: .userInitiated) {
+                    FSRSOptimizer.optimize(logs: logs)
+                }.value
+                if let outcome {
+                    _ = try await self.repository.saveFSRSOptimization(outcome)
+                    NotificationCenter.default.post(name: .deckDataDidChange, object: nil)
+                }
+            } catch {
+                CrashReporter.record(error: error, context: "MoreViewController.runPersonalization")
+            }
+            self.isPersonalizationBusy = false
+            await self.reloadPersonalization()
+        }
     }
 
     private func configureAppearanceCard() {
@@ -192,7 +265,7 @@ final class MoreViewController: UIViewController {
         appearanceCard.layer.borderWidth = 0
 
         appearanceTitleLabel.text = FlashForgeStrings.More.Appearance.title
-        appearanceTitleLabel.font = AppTypography.font(size: 19, weight: .bold, textStyle: .headline)
+        appearanceTitleLabel.font = AppTypography.display(size: 21, textStyle: .headline)
         appearanceTitleLabel.adjustsFontForContentSizeCategory = true
 
         appearanceDescriptionLabel.text = FlashForgeStrings.More.Appearance.description
@@ -231,13 +304,13 @@ final class MoreViewController: UIViewController {
 
     private func configureReminderCard() {
         reminderCard.backgroundColor = AppTheme.cardBackground
-        reminderCard.layer.borderWidth = 0.5
+        reminderCard.layer.borderWidth = AppTheme.outlineWidth
         reminderCard.layer.borderColor = AppTheme.cardBorder.cgColor
-        reminderCard.layer.cornerRadius = 18
+        reminderCard.layer.cornerRadius = 22
         reminderCard.layer.cornerCurve = .continuous
 
         reminderTitleLabel.text = FlashForgeStrings.More.Reminder.title
-        reminderTitleLabel.font = AppTypography.font(size: 19, weight: .bold, textStyle: .headline)
+        reminderTitleLabel.font = AppTypography.display(size: 21, textStyle: .headline)
         reminderTitleLabel.textColor = AppTheme.textPrimary
 
         reminderDescriptionLabel.text = FlashForgeStrings.More.Reminder.description
@@ -245,13 +318,13 @@ final class MoreViewController: UIViewController {
         reminderDescriptionLabel.textColor = AppTheme.textSecondary
         reminderDescriptionLabel.numberOfLines = 0
 
-        reminderSwitch.onTintColor = AppTheme.accent
+        reminderSwitch.onTintColor = AppTheme.accentTeal
         reminderSwitch.addTarget(self, action: #selector(didChangeReminderSwitch(_:)), for: .valueChanged)
 
         reminderTimePicker.datePickerMode = .time
         reminderTimePicker.preferredDatePickerStyle = .compact
         reminderTimePicker.locale = .autoupdatingCurrent
-        reminderTimePicker.tintColor = AppTheme.accent
+        reminderTimePicker.tintColor = AppTheme.textPrimary
         reminderTimePicker.backgroundColor = AppTheme.inputBackground
         reminderTimePicker.layer.cornerRadius = 10
         reminderTimePicker.layer.cornerCurve = .continuous
@@ -300,13 +373,13 @@ final class MoreViewController: UIViewController {
 
     private func configureDataCard() {
         dataCard.backgroundColor = AppTheme.cardBackground
-        dataCard.layer.borderWidth = 0.5
+        dataCard.layer.borderWidth = AppTheme.outlineWidth
         dataCard.layer.borderColor = AppTheme.cardBorder.cgColor
-        dataCard.layer.cornerRadius = 18
+        dataCard.layer.cornerRadius = 22
         dataCard.layer.cornerCurve = .continuous
 
         dataTitleLabel.text = FlashForgeStrings.More.Data.title
-        dataTitleLabel.font = AppTypography.font(size: 19, weight: .bold, textStyle: .headline)
+        dataTitleLabel.font = AppTypography.display(size: 21, textStyle: .headline)
         dataTitleLabel.textColor = AppTheme.textPrimary
 
         configureActionButton(backupButton, title: FlashForgeStrings.More.Data.export, tint: AppTheme.accent)
@@ -382,13 +455,13 @@ final class MoreViewController: UIViewController {
 
     private func configurePrivacyCard() {
         privacyCard.backgroundColor = AppTheme.cardBackground
-        privacyCard.layer.borderWidth = 0.5
+        privacyCard.layer.borderWidth = AppTheme.outlineWidth
         privacyCard.layer.borderColor = AppTheme.cardBorder.cgColor
-        privacyCard.layer.cornerRadius = 18
+        privacyCard.layer.cornerRadius = 22
         privacyCard.layer.cornerCurve = .continuous
 
         privacyTitleLabel.text = FlashForgeStrings.More.Privacy.title
-        privacyTitleLabel.font = AppTypography.font(size: 19, weight: .bold, textStyle: .headline)
+        privacyTitleLabel.font = AppTypography.display(size: 21, textStyle: .headline)
         privacyTitleLabel.adjustsFontForContentSizeCategory = true
 
         privacyDescriptionLabel.text = FlashForgeStrings.More.Privacy.description
@@ -417,11 +490,11 @@ final class MoreViewController: UIViewController {
             style: .footnote
         )
 
-        analyticsSwitch.onTintColor = AppTheme.accent
+        analyticsSwitch.onTintColor = AppTheme.accentTeal
         analyticsSwitch.accessibilityIdentifier = "more.analyticsSwitch"
         analyticsSwitch.addTarget(self, action: #selector(didChangeAnalyticsSwitch(_:)), for: .valueChanged)
 
-        crashReportingSwitch.onTintColor = AppTheme.accent
+        crashReportingSwitch.onTintColor = AppTheme.accentTeal
         crashReportingSwitch.accessibilityIdentifier = "more.crashReportingSwitch"
         crashReportingSwitch.addTarget(
             self,
@@ -480,7 +553,7 @@ final class MoreViewController: UIViewController {
         syncToastView.backgroundColor = AppTheme.infoBlue.withAlphaComponent(0.95)
         syncToastView.layer.cornerRadius = 12
         syncToastView.layer.cornerCurve = .continuous
-        syncToastView.layer.borderWidth = 0.5
+        syncToastView.layer.borderWidth = AppTheme.outlineWidth
         syncToastView.layer.borderColor = AppTheme.cardBorder.cgColor
         syncToastView.alpha = 0
         syncToastView.isHidden = true
@@ -505,13 +578,13 @@ final class MoreViewController: UIViewController {
 
     private func configureAppInfoCard() {
         appInfoCard.backgroundColor = AppTheme.cardBackground
-        appInfoCard.layer.borderWidth = 0.5
+        appInfoCard.layer.borderWidth = AppTheme.outlineWidth
         appInfoCard.layer.borderColor = AppTheme.cardBorder.cgColor
-        appInfoCard.layer.cornerRadius = 18
+        appInfoCard.layer.cornerRadius = 22
         appInfoCard.layer.cornerCurve = .continuous
 
         appInfoTitleLabel.text = FlashForgeStrings.More.Appinfo.title
-        appInfoTitleLabel.font = AppTypography.font(size: 19, weight: .bold, textStyle: .headline)
+        appInfoTitleLabel.font = AppTypography.display(size: 21, textStyle: .headline)
         appInfoTitleLabel.textColor = AppTheme.textPrimary
 
         appInfoBodyLabel.font = AppTypography.font(size: 14, weight: .medium, textStyle: .subheadline)
@@ -550,13 +623,13 @@ final class MoreViewController: UIViewController {
 
     private func configureDeveloperCard() {
         developerCard.backgroundColor = AppTheme.cardBackground
-        developerCard.layer.borderWidth = 0.5
+        developerCard.layer.borderWidth = AppTheme.outlineWidth
         developerCard.layer.borderColor = AppTheme.cardBorder.cgColor
-        developerCard.layer.cornerRadius = 18
+        developerCard.layer.cornerRadius = 22
         developerCard.layer.cornerCurve = .continuous
 
         developerTitleLabel.text = FlashForgeStrings.More.Developer.title
-        developerTitleLabel.font = AppTypography.font(size: 19, weight: .bold, textStyle: .headline)
+        developerTitleLabel.font = AppTypography.display(size: 21, textStyle: .headline)
         developerTitleLabel.textColor = AppTheme.textPrimary
 
         configureActionButton(generateSamplesButton, title: FlashForgeStrings.More.Developer.generateSamples, tint: AppTheme.accentTeal)
@@ -595,11 +668,11 @@ final class MoreViewController: UIViewController {
         button.titleLabel?.font = AppTypography.font(size: 14, weight: .semibold, textStyle: .subheadline)
         button.layer.cornerRadius = 11
         button.layer.cornerCurve = .continuous
-        button.layer.borderWidth = 0.5
+        button.layer.borderWidth = AppTheme.outlineWidth
 
         if button === syncNowButton {
-            button.setTitleColor(.white, for: .normal)
-            button.backgroundColor = AppTheme.buttonFill(from: AppTheme.accent, for: traitCollection)
+            button.setTitleColor(AppTheme.onEmphasis, for: .normal)
+            button.backgroundColor = AppTheme.emphasisFill
             button.layer.borderColor = UIColor.clear.cgColor
         } else if button === resetButton {
             button.setTitleColor(AppTheme.dangerRed, for: .normal)
@@ -626,8 +699,8 @@ final class MoreViewController: UIViewController {
         reminderCard.layer.borderColor = cardBorderColor
         reminderTitleLabel.textColor = AppTheme.textPrimary
         reminderDescriptionLabel.textColor = AppTheme.textSecondary
-        reminderSwitch.onTintColor = AppTheme.accent
-        reminderTimePicker.tintColor = AppTheme.accent
+        reminderSwitch.onTintColor = AppTheme.accentTeal
+        reminderTimePicker.tintColor = AppTheme.textPrimary
         reminderTimePicker.backgroundColor = AppTheme.inputBackground
         reminderTimePicker.setValue(AppTheme.textPrimary, forKey: "textColor")
         reminderStatusLabel.textColor = AppTheme.textSecondary
@@ -647,8 +720,8 @@ final class MoreViewController: UIViewController {
         analyticsDescriptionLabel.textColor = AppTheme.textSecondary
         crashReportingTitleLabel.textColor = AppTheme.textPrimary
         crashReportingDescriptionLabel.textColor = AppTheme.textSecondary
-        analyticsSwitch.onTintColor = AppTheme.accent
-        crashReportingSwitch.onTintColor = AppTheme.accent
+        analyticsSwitch.onTintColor = AppTheme.accentTeal
+        crashReportingSwitch.onTintColor = AppTheme.accentTeal
 
         developerCard.backgroundColor = AppTheme.cardBackground
         developerCard.layer.borderColor = cardBorderColor

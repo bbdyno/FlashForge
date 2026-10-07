@@ -10,8 +10,16 @@ let provisioningProfileName = "FlashForge iOS Distribution Provisioning"
 let provisioningProfileUUID = "b8ee75c0-3572-4788-ad21-a75a79de7904"
 let widgetProvisioningProfileName = "FlashForge Widget Distribution Provisioning"
 let widgetProvisioningProfileUUID = "24312bb1-92d0-419e-bb25-064eb8dd7643"
-let marketingVersion = "1.2.0"
-let buildNumber = "2026.08.18.1"
+let marketingVersion = "2.0.0"
+let buildNumber = "2026.10.07.1"
+// Newest build that was sold as a paid download. Anyone whose first download is
+// this build or older owns Core. Raise it only if another paid build ships
+// before the app goes free; never change it after that.
+let lastPaidBuild = "2026.08.18.1"
+// Custom offer code (App Store Connect > Subscriptions > Offer Codes) that gives
+// buyers of the paid app their first-year Pro discount. Leave empty until the
+// code exists; the app hides the offer while it is empty.
+let legacyOfferCode = ""
 
 let project = Project(
     name: appName,
@@ -43,6 +51,8 @@ let project = Project(
                 "CFBundleShortVersionString": .string(marketingVersion),
                 "CFBundleVersion": .string(buildNumber),
                 "CFBundleDisplayName": .string("FlashForge"),
+                "FFLastPaidBuild": .string(lastPaidBuild),
+                "FFLegacyOfferCode": .string(legacyOfferCode),
                 "CFBundleDevelopmentRegion": .string("en"),
                 "FIREBASE_ANALYTICS_COLLECTION_ENABLED": .boolean(false),
                 "FirebaseCrashlyticsCollectionEnabled": .boolean(false),
@@ -50,7 +60,10 @@ let project = Project(
                 "GOOGLE_ANALYTICS_IDFV_COLLECTION_ENABLED": .boolean(false),
                 "ITSAppUsesNonExemptEncryption": .boolean(false),
                 "UIAppFonts": .array([
-                    .string("Manrope-Variable.ttf")
+                    .string("Manrope-Variable.ttf"),
+                    .string("Newsreader-Display.ttf"),
+                    .string("Newsreader-TextItalic.ttf"),
+                    .string("NotoSerifKR-SemiBold-Hangul.ttf")
                 ]),
                 "UILaunchScreen": .dictionary([:]),
                 "NSSupportsLiveActivities": .boolean(true),
@@ -234,6 +247,9 @@ let project = Project(
             sources: [
                 "Tests/**"
             ],
+            resources: [
+                "Config/FlashForge.storekit"
+            ],
             dependencies: [
                 .target(name: appName)
             ],
@@ -267,6 +283,20 @@ let project = Project(
                     "MARKETING_VERSION": .string(marketingVersion),
                     "CURRENT_PROJECT_VERSION": .string(buildNumber)
                 ]
+            )
+        )
+    ],
+    schemes: [
+        .scheme(
+            name: appName,
+            shared: true,
+            buildAction: .buildAction(targets: [.target(appName)]),
+            testAction: .targets([.testableTarget(target: .target("\(appName)Tests")), .testableTarget(target: .target("\(appName)UITests"))]),
+            runAction: .runAction(
+                executable: .target(appName),
+                // Local products for the Pro screen when run from Xcode; never
+                // part of an App Store build.
+                options: .options(storeKitConfigurationPath: "Config/FlashForge.storekit")
             )
         )
     ]
