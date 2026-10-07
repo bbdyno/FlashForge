@@ -1,0 +1,224 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FlashForge 2.0 시안</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Serif+KR:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#161513;--paper:#FBF8F1;--white:#FFFDF8;--lilac:#E6D6FA;--lime:#E0EE9C;--peach:#FFD0B0;--sky:#CDE4F7;--tomato:#E8553A;--mute:#6B665E}
+*{box-sizing:border-box;margin:0}
+body{background:#E9E5DC;color:var(--ink);font-family:Manrope,-apple-system,"Apple SD Gothic Neo",sans-serif;padding:28px 16px 48px}
+.wrap{max-width:1700px;margin:0 auto}
+.top{display:flex;flex-wrap:wrap;gap:20px 40px;align-items:flex-end;margin-bottom:26px}
+.title{font-family:Newsreader,"Noto Serif KR",serif;font-size:34px;font-weight:500;letter-spacing:-.01em}
+.sub{font-size:13px;color:var(--mute);margin-top:4px}
+.sws{display:flex;gap:10px}.sw{font-size:11px;color:var(--mute);text-align:center}.sw i{display:block;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--ink);margin-bottom:4px}
+.icons{display:flex;flex-wrap:wrap;gap:10px;max-width:380px}
+.type{font-family:Newsreader,"Noto Serif KR",serif;font-size:26px;line-height:1.1}.type small{display:block;font-family:Manrope,sans-serif;font-size:11px;color:var(--mute);margin-top:4px}
+.phones{display:flex;flex-wrap:wrap;gap:26px;justify-content:center}
+.col{display:flex;flex-direction:column;gap:10px;align-items:center}.lab{font-size:12px;font-weight:700;letter-spacing:.02em}
+.phone{position:relative;width:308px;height:704px;border-radius:40px;border:7px solid var(--ink);overflow:hidden}
+.status{display:flex;justify-content:space-between;align-items:center;padding:12px 22px 0;font-size:13px;font-weight:700}
+.isl{width:78px;height:22px;border-radius:12px;background:var(--ink)}.sr{font-size:9px;letter-spacing:1px}
+.pad{padding:16px 18px}
+.row{display:flex;align-items:center}.sb{justify-content:space-between}
+.pill{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 13px;border:1.5px solid var(--ink);border-radius:18px;font-size:13px;font-weight:700;background:var(--white)}
+.cbtn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--ink);display:grid;place-items:center;background:transparent}
+.cbtn.sm{width:30px;height:30px}.cbtn.fill{background:var(--ink);color:var(--white)}
+.num{font-family:Newsreader,serif;font-weight:500;letter-spacing:-.02em}
+.num small{font-family:"Noto Serif KR",serif;font-size:.5em;margin-left:2px}
+.cap{font-size:12px;color:var(--mute);font-weight:600;display:flex;align-items:center;gap:4px}.cap.ink{color:var(--ink);opacity:.7}
+.track{height:8px;border-radius:4px;background:var(--ink);margin-top:10px;padding:1.5px}.track i{display:block;height:100%;border-radius:3px;background:var(--lime)}
+.track.thin{height:5px;background:rgba(22,21,19,.15);padding:0;margin-top:9px}
+.stackwrap{position:relative;margin-top:26px;height:300px}
+.sheet,.card{position:absolute;inset:0;border:1.5px solid var(--ink);border-radius:22px;background:var(--white)}
+.s1{transform:rotate(-2.4deg) translateY(-7px);background:var(--peach)}.s2{transform:rotate(3.2deg) translateY(-11px);background:var(--lime)}
+.card{padding:16px 18px;display:flex;flex-direction:column}
+.tag{font-size:10px;font-weight:800;letter-spacing:.08em;border:1.5px solid var(--ink);border-radius:10px;padding:3px 8px}
+.word{font-family:Newsreader,"Noto Serif KR",serif;font-size:42px;font-weight:500;letter-spacing:-.02em;margin-top:58px;text-align:center}
+.pos{font-family:Newsreader,serif;font-style:italic;font-size:16px;color:var(--mute);text-align:center;margin-top:2px}
+.hint{margin-top:auto;text-align:center;font-size:12px;color:var(--mute);font-weight:600}
+.grades{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:18px}
+.g{height:54px;border:1.5px solid var(--ink);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--white)}
+.g b{font-size:13px}.g span{font-size:10.5px;color:var(--mute);font-weight:600}
+.g.on{background:var(--ink);color:var(--white)}.g.on span{color:rgba(255,253,248,.65)}
+.tab{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:flex;gap:4px;padding:5px;border-radius:30px;background:var(--ink);color:var(--white)}
+.ti{height:44px;min-width:50px;border-radius:22px;display:flex;align-items:center;justify-content:center;gap:6px;padding:0 13px;font-size:12.5px;font-weight:700;opacity:.7;white-space:nowrap}
+.ti.on{background:var(--lime);color:var(--ink);opacity:1}
+.h1{font-family:"Noto Serif KR",Newsreader,serif;font-size:28px;font-weight:600;letter-spacing:-.03em}
+.h3{font-family:"Noto Serif KR",serif;font-size:16px;font-weight:600;letter-spacing:-.02em}
+.deck{border:1.5px solid var(--ink);border-radius:20px;padding:13px 16px 13px}
+.dtitle{font-family:Newsreader,"Noto Serif KR",serif;font-size:21px;font-weight:500;letter-spacing:-.01em}
+.limit{display:flex;align-items:center;gap:11px;border:1.5px dashed var(--ink);border-radius:20px;padding:13px 15px}
+.limit div{flex:1}.limit b{display:block;font-size:12.5px}.limit span{font-size:11.5px;color:var(--mute);font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:18px;border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink)}
+.stats>div{padding:11px 0 11px 12px;border-left:1.5px solid var(--ink)}.stats>div:first-child{border-left:0;padding-left:0}
+.stats .num{font-size:26px}
+.block{position:relative;border:1.5px solid var(--ink);border-radius:20px;padding:14px 15px;margin-top:12px;overflow:hidden}
+.dots{display:grid;grid-template-columns:repeat(16,1fr);gap:4px;margin-top:11px}.dots i{aspect-ratio:1;border-radius:50%;background:var(--ink)}
+.bars{display:flex;align-items:flex-end;gap:8px;height:52px;margin-top:10px;filter:blur(3px);opacity:.55}.bars i{flex:1;background:var(--ink);border-radius:5px 5px 0 0}
+.veil{position:absolute;left:0;right:0;bottom:22px;display:flex;justify-content:center;align-items:center;gap:6px;font-size:12.5px;font-weight:700}
+.pro{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;border:1.5px solid var(--ink);border-radius:11px;padding:3px 9px;background:var(--white)}
+.pro.solid{background:var(--ink);color:var(--lime);font-size:12px;padding:6px 12px;border-radius:15px}
+.feat{display:flex;gap:11px;align-items:center}.fi{width:38px;height:38px;border-radius:12px;border:1.5px solid var(--ink);display:grid;place-items:center;background:var(--white);flex:none}
+.feat b{display:block;font-size:13.5px}.feat span{font-size:11.5px;font-weight:600;opacity:.65}
+.plans{display:grid;gap:8px;margin-top:16px}
+.plan{position:relative;display:flex;justify-content:space-between;align-items:center;border:1.5px solid var(--ink);border-radius:16px;padding:10px 14px;background:transparent}
+.plan.on{background:var(--white);box-shadow:3px 3px 0 var(--ink)}
+.plan b{display:block;font-size:13.5px}.plan span{font-size:11px;font-weight:600;opacity:.65}
+.price{font-family:Newsreader,serif;font-size:21px;font-weight:500}.price s{font-size:14px;opacity:.5;margin-right:3px}
+.plan em{position:absolute;top:-9px;right:12px;font-style:normal;font-size:10px;font-weight:800;background:var(--tomato);color:#fff;border:1.5px solid var(--ink);border-radius:9px;padding:1px 7px}
+.cta{margin-top:13px;height:50px;border-radius:25px;background:var(--ink);color:var(--white);display:grid;place-items:center;font-size:15px;font-weight:700}
+.fine{margin-top:10px;text-align:center;font-size:10.5px;line-height:1.55;font-weight:600;opacity:.7}
+</style></head><body><div class="wrap">
+<div class="top">
+  <div><div class="title">FlashForge 2.0 시안 A</div><div class="sub">색면 + 세리프 + 잉크 외곽선 · 가격은 자리표시자</div></div>
+  <div class="sws"><div class="sw"><i style="background:var(--ink)"></i><span>Ink</span></div><div class="sw"><i style="background:var(--paper)"></i><span>Paper</span></div><div class="sw"><i style="background:var(--lilac)"></i><span>Lilac</span></div><div class="sw"><i style="background:var(--lime)"></i><span>Lime</span></div><div class="sw"><i style="background:var(--peach)"></i><span>Peach</span></div><div class="sw"><i style="background:var(--sky)"></i><span>Sky</span></div><div class="sw"><i style="background:var(--tomato)"></i><span>Tomato</span></div></div>
+  <div class="type">Aa 가나 123<small>Newsreader + Noto Serif KR · 본문 Manrope</small></div>
+  <div class="icons"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M184,72H40A16,16,0,0,0,24,88V200a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16V88A16,16,0,0,0,184,72Zm0,128H40V88H184V200ZM232,56V176a8,8,0,0,1-16,0V56H64a8,8,0,0,1,0-16H216A16,16,0,0,1,232,56Z"/></svg></span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M230.91,172A8,8,0,0,1,228,182.91l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,36,169.09l92,53.65,92-53.65A8,8,0,0,1,230.91,172ZM220,121.09l-92,53.65L36,121.09A8,8,0,0,0,28,134.91l96,56a8,8,0,0,0,8.06,0l96-56A8,8,0,1,0,220,121.09ZM24,80a8,8,0,0,1,4-6.91l96-56a8,8,0,0,1,8.06,0l96,56a8,8,0,0,1,0,13.82l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,24,80Zm23.88,0L128,126.74,208.12,80,128,33.26Z"/></svg></span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M224,200h-8V40a8,8,0,0,0-8-8H152a8,8,0,0,0-8,8V80H96a8,8,0,0,0-8,8v40H48a8,8,0,0,0-8,8v64H32a8,8,0,0,0,0,16H224a8,8,0,0,0,0-16ZM160,48h40V200H160ZM104,96h40V200H104ZM56,144H88v56H56Z"/></svg></span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0h81a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16h97a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg></span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm109.94-52.79a8,8,0,0,0-3.89-5.4l-29.83-17-.12-33.62a8,8,0,0,0-2.83-6.08,111.91,111.91,0,0,0-36.72-20.67,8,8,0,0,0-6.46.59L128,41.85,97.88,25a8,8,0,0,0-6.47-.6A112.1,112.1,0,0,0,54.73,45.15a8,8,0,0,0-2.83,6.07l-.15,33.65-29.83,17a8,8,0,0,0-3.89,5.4,106.47,106.47,0,0,0,0,41.56,8,8,0,0,0,3.89,5.4l29.83,17,.12,33.62a8,8,0,0,0,2.83,6.08,111.91,111.91,0,0,0,36.72,20.67,8,8,0,0,0,6.46-.59L128,214.15,158.12,231a7.91,7.91,0,0,0,3.9,1,8.09,8.09,0,0,0,2.57-.42,112.1,112.1,0,0,0,36.68-20.73,8,8,0,0,0,2.83-6.07l.15-33.65,29.83-17a8,8,0,0,0,3.89-5.4A106.47,106.47,0,0,0,237.94,107.21Zm-15,34.91-28.57,16.25a8,8,0,0,0-3,3c-.58,1-1.19,2.06-1.81,3.06a7.94,7.94,0,0,0-1.22,4.21l-.15,32.25a95.89,95.89,0,0,1-25.37,14.3L134,199.13a8,8,0,0,0-3.91-1h-.19c-1.21,0-2.43,0-3.64,0a8.08,8.08,0,0,0-4.1,1l-28.84,16.1A96,96,0,0,1,67.88,201l-.11-32.2a8,8,0,0,0-1.22-4.22c-.62-1-1.23-2-1.8-3.06a8.09,8.09,0,0,0-3-3.06l-28.6-16.29a90.49,90.49,0,0,1,0-28.26L61.67,97.63a8,8,0,0,0,3-3c.58-1,1.19-2.06,1.81-3.06a7.94,7.94,0,0,0,1.22-4.21l.15-32.25a95.89,95.89,0,0,1,25.37-14.3L122,56.87a8,8,0,0,0,4.1,1c1.21,0,2.43,0,3.64,0a8.08,8.08,0,0,0,4.1-1l28.84-16.1A96,96,0,0,1,188.12,55l.11,32.2a8,8,0,0,0,1.22,4.22c.62,1,1.23,2,1.8,3.06a8.09,8.09,0,0,0,3,3.06l28.6,16.29A90.49,90.49,0,0,1,222.9,142.12Z"/></svg></span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/></svg></span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg></span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M183.89,153.34a57.6,57.6,0,0,1-46.56,46.55A8.75,8.75,0,0,1,136,200a8,8,0,0,1-1.32-15.89c16.57-2.79,30.63-16.85,33.44-33.45a8,8,0,0,1,15.78,2.68ZM216,144a88,88,0,0,1-176,0c0-27.92,11-56.47,32.66-84.85a8,8,0,0,1,11.93-.89l24.12,23.41,22-60.41a8,8,0,0,1,12.63-3.41C165.21,36,216,84.55,216,144Zm-16,0c0-46.09-35.79-85.92-58.21-106.33L119.52,98.74a8,8,0,0,1-13.09,3L80.06,76.16C64.09,99.21,56,122,56,144a72,72,0,0,0,144,0Z"/></svg></span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M248,124a56.11,56.11,0,0,0-32-50.61V72a48,48,0,0,0-88-26.49A48,48,0,0,0,40,72v1.39a56,56,0,0,0,0,101.2V176a48,48,0,0,0,88,26.49A48,48,0,0,0,216,176v-1.41A56.09,56.09,0,0,0,248,124ZM88,208a32,32,0,0,1-31.81-28.56A55.87,55.87,0,0,0,64,180h8a8,8,0,0,0,0-16H64A40,40,0,0,1,50.67,86.27,8,8,0,0,0,56,78.73V72a32,32,0,0,1,64,0v68.26A47.8,47.8,0,0,0,88,128a8,8,0,0,0,0,16,32,32,0,0,1,0,64Zm104-44h-8a8,8,0,0,0,0,16h8a55.87,55.87,0,0,0,7.81-.56A32,32,0,1,1,168,144a8,8,0,0,0,0-16,47.8,47.8,0,0,0-32,12.26V72a32,32,0,0,1,64,0v6.73a8,8,0,0,0,5.33,7.54A40,40,0,0,1,192,164Zm16-52a8,8,0,0,1-8,8h-4a36,36,0,0,1-36-36V80a8,8,0,0,1,16,0v4a20,20,0,0,0,20,20h4A8,8,0,0,1,208,112ZM60,120H56a8,8,0,0,1,0-16h4A20,20,0,0,0,80,84V80a8,8,0,0,1,16,0v4A36,36,0,0,1,60,120Z"/></svg></span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"/></svg></span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M248,80a28,28,0,1,0-51.12,15.77l-26.79,33L146,73.4a28,28,0,1,0-36.06,0L85.91,128.74l-26.79-33a28,28,0,1,0-26.6,12L47,194.63A16,16,0,0,0,62.78,208H193.22A16,16,0,0,0,209,194.63l14.47-86.85A28,28,0,0,0,248,80ZM128,40a12,12,0,1,1-12,12A12,12,0,0,1,128,40ZM24,80A12,12,0,1,1,36,92,12,12,0,0,1,24,80ZM193.22,192H62.78L48.86,108.52,81.79,149A8,8,0,0,0,88,152a7.83,7.83,0,0,0,1.08-.07,8,8,0,0,0,6.26-4.74l29.3-67.4a27,27,0,0,0,6.72,0l29.3,67.4a8,8,0,0,0,6.26,4.74A7.83,7.83,0,0,0,168,152a8,8,0,0,0,6.21-3l32.93-40.52ZM220,92a12,12,0,1,1,12-12A12,12,0,0,1,220,92Z"/></svg></span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg></span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M155.51,24.81a8,8,0,0,0-8.42.88L77.25,80H32A16,16,0,0,0,16,96v64a16,16,0,0,0,16,16H77.25l69.84,54.31A8,8,0,0,0,160,224V32A8,8,0,0,0,155.51,24.81ZM32,96H72v64H32ZM144,207.64,88,164.09V91.91l56-43.55Zm54-106.08a40,40,0,0,1,0,52.88,8,8,0,0,1-12-10.58,24,24,0,0,0,0-31.72,8,8,0,0,1,12-10.58ZM248,128a79.9,79.9,0,0,1-20.37,53.34,8,8,0,0,1-11.92-10.67,64,64,0,0,0,0-85.33,8,8,0,1,1,11.92-10.67A79.83,79.83,0,0,1,248,128Z"/></svg></span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z"/></svg></span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M232,208a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V48a8,8,0,0,1,16,0V156.69l50.34-50.35a8,8,0,0,1,11.32,0L128,132.69,180.69,80H160a8,8,0,0,1,0-16h40a8,8,0,0,1,8,8v40a8,8,0,0,1-16,0V91.31l-58.34,58.35a8,8,0,0,1-11.32,0L96,123.31l-56,56V200H224A8,8,0,0,1,232,208Z"/></svg></span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg></span></div>
+</div>
+<div class="phones">
+  <div class="col">
+<div class="phone" style="background:var(--lilac)">
+  <div class="status"><span>9:41</span><span class="isl"></span><span class="sr">●●● ▮</span></div>
+  <div class="pad">
+    <div class="row sb">
+      <div class="pill"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M234.36,170A12,12,0,0,1,230,186.37l-96,56a12,12,0,0,1-12.1,0l-96-56a12,12,0,0,1,12.09-20.74l90,52.48L218,165.63A12,12,0,0,1,234.36,170ZM218,117.63,128,170.11,38.05,117.63A12,12,0,0,0,26,138.37l96,56a12,12,0,0,0,12.1,0l96-56A12,12,0,0,0,218,117.63ZM20,80a12,12,0,0,1,6-10.37l96-56a12.06,12.06,0,0,1,12.1,0l96,56a12,12,0,0,1,0,20.74l-96,56a12,12,0,0,1-12.1,0l-96-56A12,12,0,0,1,20,80Zm35.82,0L128,122.11,200.18,80,128,37.89Z"/></svg><span>English Vocabulary</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z"/></svg></div>
+      <div class="cbtn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M40,88H73a32,32,0,0,0,62,0h81a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16h97a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z"/></svg></div>
+    </div>
+    <div class="row sb" style="margin-top:22px;align-items:flex-end">
+      <div><span class="num" style="font-size:44px">7</span><span class="num" style="font-size:24px;opacity:.55">/20</span><div class="cap">오늘 복습</div></div>
+      <div class="cap" style="text-align:right">학습 3 · 복습 10</div>
+    </div>
+    <div class="track"><i style="width:35%"></i></div>
+    <div class="stackwrap">
+      <div class="sheet s2"></div><div class="sheet s1"></div>
+      <div class="card">
+        <div class="row sb"><span class="tag">NEW</span><span class="cbtn sm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M155.51,24.81a8,8,0,0,0-8.42.88L77.25,80H32A16,16,0,0,0,16,96v64a16,16,0,0,0,16,16H77.25l69.84,54.31A8,8,0,0,0,160,224V32A8,8,0,0,0,155.51,24.81ZM32,96H72v64H32ZM144,207.64,88,164.09V91.91l56-43.55Zm54-106.08a40,40,0,0,1,0,52.88,8,8,0,0,1-12-10.58,24,24,0,0,0,0-31.72,8,8,0,0,1,12-10.58ZM248,128a79.9,79.9,0,0,1-20.37,53.34,8,8,0,0,1-11.92-10.67,64,64,0,0,0,0-85.33,8,8,0,1,1,11.92-10.67A79.83,79.83,0,0,1,248,128Z"/></svg></span></div>
+        <div class="word">ubiquitous</div>
+        <div class="pos">adjective</div>
+        <div class="hint">탭해서 정답 보기</div>
+      </div>
+    </div>
+    <div class="grades">
+      <div class="g"><b>다시</b><span>1분</span></div>
+      <div class="g"><b>어려움</b><span>6분</span></div>
+      <div class="g on"><b>좋음</b><span>10분</span></div>
+      <div class="g"><b>쉬움</b><span>4일</span></div>
+    </div>
+  </div>
+  <div class="tab"><div class="ti on"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M200,88V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V88A16,16,0,0,1,40,72H184A16,16,0,0,1,200,88Zm16-48H64a8,8,0,0,0,0,16H216V176a8,8,0,0,0,16,0V56A16,16,0,0,0,216,40Z"/></svg><span>오늘</span></div><div class="ti"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M230.91,172A8,8,0,0,1,228,182.91l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,36,169.09l92,53.65,92-53.65A8,8,0,0,1,230.91,172ZM220,121.09l-92,53.65L36,121.09A8,8,0,0,0,28,134.91l96,56a8,8,0,0,0,8.06,0l96-56A8,8,0,1,0,220,121.09ZM24,80a8,8,0,0,1,4-6.91l96-56a8,8,0,0,1,8.06,0l96,56a8,8,0,0,1,0,13.82l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,24,80Zm23.88,0L128,126.74,208.12,80,128,33.26Z"/></svg></div><div class="ti"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M224,200h-8V40a8,8,0,0,0-8-8H152a8,8,0,0,0-8,8V80H96a8,8,0,0,0-8,8v40H48a8,8,0,0,0-8,8v64H32a8,8,0,0,0,0,16H224a8,8,0,0,0,0-16ZM160,48h40V200H160ZM104,96h40V200H104ZM56,144H88v56H56Z"/></svg></div></div>
+</div><div class="lab">오늘</div></div>
+  <div class="col">
+<div class="phone" style="background:var(--paper)">
+  <div class="status"><span>9:41</span><span class="isl"></span><span class="sr">●●● ▮</span></div>
+  <div class="pad">
+    <div class="row sb"><div class="h1">라이브러리</div>
+      <div class="row" style="gap:8px"><div class="cbtn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg></div><div class="cbtn fill"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M228,128a12,12,0,0,1-12,12H140v76a12,12,0,0,1-24,0V140H40a12,12,0,0,1,0-24h76V40a12,12,0,0,1,24,0v76h76A12,12,0,0,1,228,128Z"/></svg></div></div>
+    </div>
+    <div class="cap" style="margin-top:4px">덱 3개 · 카드 248장</div>
+    <div style="margin-top:18px;display:grid;gap:12px">
+      <div class="deck" style="background:var(--lilac)">
+      <div class="row sb"><div class="dtitle">English Vocabulary</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z"/></svg></div>
+      <div class="row sb" style="margin-top:10px;align-items:flex-end">
+        <div class="cap ink">116장 · 습득 22%</div>
+        <div class="due"><span class="num" style="font-size:26px">13</span><span class="cap ink"> 오늘</span></div>
+      </div>
+      <div class="track thin"><i style="width:22%;background:var(--ink)"></i></div>
+    </div>
+      <div class="deck" style="background:var(--lime)">
+      <div class="row sb"><div class="dtitle">일본어 한자 N3</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z"/></svg></div>
+      <div class="row sb" style="margin-top:10px;align-items:flex-end">
+        <div class="cap ink">84장 · 습득 61%</div>
+        <div class="due"><span class="num" style="font-size:26px">6</span><span class="cap ink"> 오늘</span></div>
+      </div>
+      <div class="track thin"><i style="width:61%;background:var(--ink)"></i></div>
+    </div>
+      <div class="deck" style="background:var(--peach)">
+      <div class="row sb"><div class="dtitle">정보처리기사</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z"/></svg></div>
+      <div class="row sb" style="margin-top:10px;align-items:flex-end">
+        <div class="cap ink">48장 · 습득 9%</div>
+        <div class="due"><span class="num" style="font-size:26px">12</span><span class="cap ink"> 오늘</span></div>
+      </div>
+      <div class="track thin"><i style="width:9%;background:var(--ink)"></i></div>
+    </div>
+      <div class="limit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg><div><b>무료 덱 3개를 모두 사용 중</b><span>Core로 덱과 카드를 무제한으로</span></div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z"/></svg></div>
+    </div>
+  </div>
+  <div class="tab"><div class="ti"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M184,72H40A16,16,0,0,0,24,88V200a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16V88A16,16,0,0,0,184,72Zm0,128H40V88H184V200ZM232,56V176a8,8,0,0,1-16,0V56H64a8,8,0,0,1,0-16H216A16,16,0,0,1,232,56Z"/></svg></div><div class="ti on"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M220,169.09l-92,53.65L36,169.09A8,8,0,0,0,28,182.91l96,56a8,8,0,0,0,8.06,0l96-56A8,8,0,1,0,220,169.09Z"/><path d="M220,121.09l-92,53.65L36,121.09A8,8,0,0,0,28,134.91l96,56a8,8,0,0,0,8.06,0l96-56A8,8,0,1,0,220,121.09Z"/><path d="M28,86.91l96,56a8,8,0,0,0,8.06,0l96-56a8,8,0,0,0,0-13.82l-96-56a8,8,0,0,0-8.06,0l-96,56a8,8,0,0,0,0,13.82Z"/></svg><span>라이브러리</span></div><div class="ti"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M224,200h-8V40a8,8,0,0,0-8-8H152a8,8,0,0,0-8,8V80H96a8,8,0,0,0-8,8v40H48a8,8,0,0,0-8,8v64H32a8,8,0,0,0,0,16H224a8,8,0,0,0,0-16ZM160,48h40V200H160ZM104,96h40V200H104ZM56,144H88v56H56Z"/></svg></div></div>
+</div><div class="lab">라이브러리 · 무료 한도</div></div>
+  <div class="col">
+<div class="phone" style="background:var(--paper)">
+  <div class="status"><span>9:41</span><span class="isl"></span><span class="sr">●●● ▮</span></div>
+  <div class="pad">
+    <div class="row sb"><div class="h1">인사이트</div><div class="cbtn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm109.94-52.79a8,8,0,0,0-3.89-5.4l-29.83-17-.12-33.62a8,8,0,0,0-2.83-6.08,111.91,111.91,0,0,0-36.72-20.67,8,8,0,0,0-6.46.59L128,41.85,97.88,25a8,8,0,0,0-6.47-.6A112.1,112.1,0,0,0,54.73,45.15a8,8,0,0,0-2.83,6.07l-.15,33.65-29.83,17a8,8,0,0,0-3.89,5.4,106.47,106.47,0,0,0,0,41.56,8,8,0,0,0,3.89,5.4l29.83,17,.12,33.62a8,8,0,0,0,2.83,6.08,111.91,111.91,0,0,0,36.72,20.67,8,8,0,0,0,6.46-.59L128,214.15,158.12,231a7.91,7.91,0,0,0,3.9,1,8.09,8.09,0,0,0,2.57-.42,112.1,112.1,0,0,0,36.68-20.73,8,8,0,0,0,2.83-6.07l.15-33.65,29.83-17a8,8,0,0,0,3.89-5.4A106.47,106.47,0,0,0,237.94,107.21Zm-15,34.91-28.57,16.25a8,8,0,0,0-3,3c-.58,1-1.19,2.06-1.81,3.06a7.94,7.94,0,0,0-1.22,4.21l-.15,32.25a95.89,95.89,0,0,1-25.37,14.3L134,199.13a8,8,0,0,0-3.91-1h-.19c-1.21,0-2.43,0-3.64,0a8.08,8.08,0,0,0-4.1,1l-28.84,16.1A96,96,0,0,1,67.88,201l-.11-32.2a8,8,0,0,0-1.22-4.22c-.62-1-1.23-2-1.8-3.06a8.09,8.09,0,0,0-3-3.06l-28.6-16.29a90.49,90.49,0,0,1,0-28.26L61.67,97.63a8,8,0,0,0,3-3c.58-1,1.19-2.06,1.81-3.06a7.94,7.94,0,0,0,1.22-4.21l.15-32.25a95.89,95.89,0,0,1,25.37-14.3L122,56.87a8,8,0,0,0,4.1,1c1.21,0,2.43,0,3.64,0a8.08,8.08,0,0,0,4.1-1l28.84-16.1A96,96,0,0,1,188.12,55l.11,32.2a8,8,0,0,0,1.22,4.22c.62,1,1.23,2,1.8,3.06a8.09,8.09,0,0,0,3,3.06l28.6,16.29A90.49,90.49,0,0,1,222.9,142.12Z"/></svg></div></div>
+    <div style="margin-top:14px"><span class="num" style="font-size:60px;line-height:1">87</span><span class="num" style="font-size:30px">%</span>
+      <div class="cap">기억률 · 최근 30일</div></div>
+    <div class="stats">
+      <div><span class="num">24</span><div class="cap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg> 오늘</div></div>
+      <div><span class="num">12<small>일</small></span><div class="cap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M183.89,153.34a57.6,57.6,0,0,1-46.56,46.55A8.75,8.75,0,0,1,136,200a8,8,0,0,1-1.32-15.89c16.57-2.79,30.63-16.85,33.44-33.45a8,8,0,0,1,15.78,2.68ZM216,144a88,88,0,0,1-176,0c0-27.92,11-56.47,32.66-84.85a8,8,0,0,1,11.93-.89l24.12,23.41,22-60.41a8,8,0,0,1,12.63-3.41C165.21,36,216,84.55,216,144Zm-16,0c0-46.09-35.79-85.92-58.21-106.33L119.52,98.74a8,8,0,0,1-13.09,3L80.06,76.16C64.09,99.21,56,122,56,144a72,72,0,0,0,144,0Z"/></svg> 연속</div></div>
+      <div><span class="num">31</span><div class="cap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"/></svg> 내일 예정</div></div>
+    </div>
+    <div class="block" style="background:var(--lime)">
+      <div class="row sb"><div class="h3">학습 기록</div><div class="cap ink">16주</div></div>
+      <div class="dots"><i style="opacity:0.2"></i><i style="opacity:0.08"></i><i style="opacity:0.4"></i><i style="opacity:1"></i><i style="opacity:0.08"></i><i style="opacity:0.08"></i><i style="opacity:0.7"></i><i style="opacity:0.08"></i><i style="opacity:0.2"></i><i style="opacity:0.7"></i><i style="opacity:0.08"></i><i style="opacity:0.7"></i><i style="opacity:0.08"></i><i style="opacity:0.08"></i><i style="opacity:0.08"></i><i style="opacity:0.4"></i><i style="opacity:0.4"></i><i style="opacity:0.08"></i><i style="opacity:0.08"></i><i style="opacity:0.08"></i><i style="opacity:0.7"></i><i style="opacity:0.4"></i><i style="opacity:0.08"></i><i style="opacity:0.7"></i><i style="opacity:0.08"></i><i style="opacity:0.08"></i><i style="opacity:1"></i><i style="opacity:1"></i><i style="opacity:0.7"></i><i style="opacity:0.08"></i><i style="opacity:0.7"></i><i style="opacity:0.7"></i><i style="opacity:0.4"></i><i style="opacity:0.08"></i><i style="opacity:0.08"></i><i style="opacity:0.08"></i><i style="opacity:0.7"></i><i style="opacity:0.08"></i><i style="opacity:0.2"></i><i style="opacity:0.4"></i><i style="opacity:0.08"></i><i style="opacity:0.7"></i><i style="opacity:0.08"></i><i style="opacity:0.7"></i><i style="opacity:0.2"></i><i style="opacity:0.7"></i><i style="opacity:1"></i><i style="opacity:0.08"></i><i style="opacity:0.08"></i><i style="opacity:0.7"></i><i style="opacity:0.7"></i><i style="opacity:1"></i><i style="opacity:0.08"></i><i style="opacity:0.2"></i><i style="opacity:0.08"></i><i style="opacity:0.7"></i><i style="opacity:1"></i><i style="opacity:0.08"></i><i style="opacity:0.7"></i><i style="opacity:0.08"></i><i style="opacity:0.7"></i><i style="opacity:0.08"></i><i style="opacity:0.4"></i><i style="opacity:1"></i><i style="opacity:0.7"></i><i style="opacity:0.4"></i><i style="opacity:0.2"></i><i style="opacity:0.4"></i><i style="opacity:0.7"></i><i style="opacity:0.4"></i><i style="opacity:0.2"></i><i style="opacity:0.2"></i><i style="opacity:0.08"></i><i style="opacity:0.08"></i><i style="opacity:1"></i><i style="opacity:0.08"></i><i style="opacity:0.08"></i><i style="opacity:0.7"></i><i style="opacity:0.2"></i><i style="opacity:0.7"></i><i style="opacity:0.4"></i><i style="opacity:0.2"></i><i style="opacity:1"></i><i style="opacity:0.4"></i><i style="opacity:0.2"></i><i style="opacity:0.7"></i><i style="opacity:0.08"></i><i style="opacity:0.08"></i><i style="opacity:0.7"></i><i style="opacity:0.4"></i><i style="opacity:0.08"></i><i style="opacity:0.2"></i><i style="opacity:0.08"></i><i style="opacity:0.4"></i><i style="opacity:0.4"></i><i style="opacity:0.08"></i><i style="opacity:1"></i><i style="opacity:0.08"></i><i style="opacity:0.7"></i><i style="opacity:0.7"></i><i style="opacity:0.2"></i><i style="opacity:0.2"></i><i style="opacity:1"></i><i style="opacity:0.2"></i><i style="opacity:0.7"></i><i style="opacity:0.4"></i><i style="opacity:0.7"></i><i style="opacity:0.4"></i><i style="opacity:0.08"></i><i style="opacity:0.08"></i><i style="opacity:0.2"></i><i style="opacity:0.4"></i></div>
+    </div>
+    <div class="block lock" style="background:var(--sky)">
+      <div class="row sb"><div class="h3">시간대별 정답률</div><span class="pro"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M248,80a28,28,0,1,0-51.12,15.77l-26.79,33L146,73.4a28,28,0,1,0-36.06,0L85.91,128.74l-26.79-33a28,28,0,1,0-26.6,12L47,194.63A16,16,0,0,0,62.78,208H193.22A16,16,0,0,0,209,194.63l14.47-86.85A28,28,0,0,0,248,80ZM128,40a12,12,0,1,1-12,12A12,12,0,0,1,128,40ZM24,80A12,12,0,1,1,36,92,12,12,0,0,1,24,80ZM220,92a12,12,0,1,1,12-12A12,12,0,0,1,220,92Z"/></svg> Pro</span></div>
+      <div class="bars"><i style="height:40%"></i><i style="height:62%"></i><i style="height:30%"></i><i style="height:78%"></i><i style="height:55%"></i><i style="height:90%"></i><i style="height:48%"></i></div>
+      <div class="veil"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M208,76H180V56A52,52,0,0,0,76,56V76H48A20,20,0,0,0,28,96V208a20,20,0,0,0,20,20H208a20,20,0,0,0,20-20V96A20,20,0,0,0,208,76ZM100,56a28,28,0,0,1,56,0V76H100ZM204,204H52V100H204Z"/></svg><span>Pro에서 열기</span></div>
+    </div>
+  </div>
+  <div class="tab"><div class="ti"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M184,72H40A16,16,0,0,0,24,88V200a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16V88A16,16,0,0,0,184,72Zm0,128H40V88H184V200ZM232,56V176a8,8,0,0,1-16,0V56H64a8,8,0,0,1,0-16H216A16,16,0,0,1,232,56Z"/></svg></div><div class="ti"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M230.91,172A8,8,0,0,1,228,182.91l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,36,169.09l92,53.65,92-53.65A8,8,0,0,1,230.91,172ZM220,121.09l-92,53.65L36,121.09A8,8,0,0,0,28,134.91l96,56a8,8,0,0,0,8.06,0l96-56A8,8,0,1,0,220,121.09ZM24,80a8,8,0,0,1,4-6.91l96-56a8,8,0,0,1,8.06,0l96,56a8,8,0,0,1,0,13.82l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,24,80Zm23.88,0L128,126.74,208.12,80,128,33.26Z"/></svg></div><div class="ti on"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M232,208a8,8,0,0,1-8,8H32a8,8,0,0,1,0-16h8V136a8,8,0,0,1,8-8H72a8,8,0,0,1,8,8v64H96V88a8,8,0,0,1,8-8h32a8,8,0,0,1,8,8V200h16V40a8,8,0,0,1,8-8h40a8,8,0,0,1,8,8V200h8A8,8,0,0,1,232,208Z"/></svg><span>인사이트</span></div></div>
+</div><div class="lab">인사이트 · Pro 잠금</div></div>
+  <div class="col">
+<div class="phone" style="background:var(--lime)">
+  <div class="status"><span>9:41</span><span class="isl"></span><span class="sr">●●● ▮</span></div>
+  <div class="pad">
+    <div class="row sb"><span class="pro solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M248,80a28,28,0,1,0-51.12,15.77l-26.79,33L146,73.4a28,28,0,1,0-36.06,0L85.91,128.74l-26.79-33a28,28,0,1,0-26.6,12L47,194.63A16,16,0,0,0,62.78,208H193.22A16,16,0,0,0,209,194.63l14.47-86.85A28,28,0,0,0,248,80ZM128,40a12,12,0,1,1-12,12A12,12,0,0,1,128,40ZM24,80A12,12,0,1,1,36,92,12,12,0,0,1,24,80ZM220,92a12,12,0,1,1,12-12A12,12,0,0,1,220,92Z"/></svg> FlashForge Pro</span><div class="cbtn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M208.49,191.51a12,12,0,0,1-17,17L128,145,64.49,208.49a12,12,0,0,1-17-17L111,128,47.51,64.49a12,12,0,0,1,17-17L128,111l63.51-63.52a12,12,0,0,1,17,17L145,128Z"/></svg></div></div>
+    <div style="display:flex;justify-content:center;margin:10px 0 2px"><svg viewBox="0 0 220 130" width="176" height="104" fill="none" stroke="#161513" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect x="58" y="34" width="92" height="66" rx="9" transform="rotate(-9 104 67)" fill="#E6D6FA"/>
+<rect x="68" y="30" width="92" height="66" rx="9" transform="rotate(4 114 63)" fill="#FFFDF8"/>
+<path d="M84 52h44M84 64h60M84 76h30" transform="rotate(4 114 63)"/>
+<path d="M176 22c2 9 5 12 14 14-9 2-12 5-14 14-2-9-5-12-14-14 9-2 12-5 14-14z" fill="#161513"/>
+<path d="M40 86c1 5 3 7 8 8-5 1-7 3-8 8-1-5-3-7-8-8 5-1 7-3 8-8z" fill="#161513"/>
+<path d="M30 118c40-7 120-9 164-2"/></svg></div>
+    <div class="h1" style="font-size:24px;line-height:1.22">복습 일정이<br>내 기억에 맞춰집니다</div>
+    <div style="margin-top:14px;display:grid;gap:11px">
+      <div class="feat"><span class="fi"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M248,124a56.11,56.11,0,0,0-32-50.61V72a48,48,0,0,0-88-26.49A48,48,0,0,0,40,72v1.39a56,56,0,0,0,0,101.2V176a48,48,0,0,0,88,26.49A48,48,0,0,0,216,176v-1.41A56.09,56.09,0,0,0,248,124ZM88,208a32,32,0,0,1-31.81-28.56A55.87,55.87,0,0,0,64,180h8a8,8,0,0,0,0-16H64A40,40,0,0,1,50.67,86.27,8,8,0,0,0,56,78.73V72a32,32,0,0,1,64,0v68.26A47.8,47.8,0,0,0,88,128a8,8,0,0,0,0,16,32,32,0,0,1,0,64Zm104-44h-8a8,8,0,0,0,0,16h8a55.87,55.87,0,0,0,7.81-.56A32,32,0,1,1,168,144a8,8,0,0,0,0-16,47.8,47.8,0,0,0-32,12.26V72a32,32,0,0,1,64,0v6.73a8,8,0,0,0,5.33,7.54A40,40,0,0,1,192,164Zm16-52a8,8,0,0,1-8,8h-4a36,36,0,0,1-36-36V80a8,8,0,0,1,16,0v4a20,20,0,0,0,20,20h4A8,8,0,0,1,208,112ZM60,120H56a8,8,0,0,1,0-16h4A20,20,0,0,0,80,84V80a8,8,0,0,1,16,0v4A36,36,0,0,1,60,120Z"/></svg></span><div><b>개인화 FSRS</b><span>내 복습 기록으로 간격을 최적화</span></div></div>
+      <div class="feat"><span class="fi"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M232,208a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V48a8,8,0,0,1,16,0V156.69l50.34-50.35a8,8,0,0,1,11.32,0L128,132.69,180.69,80H160a8,8,0,0,1,0-16h40a8,8,0,0,1,8,8v40a8,8,0,0,1-16,0V91.31l-58.34,58.35a8,8,0,0,1-11.32,0L96,123.31l-56,56V200H224A8,8,0,0,1,232,208Z"/></svg></span><div><b>고급 인사이트</b><span>덱별·시간대별 성과와 90일 예측</span></div></div>
+      <div class="feat"><span class="fi"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z"/></svg></span><div><b>Anki · CSV 가져오기</b><span>쓰던 덱을 그대로 옮기기</span></div></div>
+    </div>
+    <div class="plans">
+      <div class="plan on"><div><b>연간</b><span>월 ₩2,400꼴</span></div><div class="price">₩29,000</div><em>2개월 무료</em></div>
+      <div class="plan"><div><b>월간</b><span>언제든 해지</span></div><div class="price">₩3,900</div></div>
+    </div>
+    <div class="cta">7일 무료로 시작</div>
+    <div class="fine">한 번만 결제하는 <u>Core 영구 소장</u>도 있습니다<br>기존 구매자는 Core가 이미 포함되어 있습니다</div>
+  </div>
+</div><div class="lab">Pro 안내 · 신규</div></div>
+  <div class="col">
+<div class="phone" style="background:var(--lime)">
+  <div class="status"><span>9:41</span><span class="isl"></span><span class="sr">●●● ▮</span></div>
+  <div class="pad">
+    <div class="row sb"><span class="pro solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M248,80a28,28,0,1,0-51.12,15.77l-26.79,33L146,73.4a28,28,0,1,0-36.06,0L85.91,128.74l-26.79-33a28,28,0,1,0-26.6,12L47,194.63A16,16,0,0,0,62.78,208H193.22A16,16,0,0,0,209,194.63l14.47-86.85A28,28,0,0,0,248,80ZM128,40a12,12,0,1,1-12,12A12,12,0,0,1,128,40ZM24,80A12,12,0,1,1,36,92,12,12,0,0,1,24,80ZM220,92a12,12,0,1,1,12-12A12,12,0,0,1,220,92Z"/></svg> FlashForge Pro</span><div class="cbtn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M208.49,191.51a12,12,0,0,1-17,17L128,145,64.49,208.49a12,12,0,0,1-17-17L111,128,47.51,64.49a12,12,0,0,1,17-17L128,111l63.51-63.52a12,12,0,0,1,17,17L145,128Z"/></svg></div></div>
+    <div style="display:flex;justify-content:center;margin:10px 0 2px"><svg viewBox="0 0 220 130" width="176" height="104" fill="none" stroke="#161513" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect x="58" y="34" width="92" height="66" rx="9" transform="rotate(-9 104 67)" fill="#E6D6FA"/>
+<rect x="68" y="30" width="92" height="66" rx="9" transform="rotate(4 114 63)" fill="#FFFDF8"/>
+<path d="M84 52h44M84 64h60M84 76h30" transform="rotate(4 114 63)"/>
+<path d="M176 22c2 9 5 12 14 14-9 2-12 5-14 14-2-9-5-12-14-14 9-2 12-5 14-14z" fill="#161513"/>
+<path d="M40 86c1 5 3 7 8 8-5 1-7 3-8 8-1-5-3-7-8-8 5-1 7-3 8-8z" fill="#161513"/>
+<path d="M30 118c40-7 120-9 164-2"/></svg></div>
+    <div class="h1" style="font-size:24px;line-height:1.22">먼저 믿어 주셔서<br>첫 해는 절반입니다</div>
+    <div style="margin-top:14px;display:grid;gap:11px">
+      <div class="feat"><span class="fi"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M248,124a56.11,56.11,0,0,0-32-50.61V72a48,48,0,0,0-88-26.49A48,48,0,0,0,40,72v1.39a56,56,0,0,0,0,101.2V176a48,48,0,0,0,88,26.49A48,48,0,0,0,216,176v-1.41A56.09,56.09,0,0,0,248,124ZM88,208a32,32,0,0,1-31.81-28.56A55.87,55.87,0,0,0,64,180h8a8,8,0,0,0,0-16H64A40,40,0,0,1,50.67,86.27,8,8,0,0,0,56,78.73V72a32,32,0,0,1,64,0v68.26A47.8,47.8,0,0,0,88,128a8,8,0,0,0,0,16,32,32,0,0,1,0,64Zm104-44h-8a8,8,0,0,0,0,16h8a55.87,55.87,0,0,0,7.81-.56A32,32,0,1,1,168,144a8,8,0,0,0,0-16,47.8,47.8,0,0,0-32,12.26V72a32,32,0,0,1,64,0v6.73a8,8,0,0,0,5.33,7.54A40,40,0,0,1,192,164Zm16-52a8,8,0,0,1-8,8h-4a36,36,0,0,1-36-36V80a8,8,0,0,1,16,0v4a20,20,0,0,0,20,20h4A8,8,0,0,1,208,112ZM60,120H56a8,8,0,0,1,0-16h4A20,20,0,0,0,80,84V80a8,8,0,0,1,16,0v4A36,36,0,0,1,60,120Z"/></svg></span><div><b>개인화 FSRS</b><span>내 복습 기록으로 간격을 최적화</span></div></div>
+      <div class="feat"><span class="fi"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M232,208a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V48a8,8,0,0,1,16,0V156.69l50.34-50.35a8,8,0,0,1,11.32,0L128,132.69,180.69,80H160a8,8,0,0,1,0-16h40a8,8,0,0,1,8,8v40a8,8,0,0,1-16,0V91.31l-58.34,58.35a8,8,0,0,1-11.32,0L96,123.31l-56,56V200H224A8,8,0,0,1,232,208Z"/></svg></span><div><b>고급 인사이트</b><span>덱별·시간대별 성과와 90일 예측</span></div></div>
+      <div class="feat"><span class="fi"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z"/></svg></span><div><b>Anki · CSV 가져오기</b><span>쓰던 덱을 그대로 옮기기</span></div></div>
+    </div>
+    <div class="plans">
+      <div class="plan on"><div><b>연간 · 첫 해</b><span>이후 연 ₩29,000</span></div><div class="price"><s>₩29,000</s> ₩14,500</div><em>기존 구매자 50%</em></div>
+      <div class="plan"><div><b>월간</b><span>언제든 해지</span></div><div class="price">₩3,900</div></div>
+    </div>
+    <div class="cta">첫 해 50% 할인으로 시작</div>
+    <div class="fine"> Core는 이미 보유 중 · 지금 쓰는 기능은 계속 무료입니다<br>할인은 App Store 코드 등록 화면에서 적용됩니다</div>
+  </div>
+</div><div class="lab">Pro 안내 · 기존 구매자</div></div>
+</div></div></body></html>
