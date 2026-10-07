@@ -34,6 +34,18 @@ final class PaywallViewController: UIViewController {
     private enum Link {
         static let terms = URL(string: "https://bbdyno.github.io/FlashForge/terms.html")
         static let privacy = URL(string: "https://bbdyno.github.io/FlashForge/privacy.html")
+
+        // Apple's offer code redemption link; it opens the App Store with the
+        // code already filled in.
+        static func redeem(code: String) -> URL? {
+            var components = URLComponents(string: "https://apps.apple.com/redeem")
+            components?.queryItems = [
+                URLQueryItem(name: "ctx", value: "offercodes"),
+                URLQueryItem(name: "id", value: "6759084535"),
+                URLQueryItem(name: "code", value: code)
+            ]
+            return components?.url
+        }
     }
 
     private static let legacyOfferCodeInfoKey = "FFLegacyOfferCode"
@@ -282,7 +294,10 @@ final class PaywallViewController: UIViewController {
 
         let plans = availablePlans.filter { products[$0.productID] != nil }
         if !plans.contains(selectedPlan), let first = plans.first {
+            // The preselected plan is not on sale here, so the benefits list
+            // has to follow the plan that is actually selected.
             selectedPlan = first
+            renderBenefits()
         }
 
         plans.forEach { plan in
@@ -433,21 +448,10 @@ final class PaywallViewController: UIViewController {
     }
 
     private func redeemLegacyOffer() {
-        guard let code = legacyOfferCode, let scene = view.window?.windowScene else {
+        guard let code = legacyOfferCode, let url = Link.redeem(code: code) else {
             return
         }
-        // The App Store sheet has no way to prefill a code, so it is put on the
-        // clipboard for the customer to paste.
-        UIPasteboard.general.string = code
-        statusLabel.text = FlashForgeStrings.Paywall.Legacy.copied
-        statusLabel.isHidden = false
-        Task { @MainActor [weak self] in
-            do {
-                try await self?.entitlements.presentLegacyOfferRedemption(in: scene)
-            } catch {
-                self?.presentError(error)
-            }
-        }
+        UIApplication.shared.open(url)
     }
 
     private func handleEntitlementChange() {

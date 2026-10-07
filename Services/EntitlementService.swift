@@ -3,8 +3,8 @@
 //  FlashForge
 //
 
+import Foundation
 import StoreKit
-import UIKit
 
 @MainActor
 final class EntitlementService {
@@ -95,11 +95,6 @@ final class EntitlementService {
 
     func restorePurchases() async throws {
         try await AppStore.sync()
-        await refresh()
-    }
-
-    func presentLegacyOfferRedemption(in scene: UIWindowScene) async throws {
-        try await AppStore.presentOfferCodeRedeemSheet(in: scene)
         await refresh()
     }
 

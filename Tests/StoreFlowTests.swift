@@ -29,14 +29,22 @@ final class StoreFlowTests: XCTestCase {
         defaults = nil
     }
 
-    // SKTestSession only serves products when the local StoreKit test
-    // environment is reachable (running from Xcode with the scheme's
-    // configuration). Elsewhere these tests skip rather than report a false
-    // failure.
+    // These tests need the local StoreKit test environment (running from Xcode
+    // with the scheme's configuration). Against the App Store sandbox, which
+    // is what xcodebuild gets, they skip rather than buy anything or report a
+    // false failure.
+    private func requireLocalStore() async throws {
+        guard let result = try? await AppTransaction.shared,
+              case let .verified(transaction) = result,
+              transaction.environment == .xcode
+        else {
+            throw XCTSkip("Local StoreKit test environment is not available")
+        }
+    }
+
     private func loadProducts(_ service: EntitlementService) async throws -> [Product] {
-        let products = try await service.products()
-        try XCTSkipIf(products.isEmpty, "Local StoreKit test environment is not available")
-        return products
+        try await requireLocalStore()
+        return try await service.products()
     }
 
     func testAllProductsAreAvailable() async throws {
@@ -47,10 +55,10 @@ final class StoreFlowTests: XCTestCase {
 
     func testBuyingCoreThenProRaisesTheTier() async throws {
         let service = EntitlementService(defaults: defaults)
+        let products = try await loadProducts(service)
         await service.refresh()
         XCTAssertEqual(service.snapshot.tier, .free)
 
-        let products = try await loadProducts(service)
         let core = try XCTUnwrap(products.first { $0.id == StoreProduct.core })
         let purchasedCore = try await service.purchase(core)
         XCTAssertTrue(purchasedCore)
@@ -79,6 +87,7 @@ final class StoreFlowTests: XCTestCase {
     }
 
     func testPaywallRendersPlans() async throws {
+        try await requireLocalStore()
         let service = EntitlementService(defaults: defaults)
         let paywall = PaywallViewController(context: .deckLimit, entitlements: service)
         let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 402, height: 874))
