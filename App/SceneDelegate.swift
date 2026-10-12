@@ -107,6 +107,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         Task {
             await cloudSyncService.syncFromCloudNow()
         }
+        // A subscription that lapses while the app sits in the background sends
+        // no transaction update, so coming back is when it gets noticed.
+        Task {
+            await EntitlementService.shared.refresh()
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
