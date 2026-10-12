@@ -14,6 +14,7 @@ final class StoreFlowTests: XCTestCase {
     private var session: SKTestSession!
     private var defaults: UserDefaults!
     private var suiteName: String!
+    private var retainedWindow: UIWindow?
 
     override func setUpWithError() throws {
         session = try SKTestSession(configurationFileNamed: "FlashForge")
@@ -31,6 +32,7 @@ final class StoreFlowTests: XCTestCase {
     override func tearDownWithError() throws {
         session.clearTransactions()
         defaults.removePersistentDomain(forName: suiteName)
+        retainedWindow = nil
         session = nil
         defaults = nil
     }
@@ -218,6 +220,33 @@ final class StoreFlowTests: XCTestCase {
         try await waitForTier(.core, in: service)
     }
 
+    func testPaywallRestoreSaysWhenThereIsNothingToRestore() async throws {
+        try await requireLocalStore()
+        let service = EntitlementService(defaults: defaults)
+        let paywall = try await presentedPaywall(context: .deckLimit, service: service)
+
+        let restore = try XCTUnwrap(findButton(in: paywall.view, title: FlashForgeStrings.Paywall.restore))
+        restore.sendActions(for: .touchUpInside)
+        let alert = try await waitForAlert(over: paywall)
+        XCTAssertEqual(alert.title, FlashForgeStrings.Paywall.Restore.Empty.title)
+        XCTAssertEqual(service.snapshot.tier, .free)
+    }
+
+    func testPaywallRestoreConfirmsCoreOnTheProPaywall() async throws {
+        try await requireLocalStore()
+        try await session.buyProduct(identifier: StoreProduct.core)
+        let service = EntitlementService(defaults: defaults)
+        // Core does not satisfy a Pro paywall, so it stays up and has to say
+        // what the restore did.
+        let paywall = try await presentedPaywall(context: .proFeature, service: service)
+
+        let restore = try XCTUnwrap(findButton(in: paywall.view, title: FlashForgeStrings.Paywall.restore))
+        restore.sendActions(for: .touchUpInside)
+        let alert = try await waitForAlert(over: paywall)
+        XCTAssertEqual(alert.title, FlashForgeStrings.Paywall.Restore.Done.title)
+        XCTAssertEqual(service.snapshot.tier, .core)
+    }
+
     func testPaywallRendersPlans() async throws {
         try await requireLocalStore()
         let service = EntitlementService(defaults: defaults)
@@ -284,6 +313,30 @@ final class StoreFlowTests: XCTestCase {
             }
         }
         return nil
+    }
+
+    private func presentedPaywall(
+        context: PaywallViewController.Context,
+        service: EntitlementService
+    ) async throws -> PaywallViewController {
+        let paywall = PaywallViewController(context: context, entitlements: service)
+        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 402, height: 874))
+        window.rootViewController = paywall
+        window.makeKeyAndVisible()
+        retainedWindow = window
+        _ = try await waitForPurchaseButton(in: paywall)
+        return paywall
+    }
+
+    private func waitForAlert(over controller: UIViewController) async throws -> UIAlertController {
+        for _ in 0 ..< 50 {
+            if let alert = controller.presentedViewController as? UIAlertController {
+                return alert
+            }
+            try await Task.sleep(nanoseconds: 100_000_000)
+        }
+        XCTFail("No alert was presented")
+        throw CancellationError()
     }
 
     private func findView(in view: UIView, identifier: String) -> UIView? {

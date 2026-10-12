@@ -11,7 +11,7 @@ let provisioningProfileUUID = "b8ee75c0-3572-4788-ad21-a75a79de7904"
 let widgetProvisioningProfileName = "FlashForge Widget Distribution Provisioning"
 let widgetProvisioningProfileUUID = "24312bb1-92d0-419e-bb25-064eb8dd7643"
 let marketingVersion = "2.0.0"
-let buildNumber = "2026.10.07.2"
+let buildNumber = "2026.10.12.1"
 // Newest build that was sold as a paid download. Anyone whose first download is
 // this build or older owns Core. Raise it only if another paid build ships
 // before the app goes free; never change it after that.

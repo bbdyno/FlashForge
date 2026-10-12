@@ -437,9 +437,11 @@ final class PaywallViewController: UIViewController {
         setBusy(true)
         Task { @MainActor [weak self] in
             guard let self else { return }
+            let tierBefore = self.entitlements.snapshot.tier
             do {
                 try await self.entitlements.restorePurchases()
                 self.setBusy(false)
+                self.presentRestoreOutcome(restored: self.entitlements.snapshot.tier > tierBefore)
             } catch {
                 self.setBusy(false)
                 self.presentError(error)
@@ -454,9 +456,12 @@ final class PaywallViewController: UIViewController {
         UIApplication.shared.open(url)
     }
 
-    private func handleEntitlementChange() {
+    private var isSatisfied: Bool {
         let tier = entitlements.snapshot.tier
-        let isSatisfied = tier == .pro || (context != .proFeature && tier >= .core)
+        return tier == .pro || (context != .proFeature && tier >= .core)
+    }
+
+    private func handleEntitlementChange() {
         if isSatisfied {
             dismiss(animated: true)
             return
@@ -474,6 +479,23 @@ final class PaywallViewController: UIViewController {
         } else {
             loadingIndicator.stopAnimating()
         }
+    }
+
+    private func presentRestoreOutcome(restored: Bool) {
+        // A restore that satisfied this paywall has already dismissed it, and
+        // that is all the confirmation it needs.
+        guard !isSatisfied else {
+            return
+        }
+        let alert = UIAlertController(
+            title: restored ? FlashForgeStrings.Paywall.Restore.Done.title : FlashForgeStrings.Paywall.Restore.Empty.title,
+            message: restored
+                ? FlashForgeStrings.Paywall.Restore.Done.message
+                : FlashForgeStrings.Paywall.Restore.Empty.message,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: FlashForgeStrings.Paywall.close, style: .cancel))
+        present(alert, animated: true)
     }
 
     private func presentError(_ error: Error) {

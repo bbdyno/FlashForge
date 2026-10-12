@@ -241,6 +241,10 @@
 "paywall.legacy.note" = "You already own Core. Everything you use today stays free.";
 "paywall.legacy.redeem" = "Use early-buyer code %@";
 "paywall.restore" = "Restore purchases";
+"paywall.restore.empty.title" = "Nothing to restore";
+"paywall.restore.empty.message" = "No purchases were found for this Apple Account.";
+"paywall.restore.done.title" = "Purchases restored";
+"paywall.restore.done.message" = "Your earlier purchases are active again.";
 "paywall.terms" = "Terms";
 "paywall.privacy" = "Privacy";
 "paywall.legal" = "Subscriptions renew automatically until cancelled in your App Store account settings.";
