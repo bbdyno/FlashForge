@@ -3,6 +3,7 @@
 //  FlashForgeTests
 //
 
+import SharedResources
 import StoreKit
 import StoreKitTest
 import XCTest
@@ -17,7 +18,12 @@ final class StoreFlowTests: XCTestCase {
     override func setUpWithError() throws {
         session = try SKTestSession(configurationFileNamed: "FlashForge")
         session.disableDialogs = true
+        // These are stored per app, not per session, so a test that turns one
+        // on would otherwise change every test after it.
+        session.askToBuyEnabled = false
+        session.failTransactionsEnabled = false
         session.clearTransactions()
+        session.storefront = Self.localStorefront
         suiteName = "StoreFlowTests-\(UUID().uuidString)"
         defaults = UserDefaults(suiteName: suiteName)
     }
@@ -29,15 +35,14 @@ final class StoreFlowTests: XCTestCase {
         defaults = nil
     }
 
-    // These tests need the local StoreKit test environment (running from Xcode
-    // with the scheme's configuration). Against the App Store sandbox, which
-    // is what xcodebuild gets, they skip rather than buy anything or report a
-    // false failure.
+    // Only the local test session can move the storefront, so seeing it change
+    // proves purchases stay on this machine. Where the session cannot attach
+    // (xcodebuild on an older simulator runtime falls through to the App Store
+    // sandbox) the tests skip rather than buy anything or report a false failure.
+    private static let localStorefront = "KOR"
+
     private func requireLocalStore() async throws {
-        guard let result = try? await AppTransaction.shared,
-              case let .verified(transaction) = result,
-              transaction.environment == .xcode
-        else {
+        guard await Storefront.current?.countryCode == Self.localStorefront else {
             throw XCTSkip("Local StoreKit test environment is not available")
         }
     }
@@ -82,8 +87,135 @@ final class StoreFlowTests: XCTestCase {
 
         let transaction = try XCTUnwrap(session.allTransactions().first)
         try session.refundTransaction(identifier: transaction.identifier)
-        await service.refresh()
+        try await waitForTier(.free, in: service, refreshing: true)
+    }
+
+    func testMonthlyPlanUnlocksPro() async throws {
+        let service = EntitlementService(defaults: defaults)
+        let products = try await loadProducts(service)
+        let monthly = try XCTUnwrap(products.first { $0.id == StoreProduct.proMonthly })
+        let purchased = try await service.purchase(monthly)
+        XCTAssertTrue(purchased)
+        XCTAssertEqual(service.snapshot.tier, .pro)
+    }
+
+    func testRestoreRecoversPurchasesOnAFreshInstall() async throws {
+        try await requireLocalStore()
+        try await session.buyProduct(identifier: StoreProduct.core)
+        try await session.buyProduct(identifier: StoreProduct.proYearly)
+
+        // Nothing cached, as after a reinstall or on a second device.
+        let service = EntitlementService(defaults: defaults)
         XCTAssertEqual(service.snapshot.tier, .free)
+        try await service.restorePurchases()
+        XCTAssertEqual(service.snapshot.tier, .pro)
+    }
+
+    func testRestoreWithNothingBoughtStaysFree() async throws {
+        try await requireLocalStore()
+        let service = EntitlementService(defaults: defaults)
+        try await service.restorePurchases()
+        XCTAssertEqual(service.snapshot.tier, .free)
+    }
+
+    func testExpiredSubscriptionFallsBackToCore() async throws {
+        let service = EntitlementService(defaults: defaults)
+        let products = try await loadProducts(service)
+        let core = try XCTUnwrap(products.first { $0.id == StoreProduct.core })
+        let yearly = try XCTUnwrap(products.first { $0.id == StoreProduct.proYearly })
+        try await service.purchase(core)
+        try await service.purchase(yearly)
+        XCTAssertEqual(service.snapshot.tier, .pro)
+
+        try expireWithoutRenewal(StoreProduct.proYearly)
+        try await waitForTier(.core, in: service, refreshing: true)
+    }
+
+    func testExpiredSubscriptionWithoutCoreFallsBackToFree() async throws {
+        let service = EntitlementService(defaults: defaults)
+        let products = try await loadProducts(service)
+        let monthly = try XCTUnwrap(products.first { $0.id == StoreProduct.proMonthly })
+        try await service.purchase(monthly)
+        XCTAssertEqual(service.snapshot.tier, .pro)
+
+        try expireWithoutRenewal(StoreProduct.proMonthly)
+        try await waitForTier(.free, in: service, refreshing: true)
+    }
+
+    func testFailedPurchaseLeavesTheTierAlone() async throws {
+        let service = EntitlementService(defaults: defaults)
+        let products = try await loadProducts(service)
+        let core = try XCTUnwrap(products.first { $0.id == StoreProduct.core })
+        session.failTransactionsEnabled = true
+        session.failureError = .unknown
+
+        do {
+            let purchased = try await service.purchase(core)
+            XCTAssertFalse(purchased)
+        } catch {
+            // A thrown error is what the paywall turns into an alert.
+        }
+        XCTAssertEqual(service.snapshot.tier, .free)
+
+        session.failTransactionsEnabled = false
+        let retried = try await service.purchase(core)
+        XCTAssertTrue(retried)
+        XCTAssertEqual(service.snapshot.tier, .core)
+    }
+
+    func testAskToBuyUnlocksOnlyAfterApproval() async throws {
+        let service = EntitlementService(defaults: defaults)
+        let products = try await loadProducts(service)
+        let core = try XCTUnwrap(products.first { $0.id == StoreProduct.core })
+        service.start()
+        session.askToBuyEnabled = true
+
+        let purchased = try await service.purchase(core)
+        XCTAssertFalse(purchased)
+        XCTAssertEqual(service.snapshot.tier, .free)
+
+        let pending = try XCTUnwrap(session.allTransactions().first)
+        try session.approveAskToBuyTransaction(identifier: pending.identifier)
+        try await waitForTier(.core, in: service, refreshing: true)
+    }
+
+    func testPurchaseMadeOutsideTheAppArrivesThroughUpdates() async throws {
+        try await requireLocalStore()
+        let service = EntitlementService(defaults: defaults)
+        service.start()
+        try await session.buyProduct(identifier: StoreProduct.proMonthly)
+        try await waitForTier(.pro, in: service)
+    }
+
+    func testPaywallPurchaseButtonBuysTheSelectedPlan() async throws {
+        try await requireLocalStore()
+        let service = EntitlementService(defaults: defaults)
+        // The deck limit paywall preselects Core.
+        let paywall = PaywallViewController(context: .deckLimit, entitlements: service)
+        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 402, height: 874))
+        window.rootViewController = paywall
+        window.makeKeyAndVisible()
+
+        let purchaseButton = try await waitForPurchaseButton(in: paywall)
+        let button = try XCTUnwrap(purchaseButton as? UIControl)
+        button.sendActions(for: .touchUpInside)
+        try await waitForTier(.core, in: service)
+        XCTAssertEqual(Set(session.allTransactions().map(\.productIdentifier)), [StoreProduct.core])
+    }
+
+    func testPaywallRestoreButtonRestores() async throws {
+        try await requireLocalStore()
+        try await session.buyProduct(identifier: StoreProduct.core)
+        let service = EntitlementService(defaults: defaults)
+        let paywall = PaywallViewController(context: .deckLimit, entitlements: service)
+        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 402, height: 874))
+        window.rootViewController = paywall
+        window.makeKeyAndVisible()
+        _ = try await waitForPurchaseButton(in: paywall)
+
+        let restore = try XCTUnwrap(findButton(in: paywall.view, title: FlashForgeStrings.Paywall.restore))
+        restore.sendActions(for: .touchUpInside)
+        try await waitForTier(.core, in: service)
     }
 
     func testPaywallRendersPlans() async throws {
@@ -113,6 +245,45 @@ final class StoreFlowTests: XCTestCase {
             try await Task.sleep(nanoseconds: 100_000_000)
         }
         throw XCTSkip("Local StoreKit test environment is not available")
+    }
+
+    // Left renewing, the test store answers an expiry with a renewal.
+    private func expireWithoutRenewal(_ productID: String) throws {
+        let transaction = try XCTUnwrap(session.allTransactions().last { $0.productIdentifier == productID })
+        try session.disableAutoRenewForTransaction(identifier: transaction.identifier)
+        try session.expireSubscription(productIdentifier: productID)
+    }
+
+    // The store applies refunds and expirations a moment after the call
+    // returns, so those tests re-read the entitlements until it has.
+    private func waitForTier(
+        _ tier: AccessTier,
+        in service: EntitlementService,
+        refreshing: Bool = false
+    ) async throws {
+        for _ in 0 ..< 50 {
+            if refreshing {
+                await service.refresh()
+            }
+            if service.snapshot.tier == tier {
+                return
+            }
+            try await Task.sleep(nanoseconds: 100_000_000)
+        }
+        XCTFail("Expected \(tier), still \(service.snapshot.tier)")
+    }
+
+    private func findButton(in view: UIView, title: String) -> UIButton? {
+        if let button = view as? UIButton,
+           (button.configuration?.title ?? button.attributedTitle(for: .normal)?.string ?? button.title(for: .normal)) == title {
+            return button
+        }
+        for subview in view.subviews {
+            if let match = findButton(in: subview, title: title) {
+                return match
+            }
+        }
+        return nil
     }
 
     private func findView(in view: UIView, identifier: String) -> UIView? {
