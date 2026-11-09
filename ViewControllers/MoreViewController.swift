@@ -47,7 +47,6 @@ final class MoreViewController: UIViewController {
 
     private let personalizationCard = PersonalizationCardView()
     private var isPersonalizationBusy = false
-    private var entitlementObserver: NSObjectProtocol?
     private let privacyCard = UIView()
     private let privacyTitleLabel = UILabel()
     private let privacyDescriptionLabel = UILabel()
@@ -114,9 +113,6 @@ final class MoreViewController: UIViewController {
 
     deinit {
         NotificationCenter.default.removeObserver(self, name: .iCloudSyncStatusDidChange, object: nil)
-        if let entitlementObserver {
-            NotificationCenter.default.removeObserver(entitlementObserver)
-        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -196,9 +192,6 @@ final class MoreViewController: UIViewController {
     }
 
     private func configurePersonalization() {
-        personalizationCard.onLockedTap = { [weak self] in
-            self?.present(PaywallViewController(context: .lockedFeature), animated: true)
-        }
         personalizationCard.onOptimize = { [weak self] in
             self?.runPersonalization()
         }
@@ -208,15 +201,6 @@ final class MoreViewController: UIViewController {
                 guard let self else { return }
                 _ = try? await self.repository.updateDesiredRetention(retention)
                 await self.reloadPersonalization()
-            }
-        }
-        entitlementObserver = NotificationCenter.default.addObserver(
-            forName: .entitlementDidChange,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            Task { @MainActor [weak self] in
-                await self?.reloadPersonalization()
             }
         }
         Task { @MainActor [weak self] in
@@ -230,7 +214,6 @@ final class MoreViewController: UIViewController {
         }
         personalizationCard.render(
             status: status,
-            isPro: EntitlementService.shared.snapshot.tier == .full,
             isBusy: isPersonalizationBusy
         )
     }

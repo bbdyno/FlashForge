@@ -120,12 +120,6 @@ final class InsightsViewController: UIViewController {
         stackView.setCustomSpacing(20, after: heroView)
         stackView.setCustomSpacing(20, after: metricRow)
 
-        [daypartBlock, deckBlock, forecastBlock].forEach { block in
-            block.addAction(UIAction { [weak self] _ in
-                self?.present(PaywallViewController(context: .lockedFeature), animated: true)
-            }, for: .touchUpInside)
-        }
-
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -163,17 +157,6 @@ final class InsightsViewController: UIViewController {
             name: .deckDataDidChange,
             object: nil
         )
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleEntitlementDidChange),
-            name: .entitlementDidChange,
-            object: nil
-        )
-    }
-
-    @objc
-    private func handleEntitlementDidChange() {
-        renderAdvancedInsights()
     }
 
     @objc
@@ -230,12 +213,8 @@ final class InsightsViewController: UIViewController {
         dueForecastView.render(snapshot.dueForecast)
     }
 
-    // Without Pro the blocks chart fixed sample shapes, never the customer's
-    // own numbers, so nothing real sits under the blur.
     private func renderAdvancedInsights() {
-        let isLocked = EntitlementService.shared.snapshot.tier != .full
-        let insights = isLocked ? Self.sampleInsights : advancedInsights
-        guard let insights else {
+        guard let insights = advancedInsights else {
             return
         }
         let window = FlashForgeStrings.Insights.Pro.window
@@ -252,7 +231,6 @@ final class InsightsViewController: UIViewController {
         daypartBlock.render(
             content: InsightBarChartView(bars: daypartBars, height: 64),
             caption: window,
-            isLocked: isLocked,
             message: insights.dayparts.contains { $0.recallRate != nil } ? nil : collecting
         )
 
@@ -268,7 +246,6 @@ final class InsightsViewController: UIViewController {
         deckBlock.render(
             content: InsightDeckListView(rows: deckRows),
             caption: window,
-            isLocked: isLocked,
             message: insights.decks.contains { $0.recallRate != nil } ? nil : collecting
         )
 
@@ -282,8 +259,7 @@ final class InsightsViewController: UIViewController {
         }
         forecastBlock.render(
             content: InsightBarChartView(bars: forecastBars, height: 72),
-            caption: isLocked ? nil : FlashForgeStrings.Insights.Pro.Forecast.caption(insights.forecastTotal),
-            isLocked: isLocked
+            caption: FlashForgeStrings.Insights.Pro.Forecast.caption(insights.forecastTotal)
         )
     }
 
@@ -299,14 +275,6 @@ final class InsightsViewController: UIViewController {
             return FlashForgeStrings.Insights.Pro.Daypart.night
         }
     }
-
-    private static let sampleInsights = AdvancedInsights(
-        dayparts: zip(Daypart.allCases, [0.91, 0.84, 0.88, 0.72]).map {
-            DaypartPerformance(daypart: $0, reviewCount: 40, recallRate: $1)
-        },
-        decks: [0.9, 0.78].map { DeckPerformance(id: UUID(), title: "————————", reviewCount: 40, recallRate: $0) },
-        forecast: [9, 14, 6, 11, 8, 5, 12, 7, 4, 9, 6, 3, 5].map { ForecastWeek(startDate: .distantPast, count: $0) }
-    )
 }
 
 private final class InsightsHeroView: UIView {

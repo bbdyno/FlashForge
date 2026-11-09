@@ -6,15 +6,11 @@
 import SnapKit
 import UIKit
 
-// A colour-field block for one Pro analysis. Without Pro it shows sample
-// shapes under a blur and acts as a button to the Pro screen.
-final class ProInsightBlockView: UIControl {
+// A colour-field block for one advanced analysis.
+final class ProInsightBlockView: UIView {
     private let titleLabel = UILabel()
     private let captionLabel = UILabel()
-    private let proBadge = UILabel()
     private let contentContainer = UIView()
-    private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-    private let lockRow = UIStackView()
     private let messageLabel = UILabel()
 
     init(title: String, color: UIColor) {
@@ -33,35 +29,12 @@ final class ProInsightBlockView: UIControl {
         captionLabel.textColor = AppTheme.studyInk.withAlphaComponent(0.7)
         captionLabel.setContentHuggingPriority(.required, for: .horizontal)
 
-        proBadge.text = "  \(FlashForgeStrings.Personalization.pro)  "
-        proBadge.font = AppTypography.font(size: 11, weight: .bold, textStyle: .caption2)
-        proBadge.textColor = AppTheme.studyInk
-        proBadge.backgroundColor = AppTheme.studyPaper
-        proBadge.clipsToBounds = true
-        AppTheme.styleOutline(proBadge, radius: 11, color: AppTheme.studyLine)
-        proBadge.setContentHuggingPriority(.required, for: .horizontal)
-        proBadge.setContentCompressionResistancePriority(.required, for: .horizontal)
-
-        let header = UIStackView(arrangedSubviews: [titleLabel, captionLabel, proBadge])
+        let header = UIStackView(arrangedSubviews: [titleLabel, captionLabel])
         header.alignment = .center
         header.spacing = 8
         header.isUserInteractionEnabled = false
 
         contentContainer.isUserInteractionEnabled = false
-        blurView.isUserInteractionEnabled = false
-        blurView.alpha = 0.92
-
-        let lockIcon = UIImageView(image: AppIcon.image("lock-simple.bold", size: 16))
-        lockIcon.tintColor = AppTheme.studyInk
-        let lockLabel = UILabel()
-        lockLabel.text = FlashForgeStrings.Insights.Pro.locked
-        lockLabel.font = AppTypography.font(size: 14, weight: .bold, textStyle: .subheadline)
-        lockLabel.textColor = AppTheme.studyInk
-        lockRow.addArrangedSubview(lockIcon)
-        lockRow.addArrangedSubview(lockLabel)
-        lockRow.spacing = 6
-        lockRow.alignment = .center
-        lockRow.isUserInteractionEnabled = false
 
         messageLabel.font = AppTypography.font(size: 13, weight: .semibold, textStyle: .footnote)
         messageLabel.adjustsFontForContentSizeCategory = true
@@ -72,13 +45,10 @@ final class ProInsightBlockView: UIControl {
         addSubview(header)
         addSubview(contentContainer)
         addSubview(messageLabel)
-        addSubview(blurView)
-        addSubview(lockRow)
 
         header.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview().inset(16)
         }
-        proBadge.snp.makeConstraints { $0.height.equalTo(22) }
         contentContainer.snp.makeConstraints { make in
             make.top.equalTo(header.snp.bottom).offset(12)
             make.leading.trailing.bottom.equalToSuperview().inset(16)
@@ -88,11 +58,6 @@ final class ProInsightBlockView: UIControl {
             make.leading.trailing.equalToSuperview().inset(16)
             make.bottom.lessThanOrEqualToSuperview().inset(16)
         }
-        blurView.snp.makeConstraints { make in
-            make.top.equalTo(header.snp.bottom).offset(6)
-            make.leading.trailing.bottom.equalToSuperview()
-        }
-        lockRow.snp.makeConstraints { $0.center.equalTo(blurView) }
     }
 
     @available(*, unavailable)
@@ -101,26 +66,18 @@ final class ProInsightBlockView: UIControl {
     }
 
     // `message` replaces the content when there is nothing to chart yet.
-    func render(content: UIView, caption: String?, isLocked: Bool, message: String? = nil) {
+    func render(content: UIView, caption: String?, message: String? = nil) {
         contentContainer.subviews.forEach { $0.removeFromSuperview() }
         contentContainer.addSubview(content)
         content.snp.makeConstraints { $0.edges.equalToSuperview() }
 
-        let showsMessage = !isLocked && message != nil
+        let showsMessage = message != nil
         contentContainer.alpha = showsMessage ? 0 : 1
         messageLabel.isHidden = !showsMessage
         messageLabel.text = message
 
         captionLabel.text = caption
-        captionLabel.isHidden = caption == nil || isLocked
-        proBadge.isHidden = !isLocked
-        blurView.isHidden = !isLocked
-        lockRow.isHidden = !isLocked
-        isUserInteractionEnabled = isLocked
-
-        isAccessibilityElement = isLocked
-        accessibilityTraits = .button
-        accessibilityLabel = [titleLabel.text, FlashForgeStrings.Insights.Pro.locked].compactMap { $0 }.joined(separator: ", ")
+        captionLabel.isHidden = caption == nil
     }
 }
 

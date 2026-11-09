@@ -9,13 +9,10 @@ import UIKit
 final class PersonalizationCardView: UIView {
     var onOptimize: (() -> Void)?
     var onRetentionChanged: ((Double) -> Void)?
-    // Called instead of the two above when the customer does not have Pro.
-    var onLockedTap: (() -> Void)?
 
     private static let sliderRange: ClosedRange<Float> = 0.80...0.95
 
     private let titleLabel = UILabel()
-    private let proBadge = UILabel()
     private let descriptionLabel = UILabel()
     private let statusLabel = UILabel()
     private let optimizeButton = UIButton(type: .system)
@@ -25,12 +22,9 @@ final class PersonalizationCardView: UIView {
     private let retentionHintLabel = UILabel()
     private let activityIndicator = UIActivityIndicatorView(style: .medium)
 
-    private var isPro = false
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
-        configureLayout()
         applyTheme()
     }
 
@@ -47,16 +41,14 @@ final class PersonalizationCardView: UIView {
         applyTheme()
     }
 
-    func render(status: FSRSPersonalizationStatus, isPro: Bool, isBusy: Bool) {
-        self.isPro = isPro
-        proBadge.isHidden = isPro
+    func render(status: FSRSPersonalizationStatus, isBusy: Bool) {
         statusLabel.text = isBusy ? FlashForgeStrings.Personalization.Status.working : Self.statusText(for: status)
 
         isBusy ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
-        optimizeButton.isEnabled = !isBusy && (status.hasEnoughReviews || !isPro)
+        optimizeButton.isEnabled = !isBusy && status.hasEnoughReviews
         optimizeButton.alpha = optimizeButton.isEnabled ? 1 : 0.45
 
-        let retention = Float(isPro ? status.profile.parameters.requestRetention : FSRSParameters.defaultRetention)
+        let retention = Float(status.profile.parameters.requestRetention)
         retentionSlider.value = min(max(retention, Self.sliderRange.lowerBound), Self.sliderRange.upperBound)
         retentionSlider.isEnabled = !isBusy
         updateRetentionLabel()
@@ -87,14 +79,6 @@ final class PersonalizationCardView: UIView {
         titleLabel.font = AppTypography.display(size: 21, textStyle: .headline)
         titleLabel.numberOfLines = 0
 
-        proBadge.text = "  \(FlashForgeStrings.Personalization.pro)  "
-        proBadge.font = AppTypography.font(size: 11, weight: .bold, textStyle: .caption2)
-        proBadge.textColor = AppTheme.studyInk
-        proBadge.backgroundColor = AppTheme.lime
-        proBadge.clipsToBounds = true
-        proBadge.setContentHuggingPriority(.required, for: .horizontal)
-        proBadge.setContentCompressionResistancePriority(.required, for: .horizontal)
-
         descriptionLabel.text = FlashForgeStrings.Personalization.description
         [descriptionLabel, statusLabel, retentionHintLabel].forEach { label in
             label.font = AppTypography.font(size: 14, weight: .medium, textStyle: .subheadline)
@@ -116,8 +100,7 @@ final class PersonalizationCardView: UIView {
         optimizeButton.configuration = configuration
         optimizeButton.accessibilityIdentifier = "personalization.optimizeButton"
         optimizeButton.addAction(UIAction { [weak self] _ in
-            guard let self else { return }
-            self.isPro ? self.onOptimize?() : self.onLockedTap?()
+            self?.onOptimize?()
         }, for: .touchUpInside)
 
         retentionTitleLabel.text = FlashForgeStrings.Personalization.Retention.title
@@ -138,9 +121,6 @@ final class PersonalizationCardView: UIView {
 
         activityIndicator.hidesWhenStopped = true
 
-        let titleRow = UIStackView(arrangedSubviews: [titleLabel, proBadge])
-        titleRow.alignment = .center
-        titleRow.spacing = 8
         let statusRow = UIStackView(arrangedSubviews: [statusLabel, activityIndicator])
         statusRow.alignment = .center
         statusRow.spacing = 8
@@ -148,7 +128,7 @@ final class PersonalizationCardView: UIView {
         retentionRow.alignment = .firstBaseline
 
         let stack = UIStackView(arrangedSubviews: [
-            titleRow, descriptionLabel, statusRow, optimizeButton, retentionRow, retentionSlider, retentionHintLabel
+            titleLabel, descriptionLabel, statusRow, optimizeButton, retentionRow, retentionSlider, retentionHintLabel
         ])
         stack.axis = .vertical
         stack.spacing = 10
@@ -156,12 +136,6 @@ final class PersonalizationCardView: UIView {
         stack.setCustomSpacing(4, after: retentionRow)
         addSubview(stack)
         stack.snp.makeConstraints { $0.edges.equalToSuperview().inset(16) }
-    }
-
-    private func configureLayout() {
-        proBadge.snp.makeConstraints { $0.height.equalTo(22) }
-        proBadge.layer.cornerRadius = 11
-        proBadge.layer.cornerCurve = .continuous
     }
 
     private func applyTheme() {
@@ -175,8 +149,6 @@ final class PersonalizationCardView: UIView {
         retentionSlider.minimumTrackTintColor = AppTheme.textPrimary
         retentionSlider.maximumTrackTintColor = AppTheme.inputBackground
         activityIndicator.color = AppTheme.textPrimary
-        proBadge.layer.borderWidth = AppTheme.outlineWidth
-        proBadge.layer.borderColor = AppTheme.studyLine.cgColor
 
         if var configuration = optimizeButton.configuration {
             configuration.baseForegroundColor = AppTheme.textPrimary
@@ -199,12 +171,6 @@ final class PersonalizationCardView: UIView {
     }
 
     private func commitRetention() {
-        guard isPro else {
-            retentionSlider.value = Float(FSRSParameters.defaultRetention)
-            updateRetentionLabel()
-            onLockedTap?()
-            return
-        }
         onRetentionChanged?(Double(retentionSlider.value))
     }
 }
