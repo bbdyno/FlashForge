@@ -295,8 +295,8 @@ final class DecksViewController: UIViewController {
     }
 
     private func presentExternalImportPicker() {
-        guard EntitlementService.shared.snapshot.tier == .pro else {
-            present(PaywallViewController(context: .proFeature), animated: true)
+        guard EntitlementService.shared.snapshot.tier == .full else {
+            present(PaywallViewController(context: .lockedFeature), animated: true)
             return
         }
         let ankiTypes = ["apkg", "colpkg"].compactMap { UTType(filenameExtension: $0) }

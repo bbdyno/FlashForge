@@ -197,7 +197,7 @@ final class MoreViewController: UIViewController {
 
     private func configurePersonalization() {
         personalizationCard.onLockedTap = { [weak self] in
-            self?.present(PaywallViewController(context: .proFeature), animated: true)
+            self?.present(PaywallViewController(context: .lockedFeature), animated: true)
         }
         personalizationCard.onOptimize = { [weak self] in
             self?.runPersonalization()
@@ -230,7 +230,7 @@ final class MoreViewController: UIViewController {
         }
         personalizationCard.render(
             status: status,
-            isPro: EntitlementService.shared.snapshot.tier == .pro,
+            isPro: EntitlementService.shared.snapshot.tier == .full,
             isBusy: isPersonalizationBusy
         )
     }

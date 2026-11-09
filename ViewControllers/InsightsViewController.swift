@@ -122,7 +122,7 @@ final class InsightsViewController: UIViewController {
 
         [daypartBlock, deckBlock, forecastBlock].forEach { block in
             block.addAction(UIAction { [weak self] _ in
-                self?.present(PaywallViewController(context: .proFeature), animated: true)
+                self?.present(PaywallViewController(context: .lockedFeature), animated: true)
             }, for: .touchUpInside)
         }
 
@@ -233,7 +233,7 @@ final class InsightsViewController: UIViewController {
     // Without Pro the blocks chart fixed sample shapes, never the customer's
     // own numbers, so nothing real sits under the blur.
     private func renderAdvancedInsights() {
-        let isLocked = EntitlementService.shared.snapshot.tier != .pro
+        let isLocked = EntitlementService.shared.snapshot.tier != .full
         let insights = isLocked ? Self.sampleInsights : advancedInsights
         guard let insights else {
             return

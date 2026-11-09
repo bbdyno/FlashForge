@@ -17,9 +17,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private var entitlementObserver: NSObjectProtocol?
 
     private func applyEntitlementToRepository() {
-        let isPro = EntitlementService.shared.snapshot.tier == .pro
+        let isUnlocked = EntitlementService.shared.snapshot.tier == .full
         Task {
-            await repository.setPersonalizationEnabled(isPro)
+            await repository.setPersonalizationEnabled(isUnlocked)
         }
     }
 
