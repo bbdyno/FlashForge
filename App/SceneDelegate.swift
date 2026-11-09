@@ -14,14 +14,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private var deckDataObserver: NSObjectProtocol?
     private var manualSyncObserver: NSObjectProtocol?
     private var syncStatusObserver: NSObjectProtocol?
-    private var entitlementObserver: NSObjectProtocol?
-
-    private func applyEntitlementToRepository() {
-        let isUnlocked = EntitlementService.shared.snapshot.tier == .full
-        Task {
-            await repository.setPersonalizationEnabled(isUnlocked)
-        }
-    }
 
     func scene(
         _ scene: UIScene,
@@ -84,18 +76,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
 
-        EntitlementService.shared.start()
-        applyEntitlementToRepository()
-        if entitlementObserver == nil {
-            entitlementObserver = NotificationCenter.default.addObserver(
-                forName: .entitlementDidChange,
-                object: nil,
-                queue: .main
-            ) { [weak self] _ in
-                Task { @MainActor [weak self] in
-                    self?.applyEntitlementToRepository()
-                }
-            }
+        Task {
+            await repository.setPersonalizationEnabled(true)
         }
 
         Task {
@@ -106,11 +88,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         Task {
             await cloudSyncService.syncFromCloudNow()
-        }
-        // A subscription that lapses while the app sits in the background sends
-        // no transaction update, so coming back is when it gets noticed.
-        Task {
-            await EntitlementService.shared.refresh()
         }
     }
 

@@ -213,35 +213,6 @@
 
 "error.generic" = "An error occurred.";
 
-"paywall.badge" = "FlashForge";
-"paywall.headline.deck_limit" = "The free download holds %d decks";
-"paywall.headline.card_limit" = "The free download holds %d cards per deck";
-"paywall.headline.feature" = "Open up everything in the app";
-"paywall.offer.title" = "Full unlock";
-"paywall.offer.detail" = "Unlimited decks and cards, every feature";
-"paywall.cta.unlock" = "Unlock";
-"paywall.note" = "If you got FlashForge while 2.0 was free, the decks and cards you already have stay yours. If you bought the app, you already have everything.";
-"paywall.benefit.fsrs.title" = "Personalised FSRS";
-"paywall.benefit.fsrs.detail" = "Intervals tuned to your own review history";
-"paywall.benefit.insights.title" = "Advanced insights";
-"paywall.benefit.insights.detail" = "Per-deck and time-of-day results, 90-day forecast";
-"paywall.benefit.import.title" = "Anki and CSV import";
-"paywall.benefit.import.detail" = "Bring the decks you already have";
-"paywall.benefit.unlimited.title" = "Unlimited decks and cards";
-"paywall.benefit.unlimited.detail" = "No caps on your library";
-"paywall.benefit.once.title" = "Pay once, no subscription";
-"paywall.benefit.once.detail" = "Restore it on any device with your Apple Account";
-"paywall.restore" = "Restore purchases";
-"paywall.restore.empty.title" = "Nothing to restore";
-"paywall.restore.empty.message" = "No unlock purchase was found for this Apple Account.";
-"paywall.terms" = "Terms";
-"paywall.privacy" = "Privacy";
-"paywall.unavailable" = "The store is unavailable right now.";
-"paywall.retry" = "Try again";
-"paywall.error.title" = "Purchase not completed";
-"paywall.close" = "Close";
-"decks.limit.title" = "%d of %d free decks used";
-"decks.limit.detail" = "Unlock removes the limit";
 "decks.row.cards" = "%d cards";
 "decks.row.today" = "today";
 
@@ -255,7 +226,6 @@
 "personalization.optimize" = "Tune now";
 "personalization.retention.title" = "Target retention";
 "personalization.retention.hint" = "Higher means more frequent reviews. Lower means longer gaps.";
-"personalization.pro" = "Locked";
 
 "insights.pro.daypart.title" = "Recall by time of day";
 "insights.pro.daypart.morning" = "Morning";
@@ -268,7 +238,6 @@
 "insights.pro.forecast.caption" = "%d cards due over the next 13 weeks";
 "insights.pro.forecast.week" = "%dw";
 "insights.pro.window" = "Last 30 days";
-"insights.pro.locked" = "Unlock to see";
 "insights.pro.collecting" = "Still collecting graded reviews. Results appear after a few review sessions.";
 
 "import.error.unreadable" = "This file could not be read.";

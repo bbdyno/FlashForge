@@ -11,18 +11,7 @@ let provisioningProfileUUID = "b8ee75c0-3572-4788-ad21-a75a79de7904"
 let widgetProvisioningProfileName = "FlashForge Widget Distribution Provisioning"
 let widgetProvisioningProfileUUID = "24312bb1-92d0-419e-bb25-064eb8dd7643"
 let marketingVersion = "2.1.0"
-let buildNumber = "2026.11.09.1"
-// Newest 1.x build that was sold as a paid download. Anyone whose first
-// download is this build or older paid for the app. Never change it.
-let lastPaidBuild = "2026.08.18.1"
-// The day the App Store price goes back up from free (App Store Connect >
-// Pricing and Availability > scheduled price change). Downloads from this day
-// on paid for the app; downloads between lastPaidBuild and this day were the
-// free 2.0 period and keep the free limits until the unlock is bought.
-// The price change must not take effect before this day, or those buyers would
-// see the free limits. Never change it after the price change.
-let paidAgainSince = "2026-11-16"
-
+let buildNumber = "2026.11.09.2"
 let project = Project(
     name: appName,
     organizationName: "bbdyno",
@@ -53,8 +42,6 @@ let project = Project(
                 "CFBundleShortVersionString": .string(marketingVersion),
                 "CFBundleVersion": .string(buildNumber),
                 "CFBundleDisplayName": .string("FlashForge"),
-                "FFLastPaidBuild": .string(lastPaidBuild),
-                "FFPaidAgainSince": .string(paidAgainSince),
                 "CFBundleDevelopmentRegion": .string("en"),
                 "FIREBASE_ANALYTICS_COLLECTION_ENABLED": .boolean(false),
                 "FirebaseCrashlyticsCollectionEnabled": .boolean(false),
@@ -249,9 +236,6 @@ let project = Project(
             sources: [
                 "Tests/**"
             ],
-            resources: [
-                "Config/FlashForge.storekit"
-            ],
             dependencies: [
                 .target(name: appName)
             ],
@@ -294,12 +278,7 @@ let project = Project(
             shared: true,
             buildAction: .buildAction(targets: [.target(appName)]),
             testAction: .targets([.testableTarget(target: .target("\(appName)Tests")), .testableTarget(target: .target("\(appName)UITests"))]),
-            runAction: .runAction(
-                executable: .target(appName),
-                // Local products for the Pro screen when run from Xcode; never
-                // part of an App Store build.
-                options: .options(storeKitConfigurationPath: "Config/FlashForge.storekit")
-            )
+            runAction: .runAction(executable: .target(appName))
         )
     ]
 )

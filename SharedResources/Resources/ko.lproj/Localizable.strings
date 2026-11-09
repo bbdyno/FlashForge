@@ -213,35 +213,6 @@
 
 "error.generic" = "오류가 발생했습니다.";
 
-"paywall.badge" = "FlashForge";
-"paywall.headline.deck_limit" = "무료로 받은 앱은 덱 %d개까지입니다";
-"paywall.headline.card_limit" = "무료로 받은 앱은 덱마다 카드 %d장까지입니다";
-"paywall.headline.feature" = "앱의 모든 기능을 여세요";
-"paywall.offer.title" = "전체 잠금 해제";
-"paywall.offer.detail" = "덱·카드 무제한과 모든 기능";
-"paywall.cta.unlock" = "잠금 해제";
-"paywall.note" = "2.0이 무료이던 기간에 받으셨다면 지금까지 만든 덱과 카드는 그대로 쓸 수 있습니다. 앱을 유료로 구매하신 분은 이미 모든 기능을 가지고 있습니다.";
-"paywall.benefit.fsrs.title" = "개인화 FSRS";
-"paywall.benefit.fsrs.detail" = "내 복습 기록으로 간격을 최적화";
-"paywall.benefit.insights.title" = "고급 인사이트";
-"paywall.benefit.insights.detail" = "덱별·시간대별 성과와 90일 예측";
-"paywall.benefit.import.title" = "Anki · CSV 가져오기";
-"paywall.benefit.import.detail" = "쓰던 덱을 그대로 옮기기";
-"paywall.benefit.unlimited.title" = "덱과 카드 무제한";
-"paywall.benefit.unlimited.detail" = "라이브러리에 한도가 없습니다";
-"paywall.benefit.once.title" = "한 번 결제, 구독 없음";
-"paywall.benefit.once.detail" = "다른 기기에서도 구매 복원으로 그대로";
-"paywall.restore" = "구매 복원";
-"paywall.restore.empty.title" = "복원할 구매가 없습니다";
-"paywall.restore.empty.message" = "이 Apple 계정에서 잠금 해제 구매를 찾지 못했습니다.";
-"paywall.terms" = "이용약관";
-"paywall.privacy" = "개인정보 처리방침";
-"paywall.unavailable" = "지금은 스토어에 연결할 수 없습니다.";
-"paywall.retry" = "다시 시도";
-"paywall.error.title" = "구매를 완료하지 못했습니다";
-"paywall.close" = "닫기";
-"decks.limit.title" = "무료 덱 %2$d개 중 %1$d개 사용";
-"decks.limit.detail" = "잠금 해제로 한도 없이";
 "decks.row.cards" = "카드 %d장";
 "decks.row.today" = "오늘";
 
@@ -255,7 +226,6 @@
 "personalization.optimize" = "지금 조정";
 "personalization.retention.title" = "목표 기억률";
 "personalization.retention.hint" = "높이면 복습이 잦아지고, 낮추면 간격이 길어집니다.";
-"personalization.pro" = "잠금";
 
 "insights.pro.daypart.title" = "시간대별 정답률";
 "insights.pro.daypart.morning" = "오전";
@@ -268,7 +238,6 @@
 "insights.pro.forecast.caption" = "앞으로 13주 동안 카드 %d장이 돌아옵니다";
 "insights.pro.forecast.week" = "%d주";
 "insights.pro.window" = "최근 30일";
-"insights.pro.locked" = "잠금 해제하고 보기";
 "insights.pro.collecting" = "등급 복습을 모으는 중입니다. 몇 번 복습하면 결과가 나타납니다.";
 
 "import.error.unreadable" = "이 파일을 읽을 수 없습니다.";

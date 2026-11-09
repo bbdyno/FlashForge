@@ -166,14 +166,6 @@ final class DeckDetailViewController: UIViewController {
 
     @objc
     private func didTapAddCard() {
-        guard FeatureGate.canAddCard(
-            existingCardCount: cards.count,
-            tier: EntitlementService.shared.snapshot.tier
-        ) else {
-            present(PaywallViewController(context: .cardLimit), animated: true)
-            return
-        }
-
         let editor = CardEditorViewController(mode: .create) { [weak self] draft in
             Task { @MainActor [weak self] in
                 guard let self else { return }

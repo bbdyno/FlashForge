@@ -20,8 +20,6 @@ final class DecksViewController: UIViewController {
     private let tableView = UITableView(frame: .zero, style: .plain)
     private let emptyContainer = UIView()
     private let emptyIconView = UIImageView(image: AppIcon.image("stack-plus", size: 22))
-    private let limitFooterView = FreeLimitFooterView()
-    private var entitlementObserver: NSObjectProtocol?
     private let emptyLabel = UILabel()
     private let loadingIndicator = UIActivityIndicatorView(style: .medium)
 
@@ -49,9 +47,6 @@ final class DecksViewController: UIViewController {
 
     deinit {
         NotificationCenter.default.removeObserver(self, name: .deckDataDidChange, object: nil)
-        if let entitlementObserver {
-            NotificationCenter.default.removeObserver(entitlementObserver)
-        }
     }
 
     override func viewDidLoad() {
@@ -77,7 +72,6 @@ final class DecksViewController: UIViewController {
                 self?.deckSummaries = decks
                 self?.tableView.reloadData()
                 self?.emptyContainer.isHidden = !decks.isEmpty
-                self?.updateLimitFooter()
             },
             didReceiveError: { [weak self] message in
                 self?.presentError(message)
@@ -208,32 +202,6 @@ final class DecksViewController: UIViewController {
 
     private func configureObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleDeckDataDidChange), name: .deckDataDidChange, object: nil)
-        entitlementObserver = NotificationCenter.default.addObserver(
-            forName: .entitlementDidChange,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            Task { @MainActor [weak self] in
-                self?.updateLimitFooter()
-            }
-        }
-        limitFooterView.addAction(UIAction { [weak self] _ in
-            self?.presentPaywall()
-        }, for: .touchUpInside)
-    }
-
-    private func updateLimitFooter() {
-        guard EntitlementService.shared.snapshot.tier == .free, !deckSummaries.isEmpty else {
-            tableView.tableFooterView = nil
-            return
-        }
-        limitFooterView.configure(used: deckSummaries.count, limit: FreeTierLimits.maxDecks)
-        limitFooterView.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 84)
-        tableView.tableFooterView = limitFooterView
-    }
-
-    private func presentPaywall() {
-        present(PaywallViewController(context: .deckLimit), animated: true)
     }
 
     @objc
@@ -246,14 +214,6 @@ final class DecksViewController: UIViewController {
 
     @objc
     private func didTapAddDeck() {
-        guard FeatureGate.canCreateDeck(
-            existingDeckCount: deckSummaries.count,
-            tier: EntitlementService.shared.snapshot.tier
-        ) else {
-            presentPaywall()
-            return
-        }
-
         let actionSheet = UIAlertController(
             title: FlashForgeStrings.Decks.Add.title,
             message: FlashForgeStrings.Decks.Add.message,
@@ -295,10 +255,6 @@ final class DecksViewController: UIViewController {
     }
 
     private func presentExternalImportPicker() {
-        guard EntitlementService.shared.snapshot.tier == .full else {
-            present(PaywallViewController(context: .lockedFeature), animated: true)
-            return
-        }
         let ankiTypes = ["apkg", "colpkg"].compactMap { UTType(filenameExtension: $0) }
         let types = ankiTypes + [.commaSeparatedText, .tabSeparatedText, .plainText]
         let picker = UIDocumentPickerViewController(forOpeningContentTypes: types)
@@ -580,73 +536,5 @@ private final class DeckSummaryCell: UITableViewCell {
             make.trailing.equalTo(dueCaptionLabel.snp.leading).offset(-5)
             make.lastBaseline.equalTo(subtitleLabel)
         }
-    }
-}
-
-private final class FreeLimitFooterView: UIControl {
-    private let outlineLayer = CAShapeLayer()
-    private let iconView = UIImageView(image: AppIcon.image("lock-simple", size: 20))
-    private let titleLabel = UILabel()
-    private let detailLabel = UILabel()
-    private let chevronView = UIImageView(image: AppIcon.image("caret-right.bold", size: 14))
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        isAccessibilityElement = true
-        accessibilityTraits = .button
-        accessibilityIdentifier = "decks.limitFooter"
-
-        outlineLayer.fillColor = UIColor.clear.cgColor
-        outlineLayer.lineWidth = AppTheme.outlineWidth
-        outlineLayer.lineDashPattern = [6, 5]
-        layer.addSublayer(outlineLayer)
-
-        titleLabel.font = AppTypography.font(size: 14, weight: .bold, textStyle: .subheadline)
-        detailLabel.font = AppTypography.font(size: 12.5, weight: .semibold, textStyle: .caption1)
-        detailLabel.text = FlashForgeStrings.Decks.Limit.detail
-
-        let textStack = UIStackView(arrangedSubviews: [titleLabel, detailLabel])
-        textStack.axis = .vertical
-        textStack.spacing = 1
-        let row = UIStackView(arrangedSubviews: [iconView, textStack, chevronView])
-        row.alignment = .center
-        row.spacing = 12
-        row.isUserInteractionEnabled = false
-        iconView.setContentHuggingPriority(.required, for: .horizontal)
-        chevronView.setContentHuggingPriority(.required, for: .horizontal)
-        addSubview(row)
-        row.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(38)
-            make.centerY.equalToSuperview().offset(-4)
-        }
-        applyTheme()
-    }
-
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        let rect = bounds.inset(by: UIEdgeInsets(top: 6, left: 20, bottom: 14, right: 20))
-        outlineLayer.path = UIBezierPath(roundedRect: rect, cornerRadius: 22).cgPath
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        applyTheme()
-    }
-
-    func configure(used: Int, limit: Int) {
-        titleLabel.text = FlashForgeStrings.Decks.Limit.title(used, limit)
-        accessibilityLabel = [titleLabel.text, detailLabel.text].compactMap { $0 }.joined(separator: ", ")
-    }
-
-    private func applyTheme() {
-        outlineLayer.strokeColor = AppTheme.resolved(AppTheme.cardBorder, for: traitCollection).cgColor
-        [iconView, chevronView].forEach { $0.tintColor = AppTheme.textPrimary }
-        titleLabel.textColor = AppTheme.textPrimary
-        detailLabel.textColor = AppTheme.textSecondary
     }
 }

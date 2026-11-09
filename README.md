@@ -39,10 +39,8 @@
 - **4단계 피드백:** Again, Hard, Good, Easy로 평가하며 모든 등급 복습이 기록됩니다.
 
 ### 💳 Pricing (가격)
-- **Paid app, one-time purchase:** Buying FlashForge unlocks every feature with no subscription: unlimited decks and cards, personalised FSRS tuned to your own review log, target retention, recall by deck and time of day, a 90-day forecast, and CSV and Anki (.apkg) import.
-- **Downloaded while 2.0 was free:** Existing decks and cards stay usable; new content is limited to 3 decks with 50 cards each until the one-time Full Unlock in-app purchase. Buyers of FlashForge 1.x or Core already have everything.
-- **유료 앱, 한 번 구매:** 앱을 사면 구독 없이 모든 기능을 씁니다. 덱·카드 무제한, 내 복습 기록에 맞춘 개인화 FSRS, 목표 기억률, 덱별·시간대별 정답률, 90일 예측, CSV·Anki(.apkg) 가져오기.
-- **2.0 무료 기간에 받은 경우:** 만들어 둔 덱과 카드는 그대로 쓰고, 새 콘텐츠는 일회성 인앱 구매인 전체 잠금 해제 전까지 덱 3개, 덱당 카드 50장으로 제한됩니다. 1.x나 Core 구매자는 이미 모든 기능을 가지고 있습니다.
+- **Paid app, one-time purchase:** Buying FlashForge unlocks every feature with no subscription and no in-app purchases: unlimited decks and cards, personalised FSRS tuned to your own review log, target retention, recall by deck and time of day, a 90-day forecast, and CSV and Anki (.apkg) import. Buyers of any earlier version get everything by updating.
+- **유료 앱, 한 번 구매:** 앱을 사면 구독이나 인앱 결제 없이 모든 기능을 씁니다. 덱·카드 무제한, 내 복습 기록에 맞춘 개인화 FSRS, 목표 기억률, 덱별·시간대별 정답률, 90일 예측, CSV·Anki(.apkg) 가져오기. 이전 버전 구매자는 업데이트만 하면 모든 기능을 씁니다.
 
 ### 🃏 Deck & Card Management (덱 & 카드 관리)
 - **Unlimited Decks:** Organize flashcards into topic-based decks.
