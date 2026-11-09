@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-2.0.0-d96b45" alt="Version 2.0.0">
+  <img src="https://img.shields.io/badge/version-2.1.0-d96b45" alt="Version 2.1.0">
   <img src="https://img.shields.io/badge/iOS-17.0%2B-111214?logo=apple" alt="iOS 17 or later">
   <img src="https://img.shields.io/badge/Swift-5.9-F05138?logo=swift&logoColor=white" alt="Swift 5.9">
   <img src="https://img.shields.io/badge/Privacy-First-4f8169" alt="Privacy first">
@@ -38,13 +38,11 @@
 - **늘어나는 간격:** 맞힐수록 다음 간격이 길어지고, 틀리면 짧아지며 카드의 난이도는 유지됩니다.
 - **4단계 피드백:** Again, Hard, Good, Easy로 평가하며 모든 등급 복습이 기록됩니다.
 
-### 💳 Plans (요금제)
-- **Free:** Up to 3 decks with 50 cards each.
-- **Core (one-time purchase):** Unlimited decks and cards. Included automatically for everyone who bought FlashForge 1.x.
-- **Pro (monthly or yearly):** Personalised FSRS tuned to your own review log, target retention, recall by deck and time of day, a 90-day forecast, and CSV and Anki (.apkg) import.
-- **Free:** 덱 3개, 덱당 카드 50장까지.
-- **Core (일회성 구매):** 덱과 카드 무제한. FlashForge 1.x 구매자에게는 자동으로 포함됩니다.
-- **Pro (월간·연간 구독):** 내 복습 기록에 맞춘 개인화 FSRS, 목표 기억률, 덱별·시간대별 정답률, 90일 예측, CSV·Anki(.apkg) 가져오기.
+### 💳 Pricing (가격)
+- **Paid app, one-time purchase:** Buying FlashForge unlocks every feature with no subscription: unlimited decks and cards, personalised FSRS tuned to your own review log, target retention, recall by deck and time of day, a 90-day forecast, and CSV and Anki (.apkg) import.
+- **Downloaded while 2.0 was free:** Existing decks and cards stay usable; new content is limited to 3 decks with 50 cards each until the one-time Full Unlock in-app purchase. Buyers of FlashForge 1.x or Core already have everything.
+- **유료 앱, 한 번 구매:** 앱을 사면 구독 없이 모든 기능을 씁니다. 덱·카드 무제한, 내 복습 기록에 맞춘 개인화 FSRS, 목표 기억률, 덱별·시간대별 정답률, 90일 예측, CSV·Anki(.apkg) 가져오기.
+- **2.0 무료 기간에 받은 경우:** 만들어 둔 덱과 카드는 그대로 쓰고, 새 콘텐츠는 일회성 인앱 구매인 전체 잠금 해제 전까지 덱 3개, 덱당 카드 50장으로 제한됩니다. 1.x나 Core 구매자는 이미 모든 기능을 가지고 있습니다.
 
 ### 🃏 Deck & Card Management (덱 & 카드 관리)
 - **Unlimited Decks:** Organize flashcards into topic-based decks.

@@ -1,8 +1,6 @@
 {
   "identifier" : "F1A5F0A6",
-  "nonRenewingSubscriptions" : [
-
-  ],
+  "nonRenewingSubscriptions" : [],
   "products" : [
     {
       "displayPrice" : "6600",
@@ -10,18 +8,18 @@
       "internalID" : "6759090001",
       "localizations" : [
         {
-          "description" : "Unlimited decks and cards",
-          "displayName" : "FlashForge Core",
+          "description" : "Unlimited decks and cards and every feature",
+          "displayName" : "FlashForge Full Unlock",
           "locale" : "en_US"
         },
         {
-          "description" : "덱과 카드 무제한",
-          "displayName" : "FlashForge Core",
+          "description" : "덱·카드 무제한과 모든 기능",
+          "displayName" : "FlashForge 전체 잠금 해제",
           "locale" : "ko"
         }
       ],
       "productID" : "com.bbdyno.app.flashFlow.core",
-      "referenceName" : "Core",
+      "referenceName" : "Full Unlock",
       "type" : "NonConsumable"
     }
   ],
@@ -29,77 +27,7 @@
     "_locale" : "ko",
     "_storefront" : "KOR"
   },
-  "subscriptionGroups" : [
-    {
-      "id" : "21759001",
-      "localizations" : [
-
-      ],
-      "name" : "FlashForge Pro",
-      "subscriptions" : [
-        {
-          "adHocOffers" : [
-
-          ],
-          "codeOffers" : [
-
-          ],
-          "displayPrice" : "29000",
-          "familyShareable" : false,
-          "groupNumber" : 1,
-          "internalID" : "6759090002",
-          "introductoryOffer" : null,
-          "localizations" : [
-            {
-              "description" : "Personalised scheduling and advanced insights",
-              "displayName" : "Pro Yearly",
-              "locale" : "en_US"
-            },
-            {
-              "description" : "개인화 스케줄링과 고급 인사이트",
-              "displayName" : "Pro 연간",
-              "locale" : "ko"
-            }
-          ],
-          "productID" : "com.bbdyno.app.flashFlow.pro.yearly",
-          "recurringSubscriptionPeriod" : "P1Y",
-          "referenceName" : "Pro Yearly",
-          "subscriptionGroupID" : "21759001",
-          "type" : "RecurringSubscription"
-        },
-        {
-          "adHocOffers" : [
-
-          ],
-          "codeOffers" : [
-
-          ],
-          "displayPrice" : "3900",
-          "familyShareable" : false,
-          "groupNumber" : 1,
-          "internalID" : "6759090003",
-          "introductoryOffer" : null,
-          "localizations" : [
-            {
-              "description" : "Personalised scheduling and advanced insights",
-              "displayName" : "Pro Monthly",
-              "locale" : "en_US"
-            },
-            {
-              "description" : "개인화 스케줄링과 고급 인사이트",
-              "displayName" : "Pro 월간",
-              "locale" : "ko"
-            }
-          ],
-          "productID" : "com.bbdyno.app.flashFlow.pro.monthly",
-          "recurringSubscriptionPeriod" : "P1M",
-          "referenceName" : "Pro Monthly",
-          "subscriptionGroupID" : "21759001",
-          "type" : "RecurringSubscription"
-        }
-      ]
-    }
-  ],
+  "subscriptionGroups" : [],
   "version" : {
     "major" : 3,
     "minor" : 0

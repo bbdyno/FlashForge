@@ -65,19 +65,19 @@ final class EntitlementService {
             ownedProductIDs.insert(transaction.productID)
         }
 
-        // Having bought the paid app is permanent, so a failed lookup (offline,
-        // signed out) keeps the cached answer instead of revoking Core.
-        let isLegacyPurchaser = await resolveLegacyPurchase() ?? snapshot.isLegacyPurchaser
+        // Having bought the app is permanent, so a failed lookup (offline,
+        // signed out) keeps the cached answer instead of locking the app.
+        let ownsPaidDownload = await resolvePaidDownload() ?? snapshot.ownsPaidDownload
         apply(
             EntitlementSnapshot(
-                tier: .resolve(ownedProductIDs: ownedProductIDs, isLegacyPurchaser: isLegacyPurchaser),
-                isLegacyPurchaser: isLegacyPurchaser
+                tier: .resolve(ownedProductIDs: ownedProductIDs, ownsPaidDownload: ownsPaidDownload),
+                ownsPaidDownload: ownsPaidDownload
             )
         )
     }
 
     func products() async throws -> [Product] {
-        try await Product.products(for: StoreProduct.allIDs)
+        try await Product.products(for: [StoreProduct.unlock])
     }
 
     @discardableResult
@@ -98,25 +98,31 @@ final class EntitlementService {
         await refresh()
     }
 
-    private func resolveLegacyPurchase() async -> Bool? {
+    private func resolvePaidDownload() async -> Bool? {
         guard let lastPaidBuild = Bundle.main.object(
-            forInfoDictionaryKey: LegacyPurchasePolicy.lastPaidBuildInfoKey
+            forInfoDictionaryKey: PaidDownloadPolicy.lastPaidBuildInfoKey
         ) as? String else {
             return false
         }
+        let paidAgainSince = (Bundle.main.object(
+            forInfoDictionaryKey: PaidDownloadPolicy.paidAgainSinceInfoKey
+        ) as? String).flatMap(PaidDownloadPolicy.paidAgainSince(from:))
         guard let result = try? await AppTransaction.shared,
               case let .verified(appTransaction) = result
         else {
             return nil
         }
-        // Sandbox and TestFlight always report "1.0" as the original version,
-        // which would make every tester a legacy buyer.
+        // Sandbox and TestFlight report "1.0" as the original version and a
+        // download date that means nothing, so testers always see the free
+        // tier and can try the unlock.
         guard appTransaction.environment == .production else {
             return false
         }
-        return LegacyPurchasePolicy.isLegacyPurchaser(
+        return PaidDownloadPolicy.ownsPaidDownload(
             originalAppVersion: appTransaction.originalAppVersion,
-            lastPaidBuild: lastPaidBuild
+            originalPurchaseDate: appTransaction.originalPurchaseDate,
+            lastPaidBuild: lastPaidBuild,
+            paidAgainSince: paidAgainSince
         )
     }
 

@@ -213,11 +213,14 @@
 
 "error.generic" = "An error occurred.";
 
-"paywall.badge" = "FlashForge Pro";
-"paywall.headline.pro" = "A review schedule that fits your memory";
-"paywall.headline.deck_limit" = "The free plan holds %d decks";
-"paywall.headline.card_limit" = "Free decks hold %d cards each";
-"paywall.headline.legacy" = "You backed us early. Your first year is on offer.";
+"paywall.badge" = "FlashForge";
+"paywall.headline.deck_limit" = "The free download holds %d decks";
+"paywall.headline.card_limit" = "The free download holds %d cards per deck";
+"paywall.headline.feature" = "Open up everything in the app";
+"paywall.offer.title" = "Full unlock";
+"paywall.offer.detail" = "Unlimited decks and cards, every feature";
+"paywall.cta.unlock" = "Unlock";
+"paywall.note" = "If you got FlashForge while 2.0 was free, the decks and cards you already have stay yours. If you bought the app, you already have everything.";
 "paywall.benefit.fsrs.title" = "Personalised FSRS";
 "paywall.benefit.fsrs.detail" = "Intervals tuned to your own review history";
 "paywall.benefit.insights.title" = "Advanced insights";
@@ -226,34 +229,19 @@
 "paywall.benefit.import.detail" = "Bring the decks you already have";
 "paywall.benefit.unlimited.title" = "Unlimited decks and cards";
 "paywall.benefit.unlimited.detail" = "No caps on your library";
-"paywall.benefit.once.title" = "Pay once, keep it";
-"paywall.benefit.once.detail" = "No subscription for everything in the app today";
-"paywall.plan.yearly" = "Pro yearly";
-"paywall.plan.monthly" = "Pro monthly";
-"paywall.plan.core" = "Core";
-"paywall.plan.yearly.detail" = "Billed once a year";
-"paywall.plan.monthly.detail" = "Cancel any time";
-"paywall.plan.core.detail" = "One-time purchase";
-"paywall.plan.save" = "Save %d%%";
-"paywall.cta.subscribe" = "Start Pro";
-"paywall.cta.trial" = "Try free, then subscribe";
-"paywall.cta.core" = "Buy Core";
-"paywall.legacy.note" = "You already own Core. Everything you use today stays free.";
-"paywall.legacy.redeem" = "Use early-buyer code %@";
+"paywall.benefit.once.title" = "Pay once, no subscription";
+"paywall.benefit.once.detail" = "Restore it on any device with your Apple Account";
 "paywall.restore" = "Restore purchases";
 "paywall.restore.empty.title" = "Nothing to restore";
-"paywall.restore.empty.message" = "No purchases were found for this Apple Account.";
-"paywall.restore.done.title" = "Purchases restored";
-"paywall.restore.done.message" = "Your earlier purchases are active again.";
+"paywall.restore.empty.message" = "No unlock purchase was found for this Apple Account.";
 "paywall.terms" = "Terms";
 "paywall.privacy" = "Privacy";
-"paywall.legal" = "Subscriptions renew automatically until cancelled in your App Store account settings.";
 "paywall.unavailable" = "The store is unavailable right now.";
 "paywall.retry" = "Try again";
 "paywall.error.title" = "Purchase not completed";
 "paywall.close" = "Close";
 "decks.limit.title" = "%d of %d free decks used";
-"decks.limit.detail" = "Core removes the limit";
+"decks.limit.detail" = "Unlock removes the limit";
 "decks.row.cards" = "%d cards";
 "decks.row.today" = "today";
 
@@ -267,7 +255,7 @@
 "personalization.optimize" = "Tune now";
 "personalization.retention.title" = "Target retention";
 "personalization.retention.hint" = "Higher means more frequent reviews. Lower means longer gaps.";
-"personalization.pro" = "Pro";
+"personalization.pro" = "Locked";
 
 "insights.pro.daypart.title" = "Recall by time of day";
 "insights.pro.daypart.morning" = "Morning";
@@ -280,7 +268,7 @@
 "insights.pro.forecast.caption" = "%d cards due over the next 13 weeks";
 "insights.pro.forecast.week" = "%dw";
 "insights.pro.window" = "Last 30 days";
-"insights.pro.locked" = "Open with Pro";
+"insights.pro.locked" = "Unlock to see";
 "insights.pro.collecting" = "Still collecting graded reviews. Results appear after a few review sessions.";
 
 "import.error.unreadable" = "This file could not be read.";

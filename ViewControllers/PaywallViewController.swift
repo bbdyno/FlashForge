@@ -9,46 +9,15 @@ import UIKit
 
 final class PaywallViewController: UIViewController {
     enum Context {
-        case proFeature
+        case lockedFeature
         case deckLimit
         case cardLimit
-    }
-
-    private enum Plan: CaseIterable {
-        case yearly
-        case monthly
-        case core
-
-        var productID: String {
-            switch self {
-            case .yearly:
-                return StoreProduct.proYearly
-            case .monthly:
-                return StoreProduct.proMonthly
-            case .core:
-                return StoreProduct.core
-            }
-        }
     }
 
     private enum Link {
         static let terms = URL(string: "https://bbdyno.github.io/FlashForge/terms.html")
         static let privacy = URL(string: "https://bbdyno.github.io/FlashForge/privacy.html")
-
-        // Apple's offer code redemption link; it opens the App Store with the
-        // code already filled in.
-        static func redeem(code: String) -> URL? {
-            var components = URLComponents(string: "https://apps.apple.com/redeem")
-            components?.queryItems = [
-                URLQueryItem(name: "ctx", value: "offercodes"),
-                URLQueryItem(name: "id", value: "6759084535"),
-                URLQueryItem(name: "code", value: code)
-            ]
-            return components?.url
-        }
     }
-
-    private static let legacyOfferCodeInfoKey = "FFLegacyOfferCode"
 
     private let context: Context
     private let entitlements: EntitlementService
@@ -60,28 +29,20 @@ final class PaywallViewController: UIViewController {
     private let artworkView = PaywallArtworkView()
     private let headlineLabel = UILabel()
     private let benefitsStack = UIStackView()
-    private let plansStack = UIStackView()
+    private let offerControl = PaywallPlanControl()
     private let purchaseButton = UIButton(type: .system)
-    private let legacyNoteLabel = UILabel()
-    private let legacyRedeemButton = UIButton(type: .system)
+    private let noteLabel = UILabel()
     private let statusLabel = UILabel()
     private let retryButton = UIButton(type: .system)
     private let footerStack = UIStackView()
-    private let legalLabel = UILabel()
     private let loadingIndicator = UIActivityIndicatorView(style: .medium)
 
-    private var products: [String: Product] = [:]
-    private var planControls: [Plan: PaywallPlanControl] = [:]
-    private var selectedPlan: Plan
-    private var trialEligiblePlans: Set<Plan> = []
+    private var unlockProduct: Product?
     private var entitlementObserver: NSObjectProtocol?
 
     init(context: Context, entitlements: EntitlementService = .shared) {
         self.context = context
         self.entitlements = entitlements
-        // Someone who hit a free limit needs Core, not a subscription, so that
-        // is what is preselected for them.
-        selectedPlan = context == .proFeature || entitlements.snapshot.tier >= .core ? .yearly : .core
         super.init(nibName: nil, bundle: nil)
         modalPresentationStyle = .pageSheet
     }
@@ -152,8 +113,10 @@ final class PaywallViewController: UIViewController {
         benefitsStack.axis = .vertical
         benefitsStack.spacing = 12
 
-        plansStack.axis = .vertical
-        plansStack.spacing = 10
+        // A single offer, so the control only shows what it costs.
+        offerControl.isSelected = true
+        offerControl.isUserInteractionEnabled = false
+        offerControl.isHidden = true
 
         purchaseButton.titleLabel?.font = AppTypography.font(size: 16, weight: .bold, textStyle: .headline)
         purchaseButton.titleLabel?.adjustsFontForContentSizeCategory = true
@@ -162,21 +125,18 @@ final class PaywallViewController: UIViewController {
         purchaseButton.layer.cornerRadius = 27
         purchaseButton.layer.cornerCurve = .continuous
         purchaseButton.accessibilityIdentifier = "paywall.purchaseButton"
-        purchaseButton.addAction(UIAction { [weak self] _ in self?.purchaseSelectedPlan() }, for: .touchUpInside)
+        purchaseButton.setTitle(FlashForgeStrings.Paywall.Cta.unlock, for: .normal)
+        purchaseButton.addAction(UIAction { [weak self] _ in self?.purchaseUnlock() }, for: .touchUpInside)
 
-        [legacyNoteLabel, statusLabel, legalLabel].forEach { label in
+        [noteLabel, statusLabel].forEach { label in
             label.font = AppTypography.font(size: 12, weight: .semibold, textStyle: .caption1)
             label.adjustsFontForContentSizeCategory = true
             label.textColor = AppTheme.studyInk.withAlphaComponent(0.7)
             label.textAlignment = .center
             label.numberOfLines = 0
         }
-        legacyNoteLabel.text = FlashForgeStrings.Paywall.Legacy.note
-        legalLabel.text = FlashForgeStrings.Paywall.legal
+        noteLabel.text = FlashForgeStrings.Paywall.note
         statusLabel.isHidden = true
-
-        configureTextButton(legacyRedeemButton, title: "", underlined: true)
-        legacyRedeemButton.addAction(UIAction { [weak self] _ in self?.redeemLegacyOffer() }, for: .touchUpInside)
 
         configureTextButton(retryButton, title: FlashForgeStrings.Paywall.retry, underlined: true)
         retryButton.isHidden = true
@@ -199,13 +159,12 @@ final class PaywallViewController: UIViewController {
         loadingIndicator.hidesWhenStopped = true
 
         [
-            headerRow, artworkView, headlineLabel, benefitsStack, plansStack, loadingIndicator, statusLabel,
-            retryButton, purchaseButton, legacyRedeemButton, legacyNoteLabel, footerStack, legalLabel
+            headerRow, artworkView, headlineLabel, benefitsStack, offerControl, loadingIndicator, statusLabel,
+            retryButton, purchaseButton, noteLabel, footerStack
         ].forEach(contentStack.addArrangedSubview)
         contentStack.setCustomSpacing(4, after: headerRow)
         contentStack.setCustomSpacing(8, after: artworkView)
         contentStack.setCustomSpacing(22, after: benefitsStack)
-        contentStack.setCustomSpacing(8, after: legacyRedeemButton)
     }
 
     private func configureLayout() {
@@ -235,152 +194,42 @@ final class PaywallViewController: UIViewController {
 
     // MARK: - Content
 
-    private var legacyOfferCode: String? {
-        let code = Bundle.main.object(forInfoDictionaryKey: Self.legacyOfferCodeInfoKey) as? String
-        return (code?.isEmpty == false) ? code : nil
-    }
-
-    private var availablePlans: [Plan] {
-        // Core is already owned by Core and Pro customers, so it is not offered again.
-        entitlements.snapshot.tier >= .core ? [.yearly, .monthly] : Plan.allCases
-    }
-
     private func renderStaticContent() {
-        let snapshot = entitlements.snapshot
-        if snapshot.showsLegacyProOffer, legacyOfferCode != nil {
-            headlineLabel.text = FlashForgeStrings.Paywall.Headline.legacy
-        } else {
-            switch context {
-            case .proFeature:
-                headlineLabel.text = FlashForgeStrings.Paywall.Headline.pro
-            case .deckLimit:
-                headlineLabel.text = FlashForgeStrings.Paywall.Headline.deckLimit(FreeTierLimits.maxDecks)
-            case .cardLimit:
-                headlineLabel.text = FlashForgeStrings.Paywall.Headline.cardLimit(FreeTierLimits.maxCardsPerDeck)
-            }
+        switch context {
+        case .lockedFeature:
+            headlineLabel.text = FlashForgeStrings.Paywall.Headline.feature
+        case .deckLimit:
+            headlineLabel.text = FlashForgeStrings.Paywall.Headline.deckLimit(FreeTierLimits.maxDecks)
+        case .cardLimit:
+            headlineLabel.text = FlashForgeStrings.Paywall.Headline.cardLimit(FreeTierLimits.maxCardsPerDeck)
         }
 
-        legacyNoteLabel.isHidden = !snapshot.isLegacyPurchaser
-        if snapshot.showsLegacyProOffer, let code = legacyOfferCode {
-            configureTextButton(legacyRedeemButton, title: FlashForgeStrings.Paywall.Legacy.redeem(code), underlined: true)
-            legacyRedeemButton.isHidden = false
-        } else {
-            legacyRedeemButton.isHidden = true
-        }
-        renderBenefits()
-    }
-
-    private func renderBenefits() {
+        let rows: [(icon: String, title: String, detail: String)] = [
+            ("stack", FlashForgeStrings.Paywall.Benefit.Unlimited.title, FlashForgeStrings.Paywall.Benefit.Unlimited.detail),
+            ("brain", FlashForgeStrings.Paywall.Benefit.Fsrs.title, FlashForgeStrings.Paywall.Benefit.Fsrs.detail),
+            ("chart-line-up", FlashForgeStrings.Paywall.Benefit.Insights.title, FlashForgeStrings.Paywall.Benefit.Insights.detail),
+            ("download-simple", FlashForgeStrings.Paywall.Benefit.Import.title, FlashForgeStrings.Paywall.Benefit.Import.detail),
+            ("check-circle", FlashForgeStrings.Paywall.Benefit.Once.title, FlashForgeStrings.Paywall.Benefit.Once.detail)
+        ]
         benefitsStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        let rows: [(icon: String, title: String, detail: String)]
-        if selectedPlan == .core {
-            rows = [
-                ("stack", FlashForgeStrings.Paywall.Benefit.Unlimited.title, FlashForgeStrings.Paywall.Benefit.Unlimited.detail),
-                ("check-circle", FlashForgeStrings.Paywall.Benefit.Once.title, FlashForgeStrings.Paywall.Benefit.Once.detail)
-            ]
-        } else {
-            rows = [
-                ("brain", FlashForgeStrings.Paywall.Benefit.Fsrs.title, FlashForgeStrings.Paywall.Benefit.Fsrs.detail),
-                ("chart-line-up", FlashForgeStrings.Paywall.Benefit.Insights.title, FlashForgeStrings.Paywall.Benefit.Insights.detail),
-                ("download-simple", FlashForgeStrings.Paywall.Benefit.Import.title, FlashForgeStrings.Paywall.Benefit.Import.detail)
-            ]
-        }
         rows.forEach { benefitsStack.addArrangedSubview(PaywallBenefitRow(icon: $0.icon, title: $0.title, detail: $0.detail)) }
     }
 
-    private func renderPlans() {
-        plansStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        planControls.removeAll()
-
-        let plans = availablePlans.filter { products[$0.productID] != nil }
-        if !plans.contains(selectedPlan), let first = plans.first {
-            // The preselected plan is not on sale here, so the benefits list
-            // has to follow the plan that is actually selected.
-            selectedPlan = first
-            renderBenefits()
-        }
-
-        plans.forEach { plan in
-            guard let product = products[plan.productID] else {
-                return
-            }
-            let control = PaywallPlanControl()
-            control.configure(
-                title: title(for: plan),
-                detail: detail(for: plan),
+    private func renderOffer() {
+        if let product = unlockProduct {
+            offerControl.configure(
+                title: FlashForgeStrings.Paywall.Offer.title,
+                detail: FlashForgeStrings.Paywall.Offer.detail,
                 price: product.displayPrice,
-                badge: plan == .yearly ? yearlySavingsBadge() : nil
+                badge: nil
             )
-            control.addAction(UIAction { [weak self] _ in self?.select(plan) }, for: .touchUpInside)
-            plansStack.addArrangedSubview(control)
-            planControls[plan] = control
         }
-
-        let hasPlans = !plans.isEmpty
-        purchaseButton.isHidden = !hasPlans
-        statusLabel.isHidden = hasPlans
-        retryButton.isHidden = hasPlans
+        let isAvailable = unlockProduct != nil
+        offerControl.isHidden = !isAvailable
+        purchaseButton.isHidden = !isAvailable
+        statusLabel.isHidden = isAvailable
+        retryButton.isHidden = isAvailable
         statusLabel.text = FlashForgeStrings.Paywall.unavailable
-        updateSelection()
-    }
-
-    private func title(for plan: Plan) -> String {
-        switch plan {
-        case .yearly:
-            return FlashForgeStrings.Paywall.Plan.yearly
-        case .monthly:
-            return FlashForgeStrings.Paywall.Plan.monthly
-        case .core:
-            return FlashForgeStrings.Paywall.Plan.core
-        }
-    }
-
-    private func detail(for plan: Plan) -> String {
-        switch plan {
-        case .yearly:
-            return FlashForgeStrings.Paywall.Plan.Yearly.detail
-        case .monthly:
-            return FlashForgeStrings.Paywall.Plan.Monthly.detail
-        case .core:
-            return FlashForgeStrings.Paywall.Plan.Core.detail
-        }
-    }
-
-    private func yearlySavingsBadge() -> String? {
-        guard let yearly = products[StoreProduct.proYearly]?.price,
-              let monthly = products[StoreProduct.proMonthly]?.price,
-              monthly > 0
-        else {
-            return nil
-        }
-        let ratio = NSDecimalNumber(decimal: yearly / (monthly * 12)).doubleValue
-        let percent = Int(((1 - ratio) * 100).rounded())
-        return percent >= 5 ? FlashForgeStrings.Paywall.Plan.save(percent) : nil
-    }
-
-    private func select(_ plan: Plan) {
-        guard plan != selectedPlan else {
-            return
-        }
-        selectedPlan = plan
-        UISelectionFeedbackGenerator().selectionChanged()
-        updateSelection()
-        renderBenefits()
-    }
-
-    private func updateSelection() {
-        planControls.forEach { plan, control in
-            control.isSelected = plan == selectedPlan
-        }
-        let title: String
-        if selectedPlan == .core {
-            title = FlashForgeStrings.Paywall.Cta.core
-        } else if trialEligiblePlans.contains(selectedPlan) {
-            title = FlashForgeStrings.Paywall.Cta.trial
-        } else {
-            title = FlashForgeStrings.Paywall.Cta.subscribe
-        }
-        purchaseButton.setTitle(title, for: .normal)
     }
 
     // MARK: - Store
@@ -394,27 +243,14 @@ final class PaywallViewController: UIViewController {
         Task { @MainActor [weak self] in
             guard let self else { return }
             let loaded = (try? await self.entitlements.products()) ?? []
-            self.products = Dictionary(uniqueKeysWithValues: loaded.map { ($0.id, $0) })
-
-            var eligible = Set<Plan>()
-            for plan in [Plan.yearly, .monthly] {
-                guard let subscription = self.products[plan.productID]?.subscription,
-                      subscription.introductoryOffer?.paymentMode == .freeTrial,
-                      await subscription.isEligibleForIntroOffer
-                else {
-                    continue
-                }
-                eligible.insert(plan)
-            }
-            self.trialEligiblePlans = eligible
-
+            self.unlockProduct = loaded.first { $0.id == StoreProduct.unlock }
             self.loadingIndicator.stopAnimating()
-            self.renderPlans()
+            self.renderOffer()
         }
     }
 
-    private func purchaseSelectedPlan() {
-        guard let product = products[selectedPlan.productID] else {
+    private func purchaseUnlock() {
+        guard let product = unlockProduct else {
             return
         }
         setBusy(true)
@@ -437,11 +273,10 @@ final class PaywallViewController: UIViewController {
         setBusy(true)
         Task { @MainActor [weak self] in
             guard let self else { return }
-            let tierBefore = self.entitlements.snapshot.tier
             do {
                 try await self.entitlements.restorePurchases()
                 self.setBusy(false)
-                self.presentRestoreOutcome(restored: self.entitlements.snapshot.tier > tierBefore)
+                self.presentRestoreOutcomeIfNeeded()
             } catch {
                 self.setBusy(false)
                 self.presentError(error)
@@ -449,31 +284,19 @@ final class PaywallViewController: UIViewController {
         }
     }
 
-    private func redeemLegacyOffer() {
-        guard let code = legacyOfferCode, let url = Link.redeem(code: code) else {
-            return
-        }
-        UIApplication.shared.open(url)
-    }
-
     private var isSatisfied: Bool {
-        let tier = entitlements.snapshot.tier
-        return tier == .pro || (context != .proFeature && tier >= .core)
+        entitlements.snapshot.tier == .full
     }
 
     private func handleEntitlementChange() {
         if isSatisfied {
             dismiss(animated: true)
-            return
         }
-        renderStaticContent()
-        renderPlans()
     }
 
     private func setBusy(_ isBusy: Bool) {
         purchaseButton.isEnabled = !isBusy
         purchaseButton.alpha = isBusy ? 0.6 : 1
-        plansStack.isUserInteractionEnabled = !isBusy
         if isBusy {
             loadingIndicator.startAnimating()
         } else {
@@ -481,17 +304,16 @@ final class PaywallViewController: UIViewController {
         }
     }
 
-    private func presentRestoreOutcome(restored: Bool) {
-        // A restore that satisfied this paywall has already dismissed it, and
-        // that is all the confirmation it needs.
+    // A restore that unlocked the app has already dismissed the paywall, and
+    // that is all the confirmation it needs. One that is still up found
+    // nothing that unlocks the app.
+    private func presentRestoreOutcomeIfNeeded() {
         guard !isSatisfied else {
             return
         }
         let alert = UIAlertController(
-            title: restored ? FlashForgeStrings.Paywall.Restore.Done.title : FlashForgeStrings.Paywall.Restore.Empty.title,
-            message: restored
-                ? FlashForgeStrings.Paywall.Restore.Done.message
-                : FlashForgeStrings.Paywall.Restore.Empty.message,
+            title: FlashForgeStrings.Paywall.Restore.Empty.title,
+            message: FlashForgeStrings.Paywall.Restore.Empty.message,
             preferredStyle: .alert
         )
         alert.addAction(UIAlertAction(title: FlashForgeStrings.Paywall.close, style: .cancel))
